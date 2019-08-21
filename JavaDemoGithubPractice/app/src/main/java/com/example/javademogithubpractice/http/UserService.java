@@ -10,6 +10,7 @@ import com.example.javademogithubpractice.mvp.model.User;
 
 import java.util.ArrayList;
 
+import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
 import retrofit2.http.DELETE;
@@ -18,12 +19,8 @@ import retrofit2.http.Header;
 import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
-import rx.Observable;
-
-
 
 public interface UserService {
-
     @NonNull @GET("user")
     Observable<Response<User>> getPersonInfo(
             @Header("forceNetWork") boolean forceNetWork
@@ -112,6 +109,4 @@ public interface UserService {
             @Header("forceNetWork") boolean forceNetWork,
             @Path("user") String user
     );
-
-
 }

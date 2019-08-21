@@ -2,12 +2,6 @@
 
 package com.example.javademogithubpractice.http.error;
 
-/**
- * 网络请求错误
- * Created on 2016/10/19.
- *
- * @author ThirtyDegreesRay
- */
 
 public class HttpError extends Error {
 

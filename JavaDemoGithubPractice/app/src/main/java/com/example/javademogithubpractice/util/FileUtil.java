@@ -14,10 +14,6 @@ import java.io.FileInputStream;
 
 public class FileUtil {
 
-    private final static String AUDIO_CACHE_DIR_NAME = "audio";
-
-    private final static String SIGN_IMAGE_CACHE_DIR_NAME = "sign_image";
-
     private final static String HTTP_CACHE_DIR_NAME = "http_response";
 
     @Nullable
@@ -29,18 +25,6 @@ public class FileUtil {
         }
         return cacheFile;
     }
-
-
-    @Nullable
-    public static File getAudioCacheDir(@NonNull Context context) {
-        return getCacheDir(context, AUDIO_CACHE_DIR_NAME);
-    }
-
-    @Nullable
-    public static File getSignImageCacheDir(@NonNull Context context) {
-        return getCacheDir(context, SIGN_IMAGE_CACHE_DIR_NAME);
-    }
-
 
     @Nullable
     public static File getHttpImageCacheDir(@NonNull Context context) {

@@ -2,22 +2,11 @@
 
 package com.example.javademogithubpractice;
 
-
-import com.example.javademogithubpractice.util.StringUtils;
-
-import java.util.Arrays;
-import java.util.List;
-
-
 public class AppConfig {
 
     public final static String GITHUB_BASE_URL = "https://github.com/";
 
     public final static String GITHUB_API_BASE_URL = "https://api.github.com/";
-
-    public final static String GITHUB_CONTENT_BASE_URL = "https://raw.githubusercontent.com/";
-
-    public final static String OPENHUB_BASE_URL = "http://openhub.raysus.win:3000/";
 
     public final static int HTTP_TIME_OUT = 32 * 1000;
 
@@ -30,9 +19,9 @@ public class AppConfig {
     public final static String DB_NAME = "DemoGithub.db";
 
 
-    public final static String OPENHUB_CLIENT_ID = "a11dc36f787d8cb01f97";
+    public final static String DEMOGITHUB_CLIENT_ID = "a11dc36f787d8cb01f97";
 
-    public final static String OPENHUB_CLIENT_SECRET = "4f9a62c9fd413382ff677f3b23feab49e31af579";
+    public final static String DEMOGITHUB_CLIENT_SECRET = "4f9a62c9fd413382ff677f3b23feab49e31af579";
 
     public final static String OAUTH2_SCOPE = "user,repo,gist,notifications";
 
@@ -41,11 +30,11 @@ public class AppConfig {
 
     public final static String AUTH_HOME = GITHUB_BASE_URL + "Nursultan-Rzabekov";
 
-    public final static String OPENHUB_HOME = AUTH_HOME + "/OpenHub";
+    public final static String DEMOGITHUB_HOME = AUTH_HOME + "/DEMOGITHUB";
 
-    public final static String REDIRECT_URL = "https://github.com/Nursultan-Rzabekov/CallBack";
+    public final static String REDIRECT_URL = "https://github.com/Nursultan-Rzabekov/DemoJustHubProject/CallBack";
 
-    public final static String OPENHUB_RELEASE_SIGN_MD5 = "C0:99:37:D9:6A:36:FB:B7:AB:4C:5E:3D:42:96:FA:AF";
+    public final static String DEMOGITHUB_RELEASE_SIGN_MD5 = "C0:99:37:D9:6A:36:FB:B7:AB:4C:5E:3D:42:96:FA:AF";
 
 //    public final static List<String> COMMON_PAGE_URL_LIST = Arrays.asList(
 //            "https://github.com/trending"

@@ -45,8 +45,7 @@ import javax.inject.Inject;
 
 import butterknife.ButterKnife;
 
-public abstract class BaseActivity<P extends IBaseContract.Presenter>
-        extends AppCompatActivity implements IBaseContract.View{
+public abstract class BaseActivity<P extends IBaseContract.Presenter> extends AppCompatActivity implements IBaseContract.View{
 
     @Inject
     protected P mPresenter;
@@ -54,8 +53,6 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter>
     private static BaseActivity curActivity;
 
     protected boolean isAlive = true;
-    //@BindView(R.id.toolbar) @Nullable protected Toolbar toolbar;
-    //@BindView(R.id.toolbar_layout) @Nullable protected CollapsingToolbarLayout toolbarLayout;
 
     @Override
     protected void onCreate(@Nullable Bundle savedInstanceState) {
@@ -68,14 +65,12 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter>
             return;
         }
 
-        AppUtils.updateAppLanguage(getActivity());
         super.onCreate(savedInstanceState);
         isAlive = true;
         setupActivityComponent(getAppComponent());
         DataAutoAccess.getData(this, savedInstanceState);
         if(mPresenter != null) {
-            mPresenter.onRestoreInstanceState(savedInstanceState == null ?
-                    getIntent().getExtras() : savedInstanceState);
+            mPresenter.onRestoreInstanceState(savedInstanceState == null ? getIntent().getExtras() : savedInstanceState);
             mPresenter.attachView(this);
         }
         if(savedInstanceState != null && AppData.INSTANCE.getAuthUser() == null){
@@ -349,14 +344,6 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter>
         return getAppComponent().getDaoSession();
     }
 
-    public void onRefreshWebPage(){
-
-    }
-
-    @Nullable
-    protected <T extends View> T findViewByViewId(@IdRes int id){
-        return (T) findViewById(id);
-    }
 
     private void getScreenSize(){
         if(WindowUtil.screenHeight == 0 ||

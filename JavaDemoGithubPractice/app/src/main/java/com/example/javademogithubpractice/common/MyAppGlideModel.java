@@ -15,9 +15,6 @@ import com.example.javademogithubpractice.AppConfig;
 import com.example.javademogithubpractice.R;
 
 
-/**
- * Created by ThirtyDegreesRay on 2017/8/26 22:47:20
- */
 @GlideModule
 public class MyAppGlideModel extends AppGlideModule {
 

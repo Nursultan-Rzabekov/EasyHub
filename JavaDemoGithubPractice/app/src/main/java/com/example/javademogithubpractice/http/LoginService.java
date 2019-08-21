@@ -9,12 +9,12 @@ import com.example.javademogithubpractice.http.model.AuthRequestModel;
 import com.example.javademogithubpractice.mvp.model.BasicToken;
 import com.example.javademogithubpractice.mvp.model.OauthToken;
 
+import io.reactivex.Observable;
 import retrofit2.Response;
 import retrofit2.http.Body;
 import retrofit2.http.Headers;
 import retrofit2.http.POST;
 import retrofit2.http.Query;
-import rx.Observable;
 
 
 public interface LoginService {

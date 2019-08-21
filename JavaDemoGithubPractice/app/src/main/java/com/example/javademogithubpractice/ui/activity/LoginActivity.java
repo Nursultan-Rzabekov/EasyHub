@@ -8,7 +8,6 @@ import android.support.design.widget.TextInputEditText;
 import android.support.design.widget.TextInputLayout;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
-import android.widget.TextView;
 import android.widget.Toast;
 
 import com.example.javademogithubpractice.R;
@@ -18,6 +17,7 @@ import com.example.javademogithubpractice.mvp.contract.ILoginContract;
 import com.example.javademogithubpractice.mvp.model.BasicToken;
 import com.example.javademogithubpractice.mvp.presenter.LoginPresenter;
 import com.example.javademogithubpractice.ui.base.BaseActivity;
+import com.example.javademogithubpractice.util.AppOpener;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.example.javademogithubpractice.util.ViewUtils;
 import com.unstoppable.submitbuttonview.SubmitButton;
@@ -26,8 +26,7 @@ import butterknife.BindView;
 import butterknife.OnClick;
 
 
-public class LoginActivity extends BaseActivity<LoginPresenter>
-        implements ILoginContract.View {
+public class LoginActivity extends BaseActivity<LoginPresenter> implements ILoginContract.View {
 
     private final String TAG = LoginActivity.class.getSimpleName();
 
@@ -39,8 +38,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter>
     TextInputEditText passwordEt;
     @BindView(R.id.password_layout)
     TextInputLayout passwordLayout;
+
     @BindView(R.id.login_bn)
     SubmitButton loginBn;
+
 
     private String userName;
     private String password;
@@ -61,12 +62,10 @@ public class LoginActivity extends BaseActivity<LoginPresenter>
     @Override
     public void onGetTokenError(String errorMsg) {
         loginBn.doResult(false);
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                loginBn.reset();
-                loginBn.setEnabled(true);
-            }
+
+        new Handler().postDelayed(() -> {
+            loginBn.reset();
+            loginBn.setEnabled(true);
         }, 1000);
 
         Toast.makeText(getApplicationContext(),errorMsg,Toast.LENGTH_SHORT).show();
@@ -75,7 +74,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter>
     @Override
     public void onLoginComplete() {
         delayFinish();
-        //startActivity(new Intent(getActivity(), MainActivity.class));
+        startActivity(new Intent(getActivity(), MainActivity.class));
     }
 
     @Override
@@ -89,7 +88,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter>
 
     @Override
     protected int getContentView() {
-        return R.layout.activity_login;
+        return R.layout.login_activity;
     }
 
     @Override
@@ -104,17 +103,13 @@ public class LoginActivity extends BaseActivity<LoginPresenter>
         });
 
 
-        passwordEt.setOnEditorActionListener(new TextView.OnEditorActionListener() {
-            @Override
-            public boolean onEditorAction(TextView v, int actionId, KeyEvent event) {
-                if(actionId == EditorInfo.IME_ACTION_SEND
-                        || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER &&
-                        event.getAction() == KeyEvent.ACTION_DOWN)){
-                    if(loginBn.isEnabled())
-                        ViewUtils.virtualClick(loginBn);
-                }
-                return false;
+        passwordEt.setOnEditorActionListener((v, actionId, event) -> {
+            if(actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER &&
+                    event.getAction() == KeyEvent.ACTION_DOWN)){
+                if(loginBn.isEnabled())
+                    ViewUtils.virtualClick(loginBn);
             }
+            return false;
         });
 
     }
@@ -122,7 +117,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter>
 
     @OnClick(R.id.oauth_login_bn)
     public void onOauthLoginClick(){
-        //AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getOAuth2Url());
+        AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getOAuth2Url());
     }
 
     @OnClick(R.id.login_bn)

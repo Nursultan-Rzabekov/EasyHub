@@ -12,9 +12,6 @@ import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.dao.AuthUser;
 import com.example.javademogithubpractice.dao.AuthUserDao;
 import com.example.javademogithubpractice.dao.DaoSession;
-import com.example.javademogithubpractice.http.core.HttpObserver;
-import com.example.javademogithubpractice.http.core.HttpResponse;
-import com.example.javademogithubpractice.http.core.HttpSubscriber;
 import com.example.javademogithubpractice.http.model.AuthRequestModel;
 import com.example.javademogithubpractice.mvp.contract.ILoginContract;
 import com.example.javademogithubpractice.mvp.model.BasicToken;
@@ -26,47 +23,52 @@ import java.util.Date;
 import java.util.UUID;
 
 import javax.inject.Inject;
-
+import io.reactivex.Observable;
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 import okhttp3.Credentials;
 import retrofit2.Response;
-import rx.Observable;
 
-public class LoginPresenter extends BasePresenter<ILoginContract.View>
-        implements ILoginContract.Presenter {
+public class LoginPresenter extends BasePresenter<ILoginContract.View> implements ILoginContract.Presenter{
 
     @Inject
     public LoginPresenter(DaoSession daoSession) {
         super(daoSession);
     }
 
+    private static CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private void addDisposable(Disposable disposable) {
+        compositeDisposable.add(disposable);
+    }
+
     @Override
     public void getToken(String code, String state) {
-        Observable<Response<OauthToken>> observable =
-                getLoginService().getAccessToken(AppConfig.OPENHUB_CLIENT_ID,
-                        AppConfig.OPENHUB_CLIENT_SECRET, code, state);
+        Observable<Response<OauthToken>> observable = getLoginService().getAccessToken(
+                AppConfig.DEMOGITHUB_CLIENT_ID,
+                AppConfig.DEMOGITHUB_CLIENT_SECRET, code, state);
 
-        HttpSubscriber<OauthToken> subscriber =
-                new HttpSubscriber<>(
-                        new HttpObserver<OauthToken>() {
-                            @Override
-                            public void onError(@NonNull Throwable error) {
-                                mView.dismissProgressDialog();
-                                mView.showErrorToast(getErrorTip(error));
-                            }
+        addDisposable(observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(this::success,this::handleError));
 
-                            @Override
-                            public void onSuccess(@NonNull HttpResponse<OauthToken> response) {
-                                OauthToken token = response.body();
-                                if (token != null) {
-                                    mView.onGetTokenSuccess(BasicToken.generateFromOauthToken(token));
-                                } else {
-                                    mView.onGetTokenError(response.getOriResponse().message());
-                                }
-                            }
-                        }
-                );
-        generalRxHttpExecute(observable, subscriber);
         mView.showProgressDialog(getLoadTip());
+    }
+
+    private void handleError(Throwable throwable) {
+        mView.dismissProgressDialog();
+        mView.showErrorToast(getErrorTip(throwable));
+    }
+
+    private void success(Response<OauthToken> response) {
+        System.out.println("!?!?!!?!?!?!?!?!?!?!!?!!?" + response);
+        OauthToken token = response.body();
+        if (token != null) {
+            mView.onGetTokenSuccess(BasicToken.generateFromOauthToken(token));
+        } else {
+            mView.onGetTokenError("Error check please");
+        }
     }
 
     @NonNull
@@ -74,38 +76,35 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View>
     public String getOAuth2Url() {
         String randomState = UUID.randomUUID().toString();
         return AppConfig.OAUTH2_URL +
-                "?client_id=" + AppConfig.OPENHUB_CLIENT_ID +
+                "?client_id=" + AppConfig.DEMOGITHUB_CLIENT_ID +
                 "&scope=" + AppConfig.OAUTH2_SCOPE +
                 "&state=" + randomState;
     }
+
 
     @Override
     public void basicLogin(String userName, String password) {
         AuthRequestModel authRequestModel = AuthRequestModel.generate();
         String token = Credentials.basic(userName, password);
-        Observable<Response<BasicToken>> observable =
-                getLoginService(token).authorizations(authRequestModel);
-        HttpSubscriber<BasicToken> subscriber =
-                new HttpSubscriber<>(
-                        new HttpObserver<BasicToken>() {
-                            @Override
-                            public void onError(@NonNull Throwable error) {
-                                mView.onGetTokenError(getErrorTip(error));
-                            }
 
-                            @Override
-                            public void onSuccess(@NonNull HttpResponse<BasicToken> response) {
-                                BasicToken token = response.body();
-                                if (token != null) {
-                                    mView.onGetTokenSuccess(token);
-                                } else {
-                                    mView.onGetTokenError(response.getOriResponse().message());
-                                }
+        Observable<Response<BasicToken>> observable = getLoginService(token).authorizations(authRequestModel);
 
-                            }
-                        }
-                );
-        generalRxHttpExecute(observable, subscriber);
+        addDisposable(observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(this::successAuth, this::handleErrorAuth));
+
+    }
+
+    private void handleErrorAuth(Throwable throwable) {
+        mView.onGetTokenError(getErrorTip(throwable));
+    }
+
+    private void successAuth(Response<BasicToken> response) {
+        BasicToken token = response.body();
+        if (token != null) {
+            mView.onGetTokenSuccess(token);
+        } else {
+            mView.onGetTokenError("Error " + response.message());
+        }
     }
 
     @Override
@@ -120,30 +119,24 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View>
 
     @Override
     public void getUserInfo(final BasicToken basicToken) {
-        HttpSubscriber<User> subscriber = new HttpSubscriber<>(
-                new HttpObserver<User>() {
-                    @Override
-                    public void onError(Throwable error) {
-                        mView.dismissProgressDialog();
-                        mView.showErrorToast(getErrorTip(error));
-                    }
+        Observable<Response<User>> observable = getUserService(basicToken.getToken()).getPersonInfo(true);
 
-                    @Override
-                    public void onSuccess(HttpResponse<User> response) {
-//                        mView.dismissProgressDialog();
+        addDisposable(observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        .subscribe(response -> {
                         saveAuthUser(basicToken, response.body());
                         mView.onLoginComplete();
-                    }
-                }
-        );
-        Observable<Response<User>> observable = getUserService(basicToken.getToken()).
-                getPersonInfo(true);
-        generalRxHttpExecute(observable, subscriber);
+                    }, this::onErrorUser));
         mView.showProgressDialog(getLoadTip());
 
     }
 
+    private void onErrorUser(Throwable throwable) {
+        mView.dismissProgressDialog();
+        mView.showErrorToast(getErrorTip(throwable));
+    }
+
     private void saveAuthUser(BasicToken basicToken, User userInfo) {
+
         String updateSql = "UPDATE " + daoSession.getAuthUserDao().getTablename()
                 + " SET " + AuthUserDao.Properties.Selected.columnName + " = 0";
         daoSession.getAuthUserDao().getDatabase().execSQL(updateSql);
@@ -170,5 +163,10 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View>
         AppData.INSTANCE.setLoggedUser(userInfo);
     }
 
-
+    @Override
+    public void detachView() {
+        mView = null;
+        compositeDisposable.clear();
+        compositeDisposable.dispose();
+    }
 }

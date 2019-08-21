@@ -1,5 +1,5 @@
 <resources>
-    <string name="app_github_name" translatable="false">OpenHub</string>
+    <string name="app_github_name" translatable="false">DEMOGITHUB</string>
     <string name="navigation_drawer_open" translatable="false">navigation_drawer_open</string>
     <string name="navigation_drawer_close" translatable="false">navigation_drawer_close</string>
 
@@ -58,7 +58,7 @@
     <string name="tap_to_retry">Tap to retry</string>
     <string name="no_data">No data</string>
 
-    <string name="title_activity_repository">OpenHub</string>
+    <string name="title_activity_repository">DEMOGITHUB</string>
     <string name="title_activity_settings">Settings</string>
 
     <!-- Strings related to Settings -->
@@ -300,12 +300,12 @@
     <string name="no_notifications_tip">No new notifications.</string>
     <string name="feedback_and_share">Share &#038; Feedback</string>
     <string name="share_to_friends">Share to your friends</string>
-    <string name="cookapk_download_url" translatable="false">https://www.coolapk.com/apk/com.thirtydegreesray.openhub</string>
+    <string name="cookapk_download_url" translatable="false">https://www.coolapk.com/apk/com.thirtydegreesray.DEMOGITHUB</string>
     <string name="feedback">Feedback</string>
 
-    <string name="openhub_wishes">Wishes From OpenHub</string>
+    <string name="DEMOGITHUB_wishes">Wishes From DEMOGITHUB</string>
     <string name="star_wishes" formatted="false">
-        Hi %s, today is your %dth day at OpenHub,
+        Hi %s, today is your %dth day at DEMOGITHUB,
         thanks for your using, I will strive to become a more convenient GitHub app for you.
         \n\nIf you can star to support me, it would be awesome!
     </string>

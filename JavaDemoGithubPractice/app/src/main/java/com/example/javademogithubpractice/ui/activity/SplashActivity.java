@@ -6,8 +6,6 @@ import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.annotation.NonNull;
-import android.widget.Toast;
-
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.inject.component.DaggerActivityComponent;
 import com.example.javademogithubpractice.mvp.contract.ISplashContract;
@@ -19,16 +17,14 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
 
     private final String TAG = "SplashActivity";
 
-
     @Override
     public void showMainPage() {
         delayFinish();
         Uri dataUri = getIntent().getData();
         if (dataUri == null) {
-            Toast.makeText(getApplicationContext(),"YEEEEEESSS",Toast.LENGTH_SHORT).show();
-            //startActivity(new Intent(getActivity(), MainActivity.class));
+            startActivity(new Intent(getActivity(), MainActivity.class));
         } else {
-            BrowserFilterActivity.handleBrowserUri(getActivity(), dataUri);
+            //BrowserFilterActivity.handleBrowserUri(getActivity(), dataUri);
         }
     }
 
@@ -65,16 +61,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
     @Override
     protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
-
-        switch (requestCode) {
-//            case REQUEST_ACCESS_TOKEN:
-//                if(resultCode == RESULT_OK){
-//                    showMainPage();
-//                }
-//                break;
-            default:
-                break;
-        }
     }
 
 }

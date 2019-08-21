@@ -6,6 +6,7 @@ package com.example.javademogithubpractice.inject.component;
 import com.example.javademogithubpractice.inject.ActivityScope;
 import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.ui.activity.LoginActivity;
+import com.example.javademogithubpractice.ui.activity.MainActivity;
 import com.example.javademogithubpractice.ui.activity.SplashActivity;
 
 import dagger.Component;
@@ -16,4 +17,5 @@ import dagger.Component;
 public interface ActivityComponent {
     void inject(SplashActivity activity);
     void inject(LoginActivity activity);
+    void inject(MainActivity activity);
 }
