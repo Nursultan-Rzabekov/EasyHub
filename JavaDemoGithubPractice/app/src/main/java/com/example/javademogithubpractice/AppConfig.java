@@ -16,7 +16,7 @@ public class AppConfig {
 
     public final static int CACHE_MAX_AGE = 4 * 7 * 24 * 60 * 60;
 
-    public final static String DB_NAME = "DemoGithub.db";
+    public final static String DB_NAME = "EasyHub.db";
 
 
     public final static String DEMOGITHUB_CLIENT_ID = "a11dc36f787d8cb01f97";
@@ -30,7 +30,7 @@ public class AppConfig {
 
     public final static String AUTH_HOME = GITHUB_BASE_URL + "Nursultan-Rzabekov";
 
-    public final static String DEMOGITHUB_HOME = AUTH_HOME + "/DEMOGITHUB";
+    public final static String DEMOGITHUB_HOME = AUTH_HOME + "/EasyHub";
 
     public final static String REDIRECT_URL = "https://github.com/Nursultan-Rzabekov/DemoJustHubProject/CallBack";
 

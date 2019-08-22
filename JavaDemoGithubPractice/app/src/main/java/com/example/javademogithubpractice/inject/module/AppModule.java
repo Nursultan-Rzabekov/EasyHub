@@ -1,19 +1,14 @@
-
-
 package com.example.javademogithubpractice.inject.module;
 
 
 import android.app.Application;
-
 import androidx.room.Room;
-
 import com.example.javademogithubpractice.AppApplication;
+import com.example.javademogithubpractice.AppConfig;
 import com.example.javademogithubpractice.room.DaoSessionImpl;
 import com.example.javademogithubpractice.room.dao.AuthUserDao;
 import com.example.javademogithubpractice.room.database.DatabaseRoom;
-
 import javax.inject.Singleton;
-
 import dagger.Module;
 import dagger.Provides;
 
@@ -41,7 +36,7 @@ public class AppModule {
     public DatabaseRoom getDatabase(Application application) {
         if(INSTANCE == null){
             synchronized(this) {
-                INSTANCE = Room.databaseBuilder(application, DatabaseRoom.class, "database.db").build();
+                INSTANCE = Room.databaseBuilder(application, DatabaseRoom.class, AppConfig.DB_NAME).build();
             }
         }
         return INSTANCE;
