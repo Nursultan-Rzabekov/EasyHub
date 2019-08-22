@@ -5,7 +5,9 @@ package com.example.javademogithubpractice.ui.activity;
 import android.content.Intent;
 import android.net.Uri;
 import android.os.Bundle;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
+
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.inject.component.DaggerActivityComponent;
 import com.example.javademogithubpractice.mvp.contract.ISplashContract;

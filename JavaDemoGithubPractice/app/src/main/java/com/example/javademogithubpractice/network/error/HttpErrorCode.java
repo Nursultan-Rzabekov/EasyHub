@@ -1,9 +1,10 @@
 
 
-package com.example.javademogithubpractice.http.error;
+package com.example.javademogithubpractice.network.error;
 
-import android.support.annotation.StringRes;
 
+
+import androidx.annotation.StringRes;
 
 import com.example.javademogithubpractice.AppApplication;
 import com.example.javademogithubpractice.R;

@@ -5,7 +5,7 @@ package com.example.javademogithubpractice.mvp.model;
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import com.example.javademogithubpractice.dao.LocalUser;
+import com.example.javademogithubpractice.room.model.LocalUser;
 import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;

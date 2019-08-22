@@ -4,21 +4,22 @@ package com.example.javademogithubpractice.mvp.presenter;
 
 import android.content.Context;
 import android.os.Bundle;
-import android.support.annotation.CallSuper;
-import android.support.annotation.NonNull;
-import android.support.annotation.StringRes;
-import android.support.v4.app.Fragment;
+
+import androidx.annotation.CallSuper;
+import androidx.annotation.NonNull;
+import androidx.annotation.StringRes;
+import androidx.fragment.app.Fragment;
 
 import com.example.javademogithubpractice.AppConfig;
 import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.R;
-import com.example.javademogithubpractice.dao.DaoSession;
-import com.example.javademogithubpractice.http.LoginService;
-import com.example.javademogithubpractice.http.UserService;
-import com.example.javademogithubpractice.http.core.AppRetrofit;
-import com.example.javademogithubpractice.http.error.HttpError;
-import com.example.javademogithubpractice.http.error.UnauthorizedError;
+import com.example.javademogithubpractice.network.LoginService;
+import com.example.javademogithubpractice.network.UserService;
+import com.example.javademogithubpractice.network.core.AppRetrofit;
+import com.example.javademogithubpractice.network.error.HttpError;
+import com.example.javademogithubpractice.network.error.UnauthorizedError;
 import com.example.javademogithubpractice.mvp.contract.IBaseContract;
+import com.example.javademogithubpractice.room.DaoSessionImpl;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.thirtydegreesray.dataautoaccess.DataAutoAccess;
 import org.apache.http.conn.ConnectTimeoutException;
@@ -32,14 +33,14 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
     private final String TAG = "BasePresenter";
 
     protected V mView;
-    protected DaoSession daoSession;
+    protected DaoSessionImpl daoSession;
 
     private boolean isViewInitialized = false;
 
     private boolean isAttached = false;
 
 
-    public BasePresenter(DaoSession daoSession) {
+    public BasePresenter(DaoSessionImpl daoSession) {
         this.daoSession = daoSession;
     }
 
@@ -105,7 +106,6 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
                 .create(serviceClass);
     }
 
-    @NonNull
     @Override
     public Context getContext() {
         if (mView instanceof Context) {
@@ -125,7 +125,7 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
     private boolean checkIsUnauthorized(Throwable error){
         if(error instanceof UnauthorizedError){
             mView.showErrorToast(error.getMessage());
-            daoSession.getAuthUserDao().delete(AppData.INSTANCE.getAuthUser());
+            //daoSession.getAuthUserDao().delete(AppData.INSTANCE.getAuthUser());
             AppData.INSTANCE.setAuthUser(null);
             AppData.INSTANCE.setLoggedUser(null);
             mView.showLoginPage();

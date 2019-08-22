@@ -2,15 +2,15 @@
 
 package com.example.javademogithubpractice.inject.module;
 
-import android.database.sqlite.SQLiteDatabase;
-import android.support.annotation.NonNull;
 
+import android.app.Application;
+
+import androidx.room.Room;
 
 import com.example.javademogithubpractice.AppApplication;
-import com.example.javademogithubpractice.AppConfig;
-import com.example.javademogithubpractice.dao.DBOpenHelper;
-import com.example.javademogithubpractice.dao.DaoMaster;
-import com.example.javademogithubpractice.dao.DaoSession;
+import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.dao.AuthUserDao;
+import com.example.javademogithubpractice.room.database.DatabaseRoom;
 
 import javax.inject.Singleton;
 
@@ -33,14 +33,33 @@ public class AppModule {
         return application;
     }
 
-    @NonNull
+
+    private volatile DatabaseRoom INSTANCE;
+
     @Provides
     @Singleton
-    public DaoSession provideDaoSession() {
-        DBOpenHelper helper = new DBOpenHelper(application, AppConfig.DB_NAME, null);
-        SQLiteDatabase db = helper.getWritableDatabase();
-        DaoMaster daoMaster = new DaoMaster(db);
-        return daoMaster.newSession();
+    public DatabaseRoom getDatabase(Application application) {
+        if(INSTANCE == null){
+            synchronized(this) {
+                INSTANCE = Room.databaseBuilder(application, DatabaseRoom.class, "database.db").build();
+            }
+        }
+        return INSTANCE;
+    }
+
+    @Provides
+    @Singleton
+    public AuthUserDao provideAuthUserDao(DatabaseRoom database){
+        return database.authUserDao();
+    }
+
+
+
+    @Provides
+    @Singleton
+    public DaoSessionImpl provideDaoSession() {
+        AuthUserDao authUserDao = getDatabase(application).authUserDao();
+        return new DaoSessionImpl(authUserDao);
     }
 
 

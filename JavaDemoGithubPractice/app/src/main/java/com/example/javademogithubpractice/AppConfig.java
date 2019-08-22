@@ -36,20 +36,5 @@ public class AppConfig {
 
     public final static String DEMOGITHUB_RELEASE_SIGN_MD5 = "C0:99:37:D9:6A:36:FB:B7:AB:4C:5E:3D:42:96:FA:AF";
 
-//    public final static List<String> COMMON_PAGE_URL_LIST = Arrays.asList(
-//            "https://github.com/trending"
-//    );
-//
-//    public final static boolean isCommonPageUrl(String url){
-//        if(StringUtils.isBlank(url)){
-//            return false;
-//        }
-//        for(String commonUrl : COMMON_PAGE_URL_LIST){
-//            if(url.contains(commonUrl)){
-//                return true;
-//            }
-//        }
-//        return false;
-//    }
 
 }

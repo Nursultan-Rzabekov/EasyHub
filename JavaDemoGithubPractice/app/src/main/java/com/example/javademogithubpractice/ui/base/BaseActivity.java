@@ -11,33 +11,33 @@ import android.graphics.Color;
 import android.os.Build;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.annotation.CallSuper;
-import android.support.annotation.IdRes;
-import android.support.annotation.LayoutRes;
-import android.support.annotation.NonNull;
-import android.support.annotation.Nullable;
-import android.support.v4.app.Fragment;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatActivity;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
 import android.view.WindowManager;
 import android.widget.Toast;
 
+import androidx.annotation.CallSuper;
+import androidx.annotation.LayoutRes;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.app.AppCompatActivity;
+import androidx.fragment.app.Fragment;
+
 import com.bumptech.glide.Glide;
 import com.example.javademogithubpractice.AppApplication;
 import com.example.javademogithubpractice.AppData;
-import com.example.javademogithubpractice.dao.DaoSession;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.mvp.contract.IBaseContract;
+import com.example.javademogithubpractice.room.DaoSessionImpl;
 import com.example.javademogithubpractice.ui.activity.LoginActivity;
 import com.example.javademogithubpractice.ui.activity.SplashActivity;
-import com.example.javademogithubpractice.util.AppUtils;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.WindowUtil;
 import com.thirtydegreesray.dataautoaccess.DataAutoAccess;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
+
 
 import java.util.List;
 
@@ -60,6 +60,7 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
                 && !this.getClass().equals(SplashActivity.class)
                 && !this.getClass().equals(LoginActivity.class)){
             super.onCreate(savedInstanceState);
+            System.out.println("!+++!+!++!+!+!+!+!++!+!+!!+!+!+!+!++!+!");
             finishAffinity();
             startActivity(new Intent(getActivity(), SplashActivity.class));
             return;
@@ -109,7 +110,8 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
 
     protected abstract void setupActivityComponent(AppComponent appComponent);
 
-    @LayoutRes protected abstract int getContentView();
+    @LayoutRes
+    protected abstract int getContentView();
 
     @CallSuper
     protected void initActivity(){
@@ -340,7 +342,7 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         return getAppApplication().getAppComponent();
     }
 
-    protected DaoSession getDaoSession(){
+    protected DaoSessionImpl getDaoSession(){
         return getAppComponent().getDaoSession();
     }
 

@@ -4,24 +4,20 @@ package com.example.javademogithubpractice.mvp.presenter;
 
 import android.content.Intent;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-
-
+import android.widget.Toast;
+import androidx.annotation.NonNull;
 import com.example.javademogithubpractice.AppConfig;
 import com.example.javademogithubpractice.AppData;
-import com.example.javademogithubpractice.dao.AuthUser;
-import com.example.javademogithubpractice.dao.AuthUserDao;
-import com.example.javademogithubpractice.dao.DaoSession;
-import com.example.javademogithubpractice.http.model.AuthRequestModel;
+import com.example.javademogithubpractice.network.model.AuthRequestModel;
 import com.example.javademogithubpractice.mvp.contract.ILoginContract;
 import com.example.javademogithubpractice.mvp.model.BasicToken;
 import com.example.javademogithubpractice.mvp.model.OauthToken;
 import com.example.javademogithubpractice.mvp.model.User;
+import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.model.AuthUser;
 import com.example.javademogithubpractice.util.StringUtils;
-
 import java.util.Date;
 import java.util.UUID;
-
 import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -34,7 +30,7 @@ import retrofit2.Response;
 public class LoginPresenter extends BasePresenter<ILoginContract.View> implements ILoginContract.Presenter{
 
     @Inject
-    public LoginPresenter(DaoSession daoSession) {
+    LoginPresenter(DaoSessionImpl daoSession) {
         super(daoSession);
     }
 
@@ -123,7 +119,8 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
 
         addDisposable(observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(response -> {
-                        saveAuthUser(basicToken, response.body());
+            assert response.body() != null;
+            saveAuthUser(basicToken, response.body());
                         mView.onLoginComplete();
                     }, this::onErrorUser));
         mView.showProgressDialog(getLoadTip());
@@ -136,16 +133,6 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
     }
 
     private void saveAuthUser(BasicToken basicToken, User userInfo) {
-
-        String updateSql = "UPDATE " + daoSession.getAuthUserDao().getTablename()
-                + " SET " + AuthUserDao.Properties.Selected.columnName + " = 0";
-        daoSession.getAuthUserDao().getDatabase().execSQL(updateSql);
-
-        String deleteExistsSql = "DELETE FROM " + daoSession.getAuthUserDao().getTablename()
-                + " WHERE " + AuthUserDao.Properties.LoginId.columnName
-                + " = '" + userInfo.getLogin() + "'";
-        daoSession.getAuthUserDao().getDatabase().execSQL(deleteExistsSql);
-
         AuthUser authUser = new AuthUser();
         String scope = StringUtils.listToString(basicToken.getScopes(), ",");
         Date date = new Date();
@@ -157,10 +144,22 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
         authUser.setLoginId(userInfo.getLogin());
         authUser.setName(userInfo.getName());
         authUser.setAvatar(userInfo.getAvatarUrl());
-        daoSession.getAuthUserDao().insert(authUser);
+
+        addDisposable(daoSession.storeAuthUser(authUser)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::successStore,this::errorStore));
 
         AppData.INSTANCE.setAuthUser(authUser);
         AppData.INSTANCE.setLoggedUser(userInfo);
+    }
+
+    private void errorStore(Throwable throwable) {
+        Toast.makeText(getContext(),"Error store" + throwable,Toast.LENGTH_SHORT).show();
+    }
+
+    private void successStore() {
+        Toast.makeText(getContext(),"Success store",Toast.LENGTH_SHORT).show();
     }
 
     @Override

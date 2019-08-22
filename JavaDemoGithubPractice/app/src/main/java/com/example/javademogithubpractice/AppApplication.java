@@ -26,18 +26,16 @@ public class AppApplication extends Application {
     @Override
     protected void attachBaseContext(Context base) {
         super.attachBaseContext(base);
-//        MultiDex.install(this);
     }
 
     @Override
     public void onCreate() {
         super.onCreate();
         application = this;
-        //init application
+
         long startTime = System.currentTimeMillis();
         AppData.INSTANCE.getSystemDefaultLocal();
-        //apply language for application context, bugly used it
-        //initLogger();
+
         Logger.t(TAG).i("startTime:" + startTime);
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
@@ -50,44 +48,6 @@ public class AppApplication extends Application {
 
     }
 
-//    private void initLogger(){
-//        PrettyFormatStrategy strategy = PrettyFormatStrategy.newBuilder()
-//                        .showThreadInfo(false)
-//                        .methodCount(0)
-//                        .methodOffset(0)
-//                        .tag("DEMOGITHUB_Logger")
-//                        .build();
-//        Logger.addLogAdapter(new AndroidLogAdapter(strategy){
-//            @Override
-//            public boolean isLoggable(int priority, String tag) {
-//                return BuildConfig.DEBUG;
-//            }
-//
-//            @Override
-//            public void log(int priority, String tag, String message) {
-//                super.log(priority, tag, message);
-//            }
-//        });
-//    }
-
-//    private void initBugly(){
-//
-//        Beta.initDelay = 6 * 1000;
-//        Beta.enableHotfix = false;
-//        Beta.canShowUpgradeActs.add(LoginActivity.class);
-//        Beta.canShowUpgradeActs.add(MainActivity.class);
-//        Beta.canShowUpgradeActs.add(AboutActivity.class);
-//        Beta.upgradeListener = UpgradeDialog.INSTANCE;
-//
-//        CrashReport.UserStrategy strategy = new CrashReport.UserStrategy(getApplicationContext());
-//        strategy.setAppVersion(BuildConfig.VERSION_NAME);
-//        strategy.setAppChannel(getAppChannel());
-//        strategy.setAppReportDelay(10 * 1000);
-//        Bugly.init(getApplicationContext(), AppConfig.BUGLY_APPID, BuildConfig.DEBUG, strategy);
-//        CrashReport.setIsDevelopmentDevice(getApplicationContext(), BuildConfig.DEBUG);
-//
-//    }
-
     private void initNetwork(){
         NetBroadcastReceiver receiver = new NetBroadcastReceiver();
         IntentFilter filter;
@@ -98,7 +58,6 @@ public class AppApplication extends Application {
             filter.addAction("android.net.conn.CONNECTIVITY_CHANGE");
         }
         registerReceiver(receiver, filter);
-
         NetHelper.INSTANCE.init(this);
     }
 
@@ -110,16 +69,5 @@ public class AppApplication extends Application {
         return mAppComponent;
     }
 
-//    private String getAppChannel(){
-//        String channel = "normal";
-//        try {
-//            ApplicationInfo applicationInfo = getPackageManager()
-//                    .getApplicationInfo(getPackageName(), PackageManager.GET_META_DATA);
-//            channel = applicationInfo.metaData.getString("BUGLY_APP_CHANNEL", "normal");
-//        } catch (PackageManager.NameNotFoundException e) {
-//            e.printStackTrace();
-//        }
-//        return channel;
-//    }
 
 }

@@ -1,36 +1,42 @@
-package com.example.javademogithubpractice.dao;
+package com.example.javademogithubpractice.room.model;
+
 
 import android.os.Parcel;
 import android.os.Parcelable;
 
-import org.greenrobot.greendao.annotation.Entity;
-import org.greenrobot.greendao.annotation.Generated;
-import org.greenrobot.greendao.annotation.Id;
-import org.greenrobot.greendao.annotation.NotNull;
 
+import androidx.annotation.NonNull;
+import androidx.room.ColumnInfo;
+import androidx.room.Entity;
+import androidx.room.PrimaryKey;
+import androidx.room.TypeConverters;
+
+import com.example.javademogithubpractice.room.converter.DateConverter;
 import java.util.Date;
 
-@Entity
+@Entity(tableName = "authUser_database")
 public class AuthUser implements Parcelable {
 
-    @Id
-    @NotNull
+    @NonNull
+    @PrimaryKey
+    @ColumnInfo(name = "accessToken")
     private String accessToken;
-
-    @NotNull
+    @ColumnInfo(name = "authTime")
+    @TypeConverters(DateConverter.class)
     private Date authTime;
+    @ColumnInfo(name = "expireIn")
     private int expireIn;
-
-    @NotNull
+    @ColumnInfo(name = "scope")
     private String scope;
+    @ColumnInfo(name = "selected")
     private boolean selected;
-
-    @NotNull
+    @ColumnInfo(name = "loginId")
     private String loginId;
+    @ColumnInfo(name = "name")
     private String name;
+    @ColumnInfo(name = "avatar")
     private String avatar;
 
-    @Generated
     public AuthUser() {
     }
 
@@ -38,7 +44,6 @@ public class AuthUser implements Parcelable {
         this.accessToken = accessToken;
     }
 
-    @Generated
     public AuthUser(String accessToken, Date authTime, int expireIn, String scope, boolean selected, String loginId, String name, String avatar) {
         this.accessToken = accessToken;
         this.authTime = authTime;
@@ -50,23 +55,17 @@ public class AuthUser implements Parcelable {
         this.avatar = avatar;
     }
 
-    @NotNull
     public String getAccessToken() {
         return accessToken;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setAccessToken(@NotNull String accessToken) {
+    public void setAccessToken(String accessToken) {
         this.accessToken = accessToken;
     }
 
-    @NotNull
-    public Date getAuthTime() {
-        return authTime;
-    }
+    public Date getAuthTime() { return authTime; }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setAuthTime(@NotNull Date authTime) {
+    public void setAuthTime(Date authTime) {
         this.authTime = authTime;
     }
 
@@ -78,13 +77,11 @@ public class AuthUser implements Parcelable {
         this.expireIn = expireIn;
     }
 
-    @NotNull
     public String getScope() {
         return scope;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setScope(@NotNull String scope) {
+    public void setScope(String scope) {
         this.scope = scope;
     }
 
@@ -96,13 +93,11 @@ public class AuthUser implements Parcelable {
         this.selected = selected;
     }
 
-    @NotNull
     public String getLoginId() {
         return loginId;
     }
 
-    /** Not-null value; ensure this value is available before it is saved to the database. */
-    public void setLoginId(@NotNull String loginId) {
+    public void setLoginId( String loginId) {
         this.loginId = loginId;
     }
 

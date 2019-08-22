@@ -1,6 +1,6 @@
 
 
-package com.example.javademogithubpractice.http.error;
+package com.example.javademogithubpractice.network.error;
 
 
 public class HttpError extends Error {

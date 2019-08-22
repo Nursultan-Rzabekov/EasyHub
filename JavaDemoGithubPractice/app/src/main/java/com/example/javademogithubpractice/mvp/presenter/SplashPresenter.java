@@ -2,12 +2,13 @@
 
 package com.example.javademogithubpractice.mvp.presenter;
 
+import android.widget.Toast;
+
 import com.example.javademogithubpractice.AppData;
-import com.example.javademogithubpractice.dao.AuthUser;
-import com.example.javademogithubpractice.dao.AuthUserDao;
-import com.example.javademogithubpractice.dao.DaoSession;
 import com.example.javademogithubpractice.mvp.contract.ISplashContract;
 import com.example.javademogithubpractice.mvp.model.User;
+import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.model.AuthUser;
 
 import java.util.Date;
 import java.util.List;
@@ -22,38 +23,37 @@ import retrofit2.Response;
 
 public class SplashPresenter extends BasePresenter<ISplashContract.View> implements ISplashContract.Presenter{
 
-    private final String TAG = "SplashPresenter";
+    //private final String TAG = "SplashPresenter";
 
     private AuthUser authUser;
     private boolean isMainPageShowwed = false;
 
+    private static CompositeDisposable compositeDisposable = new CompositeDisposable();
+
+    private void addDisposable(Disposable disposable) {
+        compositeDisposable.add(disposable);
+    }
 
     @Inject
-    public SplashPresenter(DaoSession daoSession) {
+    SplashPresenter(DaoSessionImpl daoSession) {
         super(daoSession);
     }
 
     @Override
     public void getUser() {
-        AuthUserDao authUserDao = daoSession.getAuthUserDao();
+        Observable<List<AuthUser>> observable = daoSession.loadAllAuthUser();
+        addDisposable(observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::onSuccessAuthUser,this::onErrorUser));
+    }
 
-        List<AuthUser> users = authUserDao.queryBuilder()
-                .where(AuthUserDao.Properties.Selected.eq(true))
-                .limit(1)
-                .list();
 
+    private void onSuccessAuthUser(List<AuthUser> users) {
+        System.out.println("######################GOOOOOOOOOOOOOOOODDD" + users);
         AuthUser selectedUser = users != null && users.size() > 0 ? users.get(0) : null;
 
-        //if none selected, choose first account
-        if(selectedUser == null){
-            List<AuthUser> firstAccount = authUserDao.queryBuilder()
-                    .limit(1)
-                    .list();
-            selectedUser = firstAccount != null && firstAccount.size() > 0 ? firstAccount.get(0) : null;
-        }
-
         if (selectedUser != null && isExpired(selectedUser)) {
-            authUserDao.delete(selectedUser);
+            //authUserDao.delete(selectedUser);
             selectedUser = null;
         }
 
@@ -61,9 +61,9 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
             AppData.INSTANCE.setAuthUser(selectedUser);
             getUserInfo(selectedUser.getAccessToken());
         } else {
-
             mView.showLoginPage();
         }
+
     }
 
     @Override
@@ -74,27 +74,27 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
         authUser.setExpireIn(expireIn);
         authUser.setAuthTime(new Date());
         authUser.setAccessToken(accessToken);
-        daoSession.getAuthUserDao().insert(authUser);
+        daoSession.storeAuthUser(authUser);
         this.authUser = authUser;
     }
 
-    private static CompositeDisposable compositeDisposable = new CompositeDisposable();
-
-    private void addDisposable(Disposable disposable) {
-        compositeDisposable.add(disposable);
-    }
 
     private void getUserInfo(final String accessToken) {
         Observable<Response<User>> observable = getUserService(accessToken).getPersonInfo(true);
-        addDisposable(observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
+        addDisposable(observable.subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onSuccessUser,this::onErrorUser));
     }
 
     private void onSuccessUser(Response<User> response) {
         AppData.INSTANCE.setLoggedUser(response.body());
         if (authUser != null) {
+            assert response.body() != null;
             authUser.setLoginId(response.body().getLogin());
-            daoSession.getAuthUserDao().update(authUser);
+            addDisposable(daoSession.storeAuthUser(authUser)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::successStore,this::errorStore));
         }
         if(!isMainPageShowwed) {
             isMainPageShowwed = true;
@@ -102,8 +102,16 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
         }
     }
 
+    private void errorStore(Throwable throwable) {
+        Toast.makeText(getContext(),"Error update" + throwable,Toast.LENGTH_SHORT).show();
+    }
+
+    private void successStore() {
+        Toast.makeText(getContext(),"Success update",Toast.LENGTH_SHORT).show();
+    }
+
     private void onErrorUser(Throwable throwable) {
-        daoSession.getAuthUserDao().delete(AppData.INSTANCE.getAuthUser());
+        //daoSession.getAuthUserDao().delete(AppData.INSTANCE.getAuthUser());
         AppData.INSTANCE.setAuthUser(null);
         mView.showErrorToast(getErrorTip(throwable));
         mView.showLoginPage();
@@ -115,6 +123,8 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
 
     @Override
     public void detachView() {
+        compositeDisposable.clear();
+        compositeDisposable.dispose();
         mView = null;
     }
 }

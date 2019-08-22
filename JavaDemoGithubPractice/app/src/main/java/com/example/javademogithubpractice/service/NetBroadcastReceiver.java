@@ -6,7 +6,8 @@ import android.content.BroadcastReceiver;
 import android.content.Context;
 import android.content.Intent;
 import android.net.ConnectivityManager;
-import android.support.annotation.NonNull;
+
+import androidx.annotation.NonNull;
 
 import com.example.javademogithubpractice.common.AppEventBus;
 import com.example.javademogithubpractice.common.Event;

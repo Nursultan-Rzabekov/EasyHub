@@ -2,19 +2,16 @@ package com.example.javademogithubpractice.ui.activity;
 
 import android.content.Intent;
 import android.os.Bundle;
-import android.support.design.widget.BottomNavigationView;
-import android.support.design.widget.CoordinatorLayout;
-import android.support.design.widget.NavigationView;
-import android.support.v4.app.Fragment;
-import android.support.v4.view.GravityCompat;
-import android.support.v4.widget.DrawerLayout;
-import android.support.v7.app.ActionBarDrawerToggle;
-import android.support.v7.app.AlertDialog;
-import android.support.v7.app.AppCompatDelegate;
-import android.support.v7.widget.Toolbar;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+
+import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.R;
@@ -28,7 +25,9 @@ import com.example.javademogithubpractice.ui.base.BaseActivity;
 import com.example.javademogithubpractice.ui.base.BottomNavigationBehavior;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
-import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.google.android.material.navigation.NavigationView;
+
 import butterknife.BindView;
 
 public class MainActivity extends BaseActivity<MainPresenter> implements IMainContract.View, NavigationView.OnNavigationItemSelectedListener {
@@ -144,9 +143,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
         } else if (id == R.id.nav_share) {
 
         } else if (id == R.id.nav_dark_mode) {
-            AppCompatDelegate.setDefaultNightMode(AppCompatDelegate.MODE_NIGHT_NO);
             recreate();
-
         }
         drawer.closeDrawer(GravityCompat.START);
         return true;

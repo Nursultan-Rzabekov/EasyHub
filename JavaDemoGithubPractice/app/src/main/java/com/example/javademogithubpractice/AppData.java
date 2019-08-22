@@ -2,10 +2,10 @@
 
 package com.example.javademogithubpractice;
 
-import android.support.annotation.Nullable;
+import androidx.annotation.Nullable;
 
-import com.example.javademogithubpractice.dao.AuthUser;
 import com.example.javademogithubpractice.mvp.model.User;
+import com.example.javademogithubpractice.room.model.AuthUser;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.Locale;
@@ -36,7 +36,8 @@ public enum AppData {
         this.authUser = authUser;
     }
 
-    @Nullable public String getAccessToken() {
+    @Nullable
+    public String getAccessToken() {
         return authUser == null ? null : authUser.getAccessToken();
     }
 

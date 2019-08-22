@@ -5,8 +5,9 @@ package com.example.javademogithubpractice.util;
 import android.content.Context;
 import android.net.ConnectivityManager;
 import android.net.NetworkInfo;
-import android.support.annotation.NonNull;
 import android.util.Log;
+
+import androidx.annotation.NonNull;
 
 public enum NetHelper {
 	INSTANCE;

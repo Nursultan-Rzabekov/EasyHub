@@ -1,11 +1,12 @@
 
 
-package com.example.javademogithubpractice.http;
-
-import android.support.annotation.NonNull;
+package com.example.javademogithubpractice.network;
 
 
-import com.example.javademogithubpractice.http.model.AuthRequestModel;
+
+import androidx.annotation.NonNull;
+
+import com.example.javademogithubpractice.network.model.AuthRequestModel;
 import com.example.javademogithubpractice.mvp.model.BasicToken;
 import com.example.javademogithubpractice.mvp.model.OauthToken;
 

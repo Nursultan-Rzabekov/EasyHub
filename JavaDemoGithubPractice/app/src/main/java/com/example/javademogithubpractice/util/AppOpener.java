@@ -3,10 +3,11 @@ package com.example.javademogithubpractice.util;
 import android.content.Context;
 import android.graphics.Bitmap;
 import android.net.Uri;
-import android.support.annotation.NonNull;
-import android.support.customtabs.CustomTabsIntent;
 import android.widget.Toast;
 
+
+import androidx.annotation.NonNull;
+import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.example.javademogithubpractice.R;
 

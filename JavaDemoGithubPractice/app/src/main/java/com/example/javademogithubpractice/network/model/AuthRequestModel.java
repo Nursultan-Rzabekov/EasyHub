@@ -1,6 +1,6 @@
 
 
-package com.example.javademogithubpractice.http.model;
+package com.example.javademogithubpractice.network.model;
 
 import com.example.javademogithubpractice.AppConfig;
 import com.example.javademogithubpractice.BuildConfig;

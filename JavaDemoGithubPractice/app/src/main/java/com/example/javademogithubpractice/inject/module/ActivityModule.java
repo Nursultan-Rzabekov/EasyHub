@@ -3,8 +3,9 @@
 package com.example.javademogithubpractice.inject.module;
 
 import android.content.Context;
-import android.support.v4.app.FragmentManager;
 
+
+import androidx.fragment.app.FragmentManager;
 
 import com.example.javademogithubpractice.inject.ActivityScope;
 import com.example.javademogithubpractice.ui.base.BaseActivity;

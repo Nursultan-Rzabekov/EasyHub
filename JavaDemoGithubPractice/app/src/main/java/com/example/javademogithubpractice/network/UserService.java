@@ -1,9 +1,11 @@
 
 
-package com.example.javademogithubpractice.http;
+package com.example.javademogithubpractice.network;
 
-import android.support.annotation.NonNull;
 
+
+
+import androidx.annotation.NonNull;
 
 import com.example.javademogithubpractice.common.Event;
 import com.example.javademogithubpractice.mvp.model.User;
@@ -21,7 +23,8 @@ import retrofit2.http.Path;
 import retrofit2.http.Query;
 
 public interface UserService {
-    @NonNull @GET("user")
+    @NonNull
+    @GET("user")
     Observable<Response<User>> getPersonInfo(
             @Header("forceNetWork") boolean forceNetWork
     );

@@ -4,8 +4,6 @@ package com.example.javademogithubpractice.ui.activity;
 import android.content.Intent;
 import android.os.Bundle;
 import android.os.Handler;
-import android.support.design.widget.TextInputEditText;
-import android.support.design.widget.TextInputLayout;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
@@ -20,6 +18,8 @@ import com.example.javademogithubpractice.ui.base.BaseActivity;
 import com.example.javademogithubpractice.util.AppOpener;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.example.javademogithubpractice.util.ViewUtils;
+import com.google.android.material.textfield.TextInputEditText;
+import com.google.android.material.textfield.TextInputLayout;
 import com.unstoppable.submitbuttonview.SubmitButton;
 
 import butterknife.BindView;
