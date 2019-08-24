@@ -12,6 +12,7 @@ import android.graphics.Color;
 import android.graphics.drawable.BitmapDrawable;
 import android.graphics.drawable.Drawable;
 import android.graphics.drawable.VectorDrawable;
+import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
 
@@ -81,6 +82,23 @@ public class ViewUtils {
             throw new IllegalArgumentException("unsupported drawable type");
         }
     }
+
+
+    public static MenuItem getSelectedMenu(@NonNull MenuItem menuItem) {
+        if (menuItem.getSubMenu() == null || menuItem.getSubMenu().size() == 0) {
+            return null;
+        }
+        MenuItem selected = null;
+        for (int i = 0; i < menuItem.getSubMenu().size(); i++) {
+            MenuItem item = menuItem.getSubMenu().getItem(i);
+            if (item.isChecked()) {
+                selected = item;
+                break;
+            }
+        }
+        return selected;
+    }
+
 
 
 

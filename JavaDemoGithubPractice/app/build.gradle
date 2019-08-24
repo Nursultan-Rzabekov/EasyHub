@@ -32,7 +32,6 @@ dependencies {
 
     ext.DATAAUTOACCESS_VERSION = '1.2.8'
     ext.BUTTERKNIFE_VERSION = '8.7.0'
-    ext.GREEN_DAO_VERSION='3.2.2'
     ext.EVENT_BUS_VERSION='3.0.0'
     ext.FILE_DOWNLOADER_VERSION='0.3.1'
     ext.RXJAVA_VERSION='1.1.0'
@@ -78,7 +77,6 @@ dependencies {
     implementation 'com.jakewharton:butterknife:10.0.0'
     annotationProcessor 'com.jakewharton:butterknife-compiler:10.0.0'
 
-    implementation "org.greenrobot:greendao:${GREEN_DAO_VERSION}"
     implementation "org.greenrobot:eventbus:${EVENT_BUS_VERSION}"
 
     implementation "com.squareup.retrofit2:retrofit:${RETROFIT_VERSION}"

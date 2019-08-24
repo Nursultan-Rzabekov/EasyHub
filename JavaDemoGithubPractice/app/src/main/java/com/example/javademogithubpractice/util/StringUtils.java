@@ -34,6 +34,26 @@ public class StringUtils {
         return stringBuilder.toString();
     }
 
+    public static boolean isBlankList(@Nullable List list) {
+        return list == null || list.size() == 0;
+    }
+
+    public static String getSizeString(long size){
+        if(size < 1024){
+            return String.format(Locale.getDefault(), "%d B", size);
+        }else if(size < 1024 * 1024){
+            float sizeK = size / 1024f;
+            return String.format(Locale.getDefault(), "%.2f KB", sizeK);
+        }else if(size < 1024 * 1024 * 1024){
+            float sizeM = size / (1024f * 1024f);
+            return String.format(Locale.getDefault(), "%.2f MB", sizeM);
+        }else if(size / 1024 < 1024 * 1024 * 1024){
+            float sizeG = size / (1024f * 1024f * 1024f);
+            return String.format(Locale.getDefault(), "%.2f GB", sizeG);
+        }
+        return null;
+    }
+
     private final static Map<Locale, String> DATE_REGEX_MAP = new HashMap<>();
     static {
         DATE_REGEX_MAP.put(Locale.CHINA, "yyyy-MM-dd");

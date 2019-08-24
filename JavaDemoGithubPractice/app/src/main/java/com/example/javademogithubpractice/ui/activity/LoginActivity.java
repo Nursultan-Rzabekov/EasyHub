@@ -11,6 +11,7 @@ import android.widget.Toast;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.inject.component.DaggerActivityComponent;
+import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.mvp.contract.ILoginContract;
 import com.example.javademogithubpractice.mvp.model.BasicToken;
 import com.example.javademogithubpractice.mvp.presenter.LoginPresenter;
@@ -38,7 +39,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     TextInputEditText passwordEt;
     @BindView(R.id.password_layout)
     TextInputLayout passwordLayout;
-
     @BindView(R.id.login_bn)
     SubmitButton loginBn;
 
@@ -81,6 +81,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerActivityComponent.builder()
                 .appComponent(appComponent)
+                .activityModule(new ActivityModule(getActivity()))
                 .build()
                 .inject(this);
     }

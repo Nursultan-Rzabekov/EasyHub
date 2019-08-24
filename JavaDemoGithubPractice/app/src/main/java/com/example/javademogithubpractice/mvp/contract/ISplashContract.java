@@ -10,11 +10,8 @@ public interface ISplashContract {
     }
 
     interface Presenter extends IBaseContract.Presenter<ISplashContract.View>{
-
         void getUser();
-
         void saveAccessToken(String accessToken, String scope, int expireIn);
-
     }
 
 }

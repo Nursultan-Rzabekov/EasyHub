@@ -52,6 +52,9 @@
             android:theme="@style/AppTheme.NoActionBar"
             android:launchMode="singleTask"/>
 
+
+        <activity android:name=".ui.activity.RepositoryActivity" android:label="@string/repository"/>
+
     </application>
 
 </manifest>

@@ -14,12 +14,14 @@ import com.example.javademogithubpractice.AppConfig;
 import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.network.LoginService;
+import com.example.javademogithubpractice.network.RepoService;
 import com.example.javademogithubpractice.network.UserService;
 import com.example.javademogithubpractice.network.core.AppRetrofit;
 import com.example.javademogithubpractice.network.error.HttpError;
 import com.example.javademogithubpractice.network.error.UnauthorizedError;
 import com.example.javademogithubpractice.mvp.contract.IBaseContract;
 import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.DaoSessionLocalRepoImpl;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.thirtydegreesray.dataautoaccess.DataAutoAccess;
 import org.apache.http.conn.ConnectTimeoutException;
@@ -34,6 +36,7 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
 
     protected V mView;
     protected DaoSessionImpl daoSession;
+    protected DaoSessionLocalRepoImpl daoSessionLocalRepo;
 
     private boolean isViewInitialized = false;
 
@@ -43,6 +46,11 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
     public BasePresenter(DaoSessionImpl daoSession) {
         this.daoSession = daoSession;
     }
+
+    public BasePresenter(DaoSessionLocalRepoImpl daoSessionLocalRepo){
+        this.daoSessionLocalRepo = daoSessionLocalRepo;
+    }
+
 
     @Override
     public void onSaveInstanceState(Bundle outState) {
@@ -93,6 +101,10 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
 
     protected UserService getUserService() {
         return getUserService(AppData.INSTANCE.getAccessToken());
+    }
+
+    protected RepoService getRepoService() {
+        return getServices(RepoService.class);
     }
 
 
@@ -161,5 +173,10 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
     @NonNull
     protected String getString(@StringRes int resId) {
         return getContext().getResources().getString(resId);
+    }
+
+
+    protected interface CheckStatusCallback {
+        void onChecked(boolean status);
     }
 }

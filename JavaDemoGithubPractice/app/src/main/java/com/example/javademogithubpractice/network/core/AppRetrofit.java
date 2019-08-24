@@ -46,8 +46,7 @@ public enum  AppRetrofit {
 
     private void createRetrofit(@NonNull String baseUrl, boolean isJson) {
         int timeOut = AppConfig.HTTP_TIME_OUT;
-        Cache cache = new Cache(FileUtil.getHttpImageCacheDir(AppApplication.get()),
-                AppConfig.HTTP_MAX_CACHE_SIZE);
+        Cache cache = new Cache(FileUtil.getHttpImageCacheDir(AppApplication.get()), AppConfig.HTTP_MAX_CACHE_SIZE);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(timeOut, TimeUnit.MILLISECONDS)
@@ -88,9 +87,9 @@ public enum  AppRetrofit {
         public Response intercept(@NonNull Chain chain) throws IOException {
             Request request = chain.request();
 
-            //add unique login id in url to differentiate caches
+    //        add unique login id in url to differentiate caches
             if(AppData.INSTANCE.getLoggedUser() != null){
-//                    && !AppConfig.isCommonPageUrl(request.url().toString())){
+                   /// && !AppConfig.isCommonPageUrl(request.url().toString())){
                 HttpUrl url = request.url().newBuilder()
                         .addQueryParameter("uniqueLoginId",
                                 AppData.INSTANCE.getLoggedUser().getLogin())
@@ -101,6 +100,7 @@ public enum  AppRetrofit {
             }
 
             //add access token
+
             if(!StringUtils.isBlank(token)){
                 String auth = token.startsWith("Basic") ? token : "token " + token;
                 request = request.newBuilder()
@@ -110,8 +110,7 @@ public enum  AppRetrofit {
             Log.d(TAG, request.url().toString());
 
             String forceNetWork = request.header("forceNetWork");
-            if (!StringUtils.isBlank(forceNetWork) &&
-                    !NetHelper.INSTANCE.getNetEnabled()) {
+            if (!StringUtils.isBlank(forceNetWork) && !NetHelper.INSTANCE.getNetEnabled()) {
                 request = request.newBuilder()
                         .cacheControl(CacheControl.FORCE_CACHE)
                         .build();

@@ -1,7 +1,10 @@
 package com.example.javademogithubpractice.room;
 
 import com.example.javademogithubpractice.room.dao.AuthUserDao;
+import com.example.javademogithubpractice.room.dao.LocalRepoDao;
+import com.example.javademogithubpractice.room.dao.LocalUserDao;
 import com.example.javademogithubpractice.room.model.AuthUser;
+import com.example.javademogithubpractice.room.model.LocalRepo;
 
 import java.util.List;
 
@@ -9,6 +12,7 @@ import io.reactivex.Completable;
 import io.reactivex.Observable;
 
 public class DaoSessionImpl {
+
     private AuthUserDao authUserDao;
 
     public DaoSessionImpl(AuthUserDao authUserDao) {
@@ -34,4 +38,9 @@ public class DaoSessionImpl {
     public Observable<AuthUser> getFirstAuthUser(){
         return authUserDao.getFirstUser();
     }
+
+
+
+
+
 }

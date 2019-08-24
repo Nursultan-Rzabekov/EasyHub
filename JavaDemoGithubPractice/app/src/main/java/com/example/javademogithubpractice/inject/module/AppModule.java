@@ -6,7 +6,10 @@ import androidx.room.Room;
 import com.example.javademogithubpractice.AppApplication;
 import com.example.javademogithubpractice.AppConfig;
 import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.DaoSessionLocalRepoImpl;
 import com.example.javademogithubpractice.room.dao.AuthUserDao;
+import com.example.javademogithubpractice.room.dao.LocalRepoDao;
+import com.example.javademogithubpractice.room.dao.LocalUserDao;
 import com.example.javademogithubpractice.room.database.DatabaseRoom;
 import javax.inject.Singleton;
 import dagger.Module;
@@ -17,7 +20,6 @@ import dagger.Provides;
 public class AppModule {
 
     private AppApplication application;
-
     public AppModule(AppApplication application) {
         this.application = application;
     }
@@ -49,6 +51,11 @@ public class AppModule {
     }
 
 
+    @Provides
+    @Singleton
+    public LocalRepoDao provideLocalRepoDao(DatabaseRoom database){
+        return database.localRepoDao();
+    }
 
     @Provides
     @Singleton
@@ -57,5 +64,10 @@ public class AppModule {
         return new DaoSessionImpl(authUserDao);
     }
 
-
+    @Provides
+    @Singleton
+    public DaoSessionLocalRepoImpl provideLocalRepoDaoSessionImpl(){
+        LocalRepoDao localRepoDao = getDatabase(application).localRepoDao();
+        return new DaoSessionLocalRepoImpl(localRepoDao);
+    }
 }

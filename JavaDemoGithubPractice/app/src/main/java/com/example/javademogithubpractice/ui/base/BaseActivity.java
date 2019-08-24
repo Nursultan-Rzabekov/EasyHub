@@ -60,7 +60,6 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
                 && !this.getClass().equals(SplashActivity.class)
                 && !this.getClass().equals(LoginActivity.class)){
             super.onCreate(savedInstanceState);
-            System.out.println("!+++!+!++!+!+!+!+!++!+!+!!+!+!+!+!++!+!");
             finishAffinity();
             startActivity(new Intent(getActivity(), SplashActivity.class));
             return;

@@ -10,6 +10,7 @@ import androidx.annotation.NonNull;
 
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.inject.component.DaggerActivityComponent;
+import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.mvp.contract.ISplashContract;
 import com.example.javademogithubpractice.mvp.presenter.SplashPresenter;
 import com.example.javademogithubpractice.ui.base.BaseActivity;
@@ -40,6 +41,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerActivityComponent.builder()
                 .appComponent(appComponent)
+                .activityModule(new ActivityModule(getActivity()))
                 .build()
                 .inject(this);
     }

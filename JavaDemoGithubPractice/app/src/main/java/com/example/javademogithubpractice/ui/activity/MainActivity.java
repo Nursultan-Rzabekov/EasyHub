@@ -1,41 +1,68 @@
 package com.example.javademogithubpractice.ui.activity;
 
 import android.content.Intent;
+import android.content.res.TypedArray;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-
-import androidx.appcompat.app.ActionBarDrawerToggle;
+import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
-import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
+import androidx.fragment.app.Fragment;
 
 import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.common.GlideApp;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.inject.component.DaggerActivityComponent;
+import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.mvp.contract.IMainContract;
 import com.example.javademogithubpractice.mvp.model.User;
 import com.example.javademogithubpractice.mvp.presenter.MainPresenter;
-import com.example.javademogithubpractice.ui.base.BaseActivity;
+import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
+import com.example.javademogithubpractice.ui.base.BaseDrawerActivity;
 import com.example.javademogithubpractice.ui.base.BottomNavigationBehavior;
+import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.google.android.material.navigation.NavigationView;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
-public class MainActivity extends BaseActivity<MainPresenter> implements IMainContract.View, NavigationView.OnNavigationItemSelectedListener {
+public class MainActivity extends BaseDrawerActivity<MainPresenter> implements IMainContract.View{
 
-    @BindView(R.id.toolbar) Toolbar toolbar;
-    @BindView(R.id.nav_view) NavigationView navigationView;
-    @BindView(R.id.drawer_layout) DrawerLayout drawer;
     @BindView(R.id.navigation) BottomNavigationView bottomNavigationView;
+
+    private final Map<Integer, String> TAG_MAP = new HashMap<>();
+
+    @AutoAccess
+    int selectedPage;
+
+    private final List<Integer> FRAGMENT_NAV_ID_LIST = Arrays.asList(
+            R.id.nav_share, R.id.nav_slideshow
+    );
+
+    private final List<String> FRAGMENT_TAG_LIST = Arrays.asList(
+            RepositoriesFragment.RepositoriesType.OWNED.name(),
+            RepositoriesFragment.RepositoriesType.STARRED.name()
+    );
+
+    {
+        for(int i = 0; i < FRAGMENT_NAV_ID_LIST.size(); i++){
+            TAG_MAP.put(FRAGMENT_NAV_ID_LIST.get(i), FRAGMENT_TAG_LIST.get(i));
+        }
+    }
+
 
     @Override
     protected int getContentView() {
@@ -53,6 +80,7 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
     protected void setupActivityComponent(AppComponent appComponent) {
         DaggerActivityComponent.builder()
                 .appComponent(appComponent)
+                .activityModule(new ActivityModule(getActivity()))
                 .build()
                 .inject(this);
     }
@@ -61,31 +89,46 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
     @Override
     protected void initActivity() {
         super.initActivity();
+        setStartDrawerEnable(true);
+        setEndDrawerEnable(true);
     }
 
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
 
-
-        ActionBarDrawerToggle toggle = new ActionBarDrawerToggle(this, drawer, toolbar, R.string.navigation_drawer_open, R.string.navigation_drawer_close);
-        drawer.addDrawerListener(toggle);
-        toggle.syncState();
-
-
-        navigationView.setNavigationItemSelectedListener(this);
+        updateStartDrawerContent(R.menu.activity_main_drawer);
+        if (mPresenter.isFirstUseAndNoNewsUser()) {
+            selectedPage = R.id.nav_slideshow;
+            updateFragmentByNavId(selectedPage);
+        } else if(selectedPage != 0){
+            updateFragmentByNavId(selectedPage);
+        } else {
+            String startPageId = PrefUtils.getStartPage();
+            int startPageIndex = Arrays.asList(getResources().getStringArray(R.array.start_pages_id))
+                    .indexOf(startPageId);
+            TypedArray typedArray = getResources().obtainTypedArray(R.array.start_pages_nav_id);
+            int startPageNavId = typedArray.getResourceId(startPageIndex, 0);
+            typedArray.recycle();
+            if(FRAGMENT_NAV_ID_LIST.contains(startPageNavId)){
+                selectedPage = startPageNavId;
+                updateFragmentByNavId(selectedPage);
+            } else {
+                selectedPage = R.id.nav_slideshow;
+                updateFragmentByNavId(selectedPage);
+                updateFragmentByNavId(startPageNavId);
+            }
+        }
+        navViewStart.setCheckedItem(selectedPage);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
         bottomNavigationView.setSelectedItemId(R.id.navigationHome);
 
-
-
-        ImageView avatar = navigationView.getHeaderView(0).findViewById(R.id.avatar);
-        TextView name = navigationView.getHeaderView(0).findViewById(R.id.name);
-        TextView mail = navigationView.getHeaderView(0).findViewById(R.id.mail);
-
+        ImageView avatar = navViewStart.getHeaderView(0).findViewById(R.id.avatar);
+        TextView name = navViewStart.getHeaderView(0).findViewById(R.id.name);
+        TextView mail = navViewStart.getHeaderView(0).findViewById(R.id.mail);
 
         User loginUser = AppData.INSTANCE.getLoggedUser();
         GlideApp.with(getActivity())
@@ -97,6 +140,19 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
         mail.setText(StringUtils.isBlank(loginUser.getBio()) ? joinTime : loginUser.getBio());
 
 
+    }
+
+    @Override
+    public boolean onCreateOptionsMenu(Menu menu) {
+        getMenuInflater().inflate(R.menu.menu_sort, menu);
+        MenuItem menuItem = menu.findItem(R.id.nav_sort);
+        menuItem.setVisible(selectedPage == R.id.nav_slideshow || selectedPage == R.id.nav_share);
+        return true;
+    }
+
+    @Override
+    public boolean onPrepareOptionsMenu(Menu menu) {
+        return super.onPrepareOptionsMenu(menu);
     }
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
@@ -111,42 +167,138 @@ public class MainActivity extends BaseActivity<MainPresenter> implements IMainCo
                     case  R.id.navigationSearch:
                         return true;
                     case  R.id.navigationMenu:
-                        drawer.openDrawer(GravityCompat.START);
+                        drawerLayout.openDrawer(GravityCompat.START);
                         return true;
                 }
                 return false;
             };
 
+
+    protected void onNavItemSelected(@NonNull MenuItem item, boolean isStartDrawer) {
+        super.onNavItemSelected(item, isStartDrawer);
+        if (!isStartDrawer) {
+            handlerEndDrawerClick(item);
+            return;
+        }
+        int id = item.getItemId();
+        updateFragmentByNavId(id);
+    }
+
     @Override
-    public void onBackPressed() {
-        if (drawer.isDrawerOpen(GravityCompat.START)) {
-            drawer.closeDrawer(GravityCompat.START);
-        } else {
-            super.onBackPressed();
+    protected boolean isEndDrawerMultiSelect() {
+        return true;
+    }
+
+    @Override
+    protected int getEndDrawerToggleMenuItemId() {
+        return R.id.nav_sort;
+    }
+
+    private void updateFragmentByNavId(int id){
+        if(FRAGMENT_NAV_ID_LIST.contains(id)){
+            //updateTitle(id);
+            loadFragment(id);
+            updateFilter(id);
+            return;
+        }
+        switch (id) {
+            case R.id.nav_logout:
+                logout();
+                break;
+            default:
+                break;
         }
     }
 
 
-    @SuppressWarnings("StatementWithEmptyBody")
-    @Override
-    public boolean onNavigationItemSelected(MenuItem item) {
-        int id = item.getItemId();
-
-        if (id == R.id.nav_logout) {
-            logout();
-        } else if (id == R.id.nav_gallery) {
-
-        } else if (id == R.id.nav_slideshow) {
-
-        } else if (id == R.id.nav_manage) {
-
-        } else if (id == R.id.nav_share) {
-
-        } else if (id == R.id.nav_dark_mode) {
-            recreate();
+    private void handlerEndDrawerClick(MenuItem item) {
+        Fragment fragment = getVisibleFragment();
+        if (fragment != null && fragment instanceof RepositoriesFragment
+                && (selectedPage == R.id.nav_slideshow || selectedPage == R.id.nav_share)) {
+            ((RepositoriesFragment) fragment).onDrawerSelected(navViewEnd, item);
         }
-        drawer.closeDrawer(GravityCompat.START);
-        return true;
+    }
+
+    private void updateFilter(int itemId) {
+        if (itemId == R.id.nav_slideshow) {
+            updateEndDrawerContent(R.menu.menu_repositories_filter);
+            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.OWNED);
+        } else if (itemId == R.id.nav_share) {
+            updateEndDrawerContent(R.menu.menu_repositories_filter);
+            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.STARRED);
+        } else {
+            removeEndDrawer();
+        }
+        invalidateOptionsMenu();
+    }
+
+    private void loadFragment(int itemId) {
+        //selectedPage = itemId;
+        String fragmentTag = TAG_MAP.get(itemId);
+        Fragment showFragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        boolean isExist = true;
+        if (showFragment == null) {
+            isExist = false;
+            showFragment = getFragment(itemId);
+        }
+        if (showFragment.isVisible()) {
+            return;
+        }
+
+        Fragment visibleFragment = getVisibleFragment();
+        if (isExist) {
+            showAndHideFragment(showFragment, visibleFragment);
+        } else {
+            addAndHideFragment(showFragment, visibleFragment, fragmentTag);
+        }
+    }
+
+    @NonNull
+    private Fragment getFragment(int itemId) {
+        switch (itemId) {
+            case R.id.nav_slideshow:
+                return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.OWNED,
+                        AppData.INSTANCE.getLoggedUser().getLogin());
+            case R.id.nav_share:
+                return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED,
+                        AppData.INSTANCE.getLoggedUser().getLogin());
+
+        }
+        return null;
+    }
+
+
+    private void showAndHideFragment(@NonNull Fragment showFragment, @Nullable Fragment hideFragment) {
+        if (hideFragment == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .show(showFragment)
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .show(showFragment)
+                    .hide(hideFragment)
+                    .commit();
+        }
+
+    }
+
+
+    private void addAndHideFragment(@NonNull Fragment showFragment,
+                                    @Nullable Fragment hideFragment, @NonNull String addTag) {
+        if (hideFragment == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.frame_layout_content, showFragment, addTag)
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.frame_layout_content, showFragment, addTag)
+                    .hide(hideFragment)
+                    .commit();
+        }
     }
 
 
