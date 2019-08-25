@@ -64,10 +64,7 @@ public class AppApplication extends Application {
     public static AppApplication get(){
         return application;
     }
-
     public AppComponent getAppComponent(){
         return mAppComponent;
     }
-
-
 }

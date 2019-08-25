@@ -12,13 +12,14 @@ import java.util.Locale;
 
 
 public enum AppData {
-    INSTANCE;
 
+    INSTANCE;
     @AutoAccess(dataName = "appData_loggedUser")
     User loggedUser;
     @AutoAccess(dataName = "appData_authUser")
     AuthUser authUser;
-    @AutoAccess(dataName = "appData_systemDefaultLocal") Locale systemDefaultLocal;
+    @AutoAccess(dataName = "appData_systemDefaultLocal")
+    Locale systemDefaultLocal;
 
     public User getLoggedUser() {
         return loggedUser;
@@ -47,5 +48,4 @@ public enum AppData {
         }
         return systemDefaultLocal;
     }
-
 }

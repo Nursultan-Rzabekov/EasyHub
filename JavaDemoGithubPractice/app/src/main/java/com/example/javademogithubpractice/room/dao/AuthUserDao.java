@@ -3,6 +3,7 @@ package com.example.javademogithubpractice.room.dao;
 
 
 import androidx.room.Dao;
+import androidx.room.Delete;
 import androidx.room.Insert;
 import androidx.room.OnConflictStrategy;
 import androidx.room.Query;
@@ -24,16 +25,18 @@ public interface AuthUserDao {
 
     @Query("SELECT * FROM authUser_database")
     Observable<List<AuthUser>> loadAll();
+//
+//    @Query("DELETE FROM authUser_database WHERE accessToken = :accessAuthUser")
+//    Completable deleteAuthUser(String accessAuthUser);
 
-
-//    @Query("DELETE FROM authUser_database WHERE language_id = :authUser")
-//    void deleteAuthUser(AuthUser authUser);
+    @Delete
+    Completable deleteAuthUser(AuthUser authUser);
 
     @Query("DELETE FROM authUser_database")
     Completable deleteAllAuthUser();
 
 
-    @Query("SELECT * FROM authUser_database LIMIT 1")
-    Observable<AuthUser> getFirstUser();
+
+
 }
 

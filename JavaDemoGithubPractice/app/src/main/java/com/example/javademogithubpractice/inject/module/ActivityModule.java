@@ -8,7 +8,7 @@ import android.content.Context;
 import androidx.fragment.app.FragmentManager;
 
 import com.example.javademogithubpractice.inject.ActivityScope;
-import com.example.javademogithubpractice.ui.base.BaseActivity;
+import com.example.javademogithubpractice.ui.activity.base.BaseActivity;
 
 import dagger.Module;
 import dagger.Provides;

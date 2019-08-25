@@ -1,6 +1,6 @@
 
 
-package com.example.javademogithubpractice.ui.base;
+package com.example.javademogithubpractice.ui.activity.base;
 
 import android.annotation.SuppressLint;
 import android.app.ProgressDialog;
@@ -14,7 +14,6 @@ import android.os.Handler;
 import android.view.Display;
 import android.view.MenuItem;
 import android.view.View;
-import android.view.WindowManager;
 import android.widget.Toast;
 
 import androidx.annotation.CallSuper;
@@ -36,7 +35,6 @@ import com.example.javademogithubpractice.ui.activity.SplashActivity;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.WindowUtil;
 import com.thirtydegreesray.dataautoaccess.DataAutoAccess;
-import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 
 import java.util.List;
@@ -86,9 +84,6 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         initActivity();
         initView(savedInstanceState);
         if(mPresenter != null) mPresenter.onViewInitialized();
-        if(isFullScreen){
-            intoFullScreen();
-        }
     }
 
     @Override
@@ -365,10 +360,6 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         return versionName;
     }
 
-    @NonNull
-    protected String getResuceString(int strId) {
-        return getResources().getString(strId);
-    }
 
     protected void delayFinish(){
         delayFinish(1000);
@@ -414,34 +405,8 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         return isAlive;
     }
 
-    @AutoAccess boolean isFullScreen = false;
-
-    protected void exitFullScreen() {
-        showStatusBar();
-        //if(toolbar != null) toolbar.setVisibility(View.VISIBLE);
-        isFullScreen = false;
-    }
-
-    protected void intoFullScreen() {
-        getWindow().setFlags(WindowManager.LayoutParams.FLAG_FULLSCREEN,
-                WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        //if(toolbar != null) toolbar.setVisibility(View.GONE);
-        isFullScreen = true;
-    }
-
-    private void showStatusBar() {
-        final WindowManager.LayoutParams attrs = getWindow().getAttributes();
-        attrs.flags &= (~WindowManager.LayoutParams.FLAG_FULLSCREEN);
-        getWindow().setAttributes(attrs);
-        getWindow().clearFlags(WindowManager.LayoutParams.FLAG_LAYOUT_NO_LIMITS);
-    }
-
     @Override
-    public void onBackPressed() {
-        if(isFullScreen){
-            exitFullScreen();
-        } else {
-            super.onBackPressed();
-        }
+    public void onBackPressed() { super.onBackPressed();
+
     }
 }

@@ -93,34 +93,21 @@ public abstract class ListFragment <P extends IBaseContract.Presenter, A extends
         initScrollListener();
     }
 
-    private class ScrollListener extends RecyclerView.OnScrollListener{
+    private class ScrollListener extends RecyclerView.OnScrollListener {
         @Override
         public void onScrolled(RecyclerView recyclerView, int dx, int dy) {
             super.onScrolled(recyclerView, dx, dy);
-            if(!loadMoreEnable || !canLoadMore || isLoading ||
+            if (!loadMoreEnable || !canLoadMore || isLoading ||
                     !NetHelper.INSTANCE.getNetEnabled()) return;
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
             //only LinearLayoutManager can find last visible
-            if(layoutManager instanceof LinearLayoutManager){
+            if (layoutManager instanceof LinearLayoutManager) {
                 LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
                 int lastPosition = linearManager.findLastVisibleItemPosition();
-                if(lastPosition == adapter.getItemCount() - 1){
+                if (lastPosition == adapter.getItemCount() - 1) {
                     onLoadMore(++curPage);
                 }
             }
-        }
-    }
-
-    public int getVisibleItemCount(){
-        RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-        //only LinearLayoutManager can find last visible
-        if(layoutManager instanceof LinearLayoutManager){
-            LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
-            int firstPosition = linearManager.findFirstVisibleItemPosition();
-            int lastPosition = linearManager.findLastVisibleItemPosition();
-            return lastPosition - firstPosition + 1;
-        }else {
-            throw new UnsupportedOperationException("only for Linear RecyclerView ");
         }
     }
 

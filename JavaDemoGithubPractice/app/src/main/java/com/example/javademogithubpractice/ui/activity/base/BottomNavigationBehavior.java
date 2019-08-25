@@ -1,4 +1,4 @@
-package com.example.javademogithubpractice.ui.base;
+package com.example.javademogithubpractice.ui.activity.base;
 
 import android.content.Context;
 import android.util.AttributeSet;

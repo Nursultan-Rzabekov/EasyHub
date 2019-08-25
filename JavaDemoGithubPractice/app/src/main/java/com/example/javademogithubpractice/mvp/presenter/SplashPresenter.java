@@ -49,14 +49,15 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
 
 
     private void onSuccessAuthUser(List<AuthUser> users) {
-        System.out.println("######################GOOOOOOOOOOOOOOOODDD" + users);
         AuthUser selectedUser = users != null && users.size() > 0 ? users.get(0) : null;
-
         if (selectedUser != null && isExpired(selectedUser)) {
-            //authUserDao.delete(selectedUser);
+
+            addDisposable(daoSession.deleteAuthUser(selectedUser)
+                    .subscribeOn(Schedulers.io())
+                    .observeOn(AndroidSchedulers.mainThread())
+                    .subscribe(this::successDeleteUser,this::errorDeleteUser));
             selectedUser = null;
         }
-
         if (selectedUser != null) {
             AppData.INSTANCE.setAuthUser(selectedUser);
             getUserInfo(selectedUser.getAccessToken());
@@ -64,6 +65,14 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
             mView.showLoginPage();
         }
 
+    }
+
+    private void errorDeleteUser(Throwable throwable) {
+        Toast.makeText(getContext(),"Error delete user" + throwable,Toast.LENGTH_SHORT).show();
+    }
+
+    private void successDeleteUser() {
+        Toast.makeText(getContext(),"Success delete user",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -111,7 +120,11 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
     }
 
     private void onErrorUser(Throwable throwable) {
-        //daoSession.getAuthUserDao().delete(AppData.INSTANCE.getAuthUser());
+        addDisposable(daoSession.deleteAuthUser(AppData.INSTANCE.getAuthUser())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::successDeleteUser,this::errorDeleteUser));
+
         AppData.INSTANCE.setAuthUser(null);
         mView.showErrorToast(getErrorTip(throwable));
         mView.showLoginPage();

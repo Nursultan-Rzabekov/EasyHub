@@ -13,21 +13,21 @@
 
     <group android:checkableBehavior="single">
         <item
-            android:id="@+id/nav_camera"
+            android:id="@+id/nav_news"
             android:icon="@drawable/ic_menu_camera"
             android:title="News" />
         <item
-            android:id="@+id/nav_gallery"
+            android:id="@+id/nav_notifications"
             android:icon="@drawable/ic_menu_gallery"
             android:title="Notifications" />
         <item
-            android:id="@+id/nav_slideshow"
+            android:id="@+id/nav_repository"
             android:icon="@drawable/ic_menu_slideshow"
-            android:title="Issues" />
+            android:title="My Repository" />
         <item
-            android:id="@+id/nav_manage"
+            android:id="@+id/nav_stars"
             android:icon="@drawable/ic_menu_manage"
-            android:title="Tools" />
+            android:title="Stars" />
     </group>
 
 
@@ -38,7 +38,7 @@
                 android:icon="@drawable/ic_menu_share"
                 android:title="Share" />
             <item
-                android:id="@+id/nav_dark_mode"
+                android:id="@+id/nav_about"
                 android:icon="@android:drawable/ic_menu_day"
                 android:title="About" />
         </menu>

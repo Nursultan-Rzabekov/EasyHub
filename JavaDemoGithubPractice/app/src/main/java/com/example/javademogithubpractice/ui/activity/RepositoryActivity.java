@@ -5,7 +5,6 @@ package com.example.javademogithubpractice.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.os.Bundle;
-import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
@@ -18,19 +17,16 @@ import com.example.javademogithubpractice.common.GlideApp;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.inject.component.DaggerActivityComponent;
 import com.example.javademogithubpractice.inject.module.ActivityModule;
-import com.example.javademogithubpractice.mvp.contract.IRepositoriesContract;
 import com.example.javademogithubpractice.mvp.contract.IRepositoryContract;
 import com.example.javademogithubpractice.mvp.model.Repository;
 import com.example.javademogithubpractice.mvp.presenter.RepositoryPresenter;
 import com.example.javademogithubpractice.ui.adapter.baseAdapter.FragmentPagerModel;
-import com.example.javademogithubpractice.ui.base.PagerActivity;
+import com.example.javademogithubpractice.ui.activity.base.PagerActivity;
 import com.example.javademogithubpractice.ui.fragment.RepoInfoFragment;
-import com.example.javademogithubpractice.util.AppOpener;
 import com.example.javademogithubpractice.util.BundleHelper;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
 
-import java.util.ArrayList;
 import java.util.Locale;
 import butterknife.BindView;
 
@@ -77,33 +73,10 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter> imple
         return R.layout.activity_repository;
     }
 
-//    @Override
-//    public boolean onCreateOptionsMenu(Menu menu) {
-//        if(getMPresenter().getRepository() != null){
-//            getMenuInflater().inflate(R.menu.menu_repository, menu);
-//            MenuItem starItem = menu.findItem(R.id.action_star);
-//            MenuItem bookmark = menu.findItem(R.id.action_bookmark);
-//            starItem.setTitle(getMPresenter().isStarred() ? R.string.unstar : R.string.star);
-//            starItem.setIcon(getMPresenter().isStarred() ?
-//                    R.drawable.ic_star_title : R.drawable.ic_un_star_title);
-//            menu.findItem(R.id.action_watch).setTitle(getMPresenter().isWatched() ?
-//                    R.string.unwatch : R.string.watch);
-//            menu.findItem(R.id.action_fork).setTitle(getMPresenter().isFork() ?
-//                    R.string.forked : R.string.fork);
-//            menu.findItem(R.id.action_fork).setVisible(getMPresenter().isForkEnable());
-//            bookmark.setTitle(getMPresenter().isBookmarked() ?
-//                    getString(R.string.remove_bookmark) : getString(R.string.bookmark));
-//            menu.findItem(R.id.action_wiki).setVisible(getMPresenter().getRepository().isHasWiki());
-//        }
-//        return true;
-//    }
-
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         setTransparentStatusBar();
-//        getToolbar().setTitleTextAppearance(getActivity(), R.style.Toolbar_TitleText);
-//        getToolbar().setSubtitleTextAppearance(getActivity(), R.style.Toolbar_Subtitle);
         setToolbarBackEnable();
         setToolbarTitle(mPresenter.getRepoName());
     }
@@ -152,8 +125,8 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter> imple
     public void showRepo(Repository repo) {
         //        setToolbarTitle(repo.getFullName(), repo.getDefaultBranch());
         desc.setText(repo.getDescription());
-        String language = StringUtils.isBlank(repo.getLanguage()) ?
-                getString(R.string.unknown) : repo.getLanguage();
+        String language = StringUtils.isBlank(repo.getLanguage()) ? getString(R.string.unknown) : repo.getLanguage();
+
         info.setText(String.format(Locale.getDefault(), "Language %s, size %s",
                 language, StringUtils.getSizeString(repo.getSize() * 1024)));
 
@@ -172,11 +145,6 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter> imple
             //noticeRepositoryUpdated(repo);
         }
         invalidateOptionsMenu();
-
-    }
-
-    @Override
-    public void showStarWishes() {
 
     }
 
@@ -206,12 +174,6 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter> imple
     protected int getFragmentPosition(Fragment fragment) {
         if(fragment instanceof RepoInfoFragment){
             return 0;
-//        }else if(fragment instanceof RepoFilesFragment){
-//            return 1;
-//        }else if(fragment instanceof CommitsFragment){
-//            return 2;
-//        }else if(fragment instanceof ActivityFragment){
-//            return 3;
         }else
             return -1;
     }

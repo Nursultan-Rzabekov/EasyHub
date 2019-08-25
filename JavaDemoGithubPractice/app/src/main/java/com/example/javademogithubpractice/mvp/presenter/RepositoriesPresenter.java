@@ -1,7 +1,6 @@
 package com.example.javademogithubpractice.mvp.presenter;
 import com.example.javademogithubpractice.mvp.contract.IRepositoriesContract;
 import com.example.javademogithubpractice.mvp.model.Repository;
-import com.example.javademogithubpractice.mvp.model.TrendingSince;
 import com.example.javademogithubpractice.network.error.HttpPageNoFoundError;
 import com.example.javademogithubpractice.room.DaoSessionImpl;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
@@ -29,9 +28,8 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
     @AutoAccess RepositoriesFragment.RepositoriesType type;
     @AutoAccess String user;
     @AutoAccess String repo;
-
-
     @AutoAccess RepositoriesFilter filter;
+
     @Inject
     public RepositoriesPresenter(DaoSessionImpl daoSession) {
         super(daoSession);
@@ -64,13 +62,10 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response -> {
-
                     mView.hideLoading();
                     if (isReLoad || readCacheFirst || repos == null || page == 1) {
-
                         repos = response.body();
                         for (int i = 0; i < repos.size(); i++) {
-                            System.out.println("+++++++++" + repos.get(i));
                         }
                     } else {
 

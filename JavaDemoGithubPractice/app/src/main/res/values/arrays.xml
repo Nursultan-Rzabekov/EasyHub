@@ -19,8 +19,8 @@
     </array>
 
     <array name="start_pages_nav_id">
-        <item>@id/nav_slideshow</item>
-        <item>@id/nav_share</item>
+        <item>@id/nav_repository</item>
+        <item>@id/nav_stars</item>
     </array>
 
     <array name="start_pages_name">

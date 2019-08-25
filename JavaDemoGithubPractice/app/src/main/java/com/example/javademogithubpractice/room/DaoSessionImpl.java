@@ -35,12 +35,9 @@ public class DaoSessionImpl {
         return authUserDao.deleteAllAuthUser();
     }
 
-    public Observable<AuthUser> getFirstAuthUser(){
-        return authUserDao.getFirstUser();
+    public Completable deleteAuthUser(AuthUser authUser){
+        return authUserDao.deleteAuthUser(authUser);
     }
-
-
-
 
 
 }

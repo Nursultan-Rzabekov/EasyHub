@@ -1,6 +1,6 @@
 
 
-package com.example.javademogithubpractice.ui.base;
+package com.example.javademogithubpractice.ui.activity.base;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -21,13 +21,12 @@ import java.util.ArrayList;
 import javax.inject.Inject;
 import butterknife.BindView;
 
-
-
 public abstract class PagerActivity<P extends BasePresenter> extends BaseDrawerActivity<P> implements IBaseContract.View,
         ViewPager.OnPageChangeListener,
         TabLayout.OnTabSelectedListener{
 
-    @Inject protected FragmentViewPagerAdapter pagerAdapter;
+    @Inject
+    protected FragmentViewPagerAdapter pagerAdapter;
 
     @BindView(R.id.view_pager) protected ViewPager viewPager;
     @BindView(R.id.tab_layout) protected TabLayout tabLayout;

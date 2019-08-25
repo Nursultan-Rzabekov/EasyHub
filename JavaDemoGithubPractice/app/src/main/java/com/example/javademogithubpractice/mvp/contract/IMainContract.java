@@ -2,8 +2,6 @@
 
 package com.example.javademogithubpractice.mvp.contract;
 
-import androidx.annotation.NonNull;
-
 public interface IMainContract {
 
     interface View extends IBaseContract.View{

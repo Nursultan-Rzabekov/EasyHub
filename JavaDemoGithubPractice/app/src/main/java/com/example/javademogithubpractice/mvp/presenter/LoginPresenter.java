@@ -58,7 +58,7 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
     }
 
     private void success(Response<OauthToken> response) {
-        System.out.println("!?!?!!?!?!?!?!?!?!?!!?!!?" + response);
+        System.out.println("!?!?!!?!?!?!?!?!?!?!!?!!? OAuth token" + response);
         OauthToken token = response.body();
         if (token != null) {
             mView.onGetTokenSuccess(BasicToken.generateFromOauthToken(token));

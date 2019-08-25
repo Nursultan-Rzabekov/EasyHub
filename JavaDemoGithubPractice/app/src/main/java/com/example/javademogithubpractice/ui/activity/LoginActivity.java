@@ -15,7 +15,7 @@ import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.mvp.contract.ILoginContract;
 import com.example.javademogithubpractice.mvp.model.BasicToken;
 import com.example.javademogithubpractice.mvp.presenter.LoginPresenter;
-import com.example.javademogithubpractice.ui.base.BaseActivity;
+import com.example.javademogithubpractice.ui.activity.base.BaseActivity;
 import com.example.javademogithubpractice.util.AppOpener;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.example.javademogithubpractice.util.ViewUtils;

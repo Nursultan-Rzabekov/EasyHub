@@ -8,12 +8,13 @@ import android.os.Bundle;
 
 import androidx.annotation.NonNull;
 
+import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.inject.component.DaggerActivityComponent;
 import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.mvp.contract.ISplashContract;
 import com.example.javademogithubpractice.mvp.presenter.SplashPresenter;
-import com.example.javademogithubpractice.ui.base.BaseActivity;
+import com.example.javademogithubpractice.ui.activity.base.BaseActivity;
 
 
 public class SplashActivity extends BaseActivity<SplashPresenter> implements ISplashContract.View {
@@ -48,7 +49,7 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
 
     @Override
     protected int getContentView() {
-        return 0;
+        return R.layout.activity_splash;
     }
 
     @Override

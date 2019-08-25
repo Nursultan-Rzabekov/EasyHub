@@ -42,17 +42,6 @@ public class FragmentPagerModel {
         return setPagerFragmentFlag(Arrays.asList(
                 new FragmentPagerModel(context.getString(R.string.info),
                         getFragment(fragments, 0, () -> RepoInfoFragment.create(repository)))
-//                new FragmentPagerModel(context.getString(R.string.files),
-//                        getFragment(fragments, 1, () -> RepoFilesFragment.create(repository))),
-//                new FragmentPagerModel(context.getString(R.string.commits),
-//                        getFragment(fragments, 2,
-//                                () -> CommitsFragment.createForRepo(repository.getOwner().getLogin(),
-//                                repository.getName(), repository.getDefaultBranch()))),
-//                new FragmentPagerModel(context.getString(R.string.activity),
-//                        getFragment(fragments, 3,
-//                                () -> ActivityFragment.create(ActivityFragment.ActivityType.Repository,
-//                                repository.getOwner().getLogin(), repository.getName())
-
         ));
     }
 

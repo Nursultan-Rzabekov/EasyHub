@@ -1,4 +1,4 @@
-package com.example.javademogithubpractice.ui.base;
+package com.example.javademogithubpractice.ui.activity.base;
 
 import android.os.Bundle;
 import android.os.Handler;
@@ -12,7 +12,6 @@ import androidx.drawerlayout.widget.DrawerLayout;
 
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.mvp.contract.IBaseContract;
-import com.example.javademogithubpractice.util.ViewUtils;
 import com.google.android.material.navigation.NavigationView;
 
 import butterknife.BindView;

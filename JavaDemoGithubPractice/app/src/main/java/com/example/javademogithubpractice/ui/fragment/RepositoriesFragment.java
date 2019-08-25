@@ -32,7 +32,7 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
         implements IRepositoriesContract.View, OnDrawerSelectedListener {
 
     public enum RepositoriesType{
-        OWNED, PUBLIC, STARRED, TRENDING, SEARCH, FORKS, TRACE, BOOKMARK, COLLECTION, TOPIC
+        OWNED, PUBLIC, STARRED, TRENDING, FORKS, TRACE, BOOKMARK, COLLECTION
     }
 
     public static RepositoriesFragment create(@NonNull RepositoriesType type,

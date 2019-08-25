@@ -24,8 +24,9 @@ import com.example.javademogithubpractice.mvp.contract.IMainContract;
 import com.example.javademogithubpractice.mvp.model.User;
 import com.example.javademogithubpractice.mvp.presenter.MainPresenter;
 import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
-import com.example.javademogithubpractice.ui.base.BaseDrawerActivity;
-import com.example.javademogithubpractice.ui.base.BottomNavigationBehavior;
+import com.example.javademogithubpractice.ui.activity.base.BaseDrawerActivity;
+import com.example.javademogithubpractice.ui.activity.base.BottomNavigationBehavior;
+import com.example.javademogithubpractice.ui.fragment.RepoInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
@@ -42,14 +43,12 @@ import butterknife.BindView;
 public class MainActivity extends BaseDrawerActivity<MainPresenter> implements IMainContract.View{
 
     @BindView(R.id.navigation) BottomNavigationView bottomNavigationView;
-
     private final Map<Integer, String> TAG_MAP = new HashMap<>();
-
     @AutoAccess
     int selectedPage;
 
     private final List<Integer> FRAGMENT_NAV_ID_LIST = Arrays.asList(
-            R.id.nav_share, R.id.nav_slideshow
+            R.id.nav_repository, R.id.nav_stars
     );
 
     private final List<String> FRAGMENT_TAG_LIST = Arrays.asList(
@@ -99,7 +98,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
 
         updateStartDrawerContent(R.menu.activity_main_drawer);
         if (mPresenter.isFirstUseAndNoNewsUser()) {
-            selectedPage = R.id.nav_slideshow;
+            selectedPage = R.id.nav_repository;
             updateFragmentByNavId(selectedPage);
         } else if(selectedPage != 0){
             updateFragmentByNavId(selectedPage);
@@ -114,7 +113,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                 selectedPage = startPageNavId;
                 updateFragmentByNavId(selectedPage);
             } else {
-                selectedPage = R.id.nav_slideshow;
+                selectedPage = R.id.nav_repository;
                 updateFragmentByNavId(selectedPage);
                 updateFragmentByNavId(startPageNavId);
             }
@@ -146,7 +145,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_sort, menu);
         MenuItem menuItem = menu.findItem(R.id.nav_sort);
-        menuItem.setVisible(selectedPage == R.id.nav_slideshow || selectedPage == R.id.nav_share);
+        menuItem.setVisible(selectedPage == R.id.nav_repository || selectedPage == R.id.nav_stars);
         return true;
     }
 
@@ -214,16 +213,16 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     private void handlerEndDrawerClick(MenuItem item) {
         Fragment fragment = getVisibleFragment();
         if (fragment != null && fragment instanceof RepositoriesFragment
-                && (selectedPage == R.id.nav_slideshow || selectedPage == R.id.nav_share)) {
+                && (selectedPage == R.id.nav_repository || selectedPage == R.id.nav_stars)) {
             ((RepositoriesFragment) fragment).onDrawerSelected(navViewEnd, item);
         }
     }
 
     private void updateFilter(int itemId) {
-        if (itemId == R.id.nav_slideshow) {
+        if (itemId == R.id.nav_repository) {
             updateEndDrawerContent(R.menu.menu_repositories_filter);
             RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.OWNED);
-        } else if (itemId == R.id.nav_share) {
+        } else if (itemId == R.id.nav_stars) {
             updateEndDrawerContent(R.menu.menu_repositories_filter);
             RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.STARRED);
         } else {
@@ -256,13 +255,12 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     @NonNull
     private Fragment getFragment(int itemId) {
         switch (itemId) {
-            case R.id.nav_slideshow:
+            case R.id.nav_repository:
                 return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.OWNED,
                         AppData.INSTANCE.getLoggedUser().getLogin());
-            case R.id.nav_share:
+            case R.id.nav_stars:
                 return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED,
                         AppData.INSTANCE.getLoggedUser().getLogin());
-
         }
         return null;
     }

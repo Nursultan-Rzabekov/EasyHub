@@ -95,8 +95,7 @@ public class RepositoriesFilter implements Parcelable {
         return filter;
     }
 
-    public static void initDrawer(NavigationView navView,
-                                  @NonNull RepositoriesFragment.RepositoriesType type){
+    public static void initDrawer(NavigationView navView, @NonNull RepositoriesFragment.RepositoriesType type){
         if(navView == null) return;
         if(RepositoriesFragment.RepositoriesType.OWNED.equals(type)){
             //do nothing
