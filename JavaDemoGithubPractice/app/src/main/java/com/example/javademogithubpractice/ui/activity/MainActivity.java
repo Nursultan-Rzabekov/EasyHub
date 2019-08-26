@@ -10,6 +10,7 @@ import android.widget.TextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
+import androidx.appcompat.widget.Toolbar;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
 import androidx.fragment.app.Fragment;
@@ -41,8 +42,9 @@ import java.util.Map;
 import butterknife.BindView;
 
 public class MainActivity extends BaseDrawerActivity<MainPresenter> implements IMainContract.View{
-
+    @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.navigation) BottomNavigationView bottomNavigationView;
+
     private final Map<Integer, String> TAG_MAP = new HashMap<>();
     @AutoAccess
     int selectedPage;
@@ -61,6 +63,11 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
             TAG_MAP.put(FRAGMENT_NAV_ID_LIST.get(i), FRAGMENT_TAG_LIST.get(i));
         }
     }
+
+
+    private final List<Integer> FRAGMENT_TITLE_LIST = Arrays.asList(
+            R.string.my_repos, R.string.starred_repos
+    );
 
 
     @Override
@@ -96,6 +103,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
 
+        setToolbarScrollAble(true);
         updateStartDrawerContent(R.menu.activity_main_drawer);
         if (mPresenter.isFirstUseAndNoNewsUser()) {
             selectedPage = R.id.nav_repository;
@@ -158,7 +166,9 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
             = item -> {
                 switch (item.getItemId()) {
                     case R.id.navigationMyProfile:
-                        return true;
+                        ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
+                                AppData.INSTANCE.getLoggedUser().getAvatarUrl());
+                        break;
                     case R.id.navigationMyCourses:
                         return true;
                     case R.id.navigationHome:
@@ -195,7 +205,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
 
     private void updateFragmentByNavId(int id){
         if(FRAGMENT_NAV_ID_LIST.contains(id)){
-            //updateTitle(id);
+            updateTitle(id);
             loadFragment(id);
             updateFilter(id);
             return;
@@ -207,6 +217,11 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
             default:
                 break;
         }
+    }
+
+    private void updateTitle(int itemId) {
+        int titleId = FRAGMENT_TITLE_LIST.get(FRAGMENT_NAV_ID_LIST.indexOf(itemId));
+        setToolbarTitle(getString(titleId));
     }
 
 

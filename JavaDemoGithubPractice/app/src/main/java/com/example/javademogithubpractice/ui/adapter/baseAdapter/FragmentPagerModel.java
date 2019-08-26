@@ -9,7 +9,10 @@ import androidx.fragment.app.Fragment;
 
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.mvp.model.Repository;
+import com.example.javademogithubpractice.mvp.model.User;
+import com.example.javademogithubpractice.ui.fragment.ProfileInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepoInfoFragment;
+import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.ui.fragment.baseFragment.BaseFragment;
 
 import java.util.ArrayList;
@@ -50,6 +53,24 @@ public class FragmentPagerModel {
             model.getFragment().setPagerFragment(true);
         }
         return list;
+    }
+
+
+    public static List<FragmentPagerModel> createProfilePagerList(Context context, final User user
+            , @NonNull ArrayList<Fragment> fragments) {
+
+        List<FragmentPagerModel> list = new ArrayList<>();
+        list.add(new FragmentPagerModel(context.getString(R.string.info),
+                getFragment(fragments, 0, () -> ProfileInfoFragment.create(user))));
+
+//        list.add(new FragmentPagerModel(context.getString(R.string.activity),
+//                getFragment(fragments, 1, () -> ActivityFragment.create(ActivityFragment.ActivityType.User, user.getLogin(), null))));
+
+        if (user.isUser()) {
+            list.add(new FragmentPagerModel(context.getString(R.string.starred),
+                    getFragment(fragments, 2, () -> RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED, user.getLogin()))));
+        }
+        return setPagerFragmentFlag(list);
     }
 
     private static BaseFragment getFragment(ArrayList<Fragment> fragments

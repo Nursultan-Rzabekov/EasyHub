@@ -64,7 +64,6 @@ public class MainPresenter extends BasePresenter<IMainContract.View> implements 
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::successDeleteUser,this::errorDeleteUser));
-
         AppData.INSTANCE.setAuthUser(null);
         AppData.INSTANCE.setLoggedUser(null);
         mView.restartApp();

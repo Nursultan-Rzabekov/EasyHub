@@ -39,5 +39,4 @@ public class DaoSessionImpl {
         return authUserDao.deleteAuthUser(authUser);
     }
 
-
 }

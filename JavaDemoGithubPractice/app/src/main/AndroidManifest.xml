@@ -54,6 +54,7 @@
 
 
         <activity android:name=".ui.activity.RepositoryActivity" android:label="@string/repository"/>
+        <activity android:name=".ui.activity.ProfileActivity" android:label="@string/profile"/>
 
     </application>
 

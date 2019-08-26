@@ -32,7 +32,7 @@ public class AppConfig {
 
     public final static String DEMOGITHUB_HOME = AUTH_HOME + "/EasyHub";
 
-    public final static String REDIRECT_URL = "https://github.com/Nursultan-Rzabekov/DemoJustHubProject/CallBack";
+    public final static String REDIRECT_URL = "demogithub://login";
 
     public final static String DEMOGITHUB_RELEASE_SIGN_MD5 = "C0:99:37:D9:6A:36:FB:B7:AB:4C:5E:3D:42:96:FA:AF";
 

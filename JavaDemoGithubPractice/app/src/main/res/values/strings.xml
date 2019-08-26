@@ -325,9 +325,10 @@
     <string name="previously_starred">Previously starred</string>
 
     <string name="trace">Trace</string>
-    <string name="my_repos">My repos</string>
-    <string name="starred_repos">Starred repos</string>
-    <string name="trending_repos">Trending repos</string>
+    <string name="my_repos">My repositories</string>
+    <string name="starred_repos">Starred repositories</string>
+    <string name="user_profile">User Profile</string>
+    <string name="trending_repos">Trending repositories</string>
 
     <string name="bookmarks">Bookmarks</string>
     <string name="bookmark">Bookmark</string>

@@ -22,11 +22,13 @@ import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.app.AppCompatActivity;
+import androidx.appcompat.widget.Toolbar;
 import androidx.fragment.app.Fragment;
 
 import com.bumptech.glide.Glide;
 import com.example.javademogithubpractice.AppApplication;
 import com.example.javademogithubpractice.AppData;
+import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.mvp.contract.IBaseContract;
 import com.example.javademogithubpractice.room.DaoSessionImpl;
@@ -34,6 +36,7 @@ import com.example.javademogithubpractice.ui.activity.LoginActivity;
 import com.example.javademogithubpractice.ui.activity.SplashActivity;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.WindowUtil;
+import com.google.android.material.appbar.AppBarLayout;
 import com.thirtydegreesray.dataautoaccess.DataAutoAccess;
 
 
@@ -41,6 +44,7 @@ import java.util.List;
 
 import javax.inject.Inject;
 
+import butterknife.BindView;
 import butterknife.ButterKnife;
 
 public abstract class BaseActivity<P extends IBaseContract.Presenter> extends AppCompatActivity implements IBaseContract.View{
@@ -49,6 +53,9 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     protected P mPresenter;
     private ProgressDialog mProgressDialog;
     private static BaseActivity curActivity;
+
+
+    @BindView(R.id.toolbar) @Nullable protected Toolbar toolbar;
 
     protected boolean isAlive = true;
 
@@ -74,6 +81,7 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         if(savedInstanceState != null && AppData.INSTANCE.getAuthUser() == null){
             DataAutoAccess.getData(AppData.INSTANCE, savedInstanceState);
         }
+
         getScreenSize();
 
         if(getContentView() != 0){
@@ -114,15 +122,15 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
 
     @CallSuper
     protected void initView(Bundle savedInstanceState){
-        //if(toolbar != null){
-            //setSupportActionBar(toolbar);
+        if(toolbar != null){
+            setSupportActionBar(toolbar);
 //            DoubleClickHandler.setDoubleClickListener(toolbar, new DoubleClickHandler.DoubleClickListener() {
 //                @Override
 //                public void onDoubleClick(View view) {
 //                    onToolbarDoubleClick();
 //                }
 //            });
-        //}
+        }
     }
 
     protected void onToolbarDoubleClick(){
@@ -170,9 +178,6 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         if (getSupportActionBar() != null) {
             getSupportActionBar().setTitle(title);
         }
-//        if(toolbarLayout != null){
-//            toolbarLayout.setTitle(title);
-//        }
     }
 
     protected void setToolbarTitle(String title, String subTitle) {
@@ -186,6 +191,16 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         if (getSupportActionBar() != null) {
             getSupportActionBar().setSubtitle(subTitle);
         }
+    }
+
+    protected void setToolbarScrollAble(boolean scrollAble) {
+        if(toolbar == null) return;
+        int flags = scrollAble ? (AppBarLayout.LayoutParams.SCROLL_FLAG_SCROLL
+                | AppBarLayout.LayoutParams.SCROLL_FLAG_ENTER_ALWAYS
+                | AppBarLayout.LayoutParams.SCROLL_FLAG_SNAP) : 0;
+        AppBarLayout.LayoutParams layoutParams = (AppBarLayout.LayoutParams) toolbar.getLayoutParams();
+        layoutParams.setScrollFlags(flags);
+        toolbar.setLayoutParams(layoutParams);
     }
 
     @Override
@@ -401,9 +416,6 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         startActivity(intent);
     }
 
-    public boolean isAlive() {
-        return isAlive;
-    }
 
     @Override
     public void onBackPressed() { super.onBackPressed();

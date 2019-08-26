@@ -58,7 +58,6 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
     }
 
     private void success(Response<OauthToken> response) {
-        System.out.println("!?!?!!?!?!?!?!?!?!?!!?!!? OAuth token" + response);
         OauthToken token = response.body();
         if (token != null) {
             mView.onGetTokenSuccess(BasicToken.generateFromOauthToken(token));
@@ -73,8 +72,9 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
         String randomState = UUID.randomUUID().toString();
         return AppConfig.OAUTH2_URL +
                 "?client_id=" + AppConfig.DEMOGITHUB_CLIENT_ID +
-                "&scope=" + AppConfig.OAUTH2_SCOPE +
-                "&state=" + randomState;
+//                "&scope=" + AppConfig.OAUTH2_SCOPE +
+                "&redirect_uri=" + AppConfig.REDIRECT_URL;
+//                "&state=" + randomState;
     }
 
 

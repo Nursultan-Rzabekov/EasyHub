@@ -15,6 +15,7 @@ import android.graphics.drawable.VectorDrawable;
 import android.view.MenuItem;
 import android.view.MotionEvent;
 import android.view.View;
+import android.widget.TextView;
 
 
 import androidx.annotation.ColorInt;
@@ -51,6 +52,15 @@ public class ViewUtils {
     @ColorInt
     public static int getPrimaryColor(@NonNull Context context) {
         return getColorAttr(context, R.attr.colorPrimary);
+    }
+
+    public static void setTextView(@NonNull TextView textView, String text) {
+        if (!StringUtils.isBlank(text)) {
+            textView.setText(text);
+            textView.setVisibility(View.VISIBLE);
+        } else {
+            textView.setVisibility(View.GONE);
+        }
     }
 
     @ColorInt

@@ -7,6 +7,7 @@ import com.example.javademogithubpractice.inject.ActivityScope;
 import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.ui.activity.LoginActivity;
 import com.example.javademogithubpractice.ui.activity.MainActivity;
+import com.example.javademogithubpractice.ui.activity.ProfileActivity;
 import com.example.javademogithubpractice.ui.activity.RepositoryActivity;
 import com.example.javademogithubpractice.ui.activity.SplashActivity;
 
@@ -20,4 +21,5 @@ public interface ActivityComponent {
     void inject(LoginActivity activity);
     void inject(MainActivity activity);
     void inject(RepositoryActivity activity);
+    void inject(ProfileActivity activity);
 }

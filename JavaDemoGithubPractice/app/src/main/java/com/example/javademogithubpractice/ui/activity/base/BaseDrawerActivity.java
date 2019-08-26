@@ -37,12 +37,7 @@ public abstract class BaseDrawerActivity<P extends IBaseContract.Presenter> exte
     private void initEndDrawerView() {
         if (navViewEnd == null) return;
         if (endDrawerEnable) {
-            navViewEnd.setNavigationItemSelectedListener(new NavigationView.OnNavigationItemSelectedListener() {
-                @Override
-                public boolean onNavigationItemSelected(@NonNull MenuItem item) {
-                    return BaseDrawerActivity.this.onNavigationItemSelected(item, false);
-                }
-            });
+            navViewEnd.setNavigationItemSelectedListener(item -> BaseDrawerActivity.this.onNavigationItemSelected(item, false));
         } else {
             drawerLayout.removeView(navViewEnd);
         }

@@ -95,7 +95,7 @@ public class GithubDialog extends Dialog {
 		mWebView.setHorizontalScrollBarEnabled(false);
 		mWebView.setWebViewClient(new OAuthWebViewClient());
 		mWebView.getSettings().setJavaScriptEnabled(true);
-		mWebView.loadUrl(mUrl);
+		mWebView.loadUrl("https://github.com/login/oauth/authorize?client_id=a11dc36f787d8cb01f97&redirect_uri=demogithub://login");
 		mWebView.setLayoutParams(FILL);
 		mContent.addView(mWebView);
 	}
