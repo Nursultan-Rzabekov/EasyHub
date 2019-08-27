@@ -41,15 +41,15 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
     }
 
     @Override
-    public void getToken(String code, String state) {
+    public void getToken(String code) {
         Observable<Response<OauthToken>> observable = getLoginService().getAccessToken(
                 AppConfig.DEMOGITHUB_CLIENT_ID,
-                AppConfig.DEMOGITHUB_CLIENT_SECRET, code, state);
+                AppConfig.DEMOGITHUB_CLIENT_SECRET, code);
 
-        addDisposable(observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
-        .subscribe(this::success,this::handleError));
-
-        mView.showProgressDialog(getLoadTip());
+        addDisposable(observable
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::success,this::handleError));
     }
 
     private void handleError(Throwable throwable) {
@@ -69,12 +69,11 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
     @NonNull
     @Override
     public String getOAuth2Url() {
-        String randomState = UUID.randomUUID().toString();
         return AppConfig.OAUTH2_URL +
                 "?client_id=" + AppConfig.DEMOGITHUB_CLIENT_ID +
-//                "&scope=" + AppConfig.OAUTH2_SCOPE +
-                "&redirect_uri=" + AppConfig.REDIRECT_URL;
-//                "&state=" + randomState;
+                "&redirect_uri=" + AppConfig.REDIRECT_URL +
+                "&scope=" + AppConfig.OAUTH2_SCOPE +
+                "&allow_signup=false";
     }
 
 
@@ -108,8 +107,7 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
         Uri uri = intent.getData();
         if (uri != null) {
             String code = uri.getQueryParameter("code");
-            String state = uri.getQueryParameter("state");
-            getToken(code, state);
+            getToken(code);
         }
     }
 

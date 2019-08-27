@@ -16,7 +16,7 @@ public interface ILoginContract {
     }
 
     interface Presenter extends IBaseContract.Presenter<ILoginContract.View>{
-        void getToken(String code, String state);
+        void getToken(String code);
         String getOAuth2Url();
         void basicLogin(String userName, String password);
         void handleOauth(Intent intent);

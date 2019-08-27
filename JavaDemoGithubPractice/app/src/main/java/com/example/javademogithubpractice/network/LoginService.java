@@ -31,8 +31,7 @@ public interface LoginService {
     Observable<Response<OauthToken>> getAccessToken(
             @Query("client_id") String clientId,
             @Query("client_secret") String clientSecret,
-            @Query("code") String code,
-            @Query("state") String state
+            @Query("code") String code
     );
 
 }

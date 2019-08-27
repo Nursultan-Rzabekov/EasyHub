@@ -2,11 +2,15 @@
 
 package com.example.javademogithubpractice.ui.activity;
 import android.content.Intent;
+import android.graphics.Bitmap;
+import android.net.Uri;
 import android.os.Bundle;
 import android.os.Handler;
 import android.view.KeyEvent;
 import android.view.inputmethod.EditorInfo;
 import android.widget.Toast;
+
+import androidx.browser.customtabs.CustomTabsIntent;
 
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.inject.component.AppComponent;
@@ -16,7 +20,6 @@ import com.example.javademogithubpractice.mvp.contract.ILoginContract;
 import com.example.javademogithubpractice.mvp.model.BasicToken;
 import com.example.javademogithubpractice.mvp.presenter.LoginPresenter;
 import com.example.javademogithubpractice.ui.activity.base.BaseActivity;
-import com.example.javademogithubpractice.util.AppOpener;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.example.javademogithubpractice.util.ViewUtils;
 import com.google.android.material.textfield.TextInputEditText;
@@ -46,12 +49,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     private String userName;
     private String password;
 
-    @Override
-    protected void onNewIntent(Intent intent) {
-        super.onNewIntent(intent);
-        mPresenter.handleOauth(intent);
-        setIntent(null);
-    }
 
     @Override
     public void onGetTokenSuccess(BasicToken basicToken) {
@@ -96,11 +93,8 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
 
-        loginBn.setOnResultEndListener(new SubmitButton.OnResultEndListener() {
-            @Override
-            public void onResultEnd() {
+        loginBn.setOnResultEndListener(() -> {
 
-            }
         });
 
 
@@ -118,7 +112,21 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
     @OnClick(R.id.oauth_login_bn)
     public void onOauthLoginClick(){
-        AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getOAuth2Url());
+        Bitmap backIconBitmap = ViewUtils.getBitmapFromResource(getActivity(), R.drawable.ic_arrow_back_title);
+        CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
+                .setToolbarColor(ViewUtils.getPrimaryColor(getActivity()))
+                .setCloseButtonIcon(backIconBitmap)
+                .setShowTitle(true)
+                .build();
+        customTabsIntent.launchUrl(getActivity(), Uri.parse(mPresenter.getOAuth2Url()));
+    }
+
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        mPresenter.handleOauth(intent);
+        setIntent(null);
     }
 
     @OnClick(R.id.login_bn)

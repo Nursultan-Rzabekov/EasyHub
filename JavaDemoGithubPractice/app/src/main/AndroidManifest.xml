@@ -35,14 +35,15 @@
         <activity
             android:name=".ui.activity.LoginActivity"
             android:label="@string/app_github_name"
+            android:launchMode="singleTask"
             android:screenOrientation="portrait">
             <intent-filter>
                 <action android:name="android.intent.action.VIEW"/>
                 <category android:name="android.intent.category.DEFAULT"/>
                 <category android:name="android.intent.category.BROWSABLE"/>
                 <data
-                    android:host="login"
-                    android:scheme="demogithub"/>
+                    android:host="redirecturi"
+                    android:scheme="easyhub"/>
             </intent-filter>
         </activity>
 

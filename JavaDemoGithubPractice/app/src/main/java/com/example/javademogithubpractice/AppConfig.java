@@ -19,22 +19,17 @@ public class AppConfig {
     public final static String DB_NAME = "EasyHub.db";
 
 
-    public final static String DEMOGITHUB_CLIENT_ID = "a11dc36f787d8cb01f97";
+    public final static String DEMOGITHUB_CLIENT_ID = "5395cda474cd53926595";
 
-    public final static String DEMOGITHUB_CLIENT_SECRET = "4f9a62c9fd413382ff677f3b23feab49e31af579";
+    public final static String DEMOGITHUB_CLIENT_SECRET = "cf16b36f512c250a3c9f48ecdc8e814e7732380c";
 
     public final static String OAUTH2_SCOPE = "user,repo,gist,notifications";
 
 
     public final static String OAUTH2_URL = GITHUB_BASE_URL + "login/oauth/authorize";
 
-    public final static String AUTH_HOME = GITHUB_BASE_URL + "Nursultan-Rzabekov";
+    public final static String REDIRECT_URL = "easyhub://redirecturi";
 
-    public final static String DEMOGITHUB_HOME = AUTH_HOME + "/EasyHub";
-
-    public final static String REDIRECT_URL = "demogithub://login";
-
-    public final static String DEMOGITHUB_RELEASE_SIGN_MD5 = "C0:99:37:D9:6A:36:FB:B7:AB:4C:5E:3D:42:96:FA:AF";
 
 
 }
