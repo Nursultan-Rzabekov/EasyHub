@@ -54,6 +54,11 @@ public class ViewUtils {
         return getColorAttr(context, R.attr.colorPrimary);
     }
 
+    @ColorInt
+    public static int getWindowBackground(@NonNull Context context) {
+        return getColorAttr(context, android.R.attr.windowBackground);
+    }
+
     public static void setTextView(@NonNull TextView textView, String text) {
         if (!StringUtils.isBlank(text)) {
             textView.setText(text);

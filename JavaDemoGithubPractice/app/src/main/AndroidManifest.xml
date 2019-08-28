@@ -56,6 +56,7 @@
 
         <activity android:name=".ui.activity.RepositoryActivity" android:label="@string/repository"/>
         <activity android:name=".ui.activity.ProfileActivity" android:label="@string/profile"/>
+        <activity android:name=".ui.activity.SearchActivity" android:label="@string/search"/>
 
     </application>
 

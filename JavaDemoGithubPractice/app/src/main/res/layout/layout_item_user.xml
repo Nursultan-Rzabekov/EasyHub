@@ -8,8 +8,7 @@
     android:layout_marginRight="@dimen/card_view_horizontal_margin"
     android:layout_marginTop="@dimen/card_view_vertical_margin"
     android:layout_marginBottom="@dimen/card_view_vertical_margin"
-    android:background="@color/design_default_color_primary_dark"
-    android:foreground="@color/colorPrimary"
+    android:background="@color/colorPrimaryDark"
     app:cardBackgroundColor="@color/gradientLightYellow"
     app:cardCornerRadius="@dimen/card_view_corner_radius">
     <LinearLayout
@@ -28,6 +27,6 @@
             android:layout_height="wrap_content"
             android:layout_marginStart="@dimen/spacing_large"
             android:textSize="@dimen/text_normal"
-            android:textColor="@color/colorAccent"/>
+            android:textColor="@color/white"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

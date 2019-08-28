@@ -12,7 +12,6 @@ import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
-
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.inject.component.DaggerFragmentComponent;
@@ -32,7 +31,6 @@ import java.util.ArrayList;
 
 import javax.inject.Inject;
 import butterknife.BindView;
-import butterknife.OnClick;
 
 
 public class ProfileInfoFragment extends BaseFragment<ProfileInfoPresenter>
@@ -84,7 +82,7 @@ public class ProfileInfoFragment extends BaseFragment<ProfileInfoPresenter>
     protected void initFragment(Bundle savedInstanceState) {
 //        ViewUtils.setLongClickCopy(email);
 //        ViewUtils.setLongClickCopy(link);
-        orgsLay.setVisibility(View.GONE);
+        //orgsLay.setVisibility(View.GONE);
     }
 
 //    @OnClick({R.id.followers_lay, R.id.following_lay, R.id.repos_lay, R.id.gists_lay,

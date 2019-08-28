@@ -16,6 +16,7 @@ import com.example.javademogithubpractice.inject.component.DaggerFragmentCompone
 import com.example.javademogithubpractice.inject.module.FragmentModule;
 import com.example.javademogithubpractice.mvp.contract.IRepositoriesContract;
 import com.example.javademogithubpractice.mvp.model.Repository;
+import com.example.javademogithubpractice.mvp.model.SearchModel;
 import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
 import com.example.javademogithubpractice.mvp.presenter.RepositoriesPresenter;
 import com.example.javademogithubpractice.ui.activity.RepositoryActivity;
@@ -32,7 +33,7 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
         implements IRepositoriesContract.View, OnDrawerSelectedListener {
 
     public enum RepositoriesType{
-        OWNED, PUBLIC, STARRED, TRENDING, FORKS, TRACE, BOOKMARK, COLLECTION
+        OWNED, PUBLIC, STARRED, TRENDING, FORKS, TRACE, BOOKMARK, COLLECTION,SEARCH
     }
 
     public static RepositoriesFragment create(@NonNull RepositoriesType type,
@@ -42,6 +43,16 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
         return fragment;
     }
 
+    public static RepositoriesFragment createForSearch(@NonNull SearchModel searchModel){
+        RepositoriesFragment fragment = new RepositoriesFragment();
+        fragment.setArguments(
+                BundleHelper.builder()
+                        .put("type", RepositoriesType.SEARCH)
+                        .put("searchModel", searchModel)
+                        .build()
+        );
+        return fragment;
+    }
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

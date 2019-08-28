@@ -121,7 +121,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
         customTabsIntent.launchUrl(getActivity(), Uri.parse(mPresenter.getOAuth2Url()));
     }
 
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

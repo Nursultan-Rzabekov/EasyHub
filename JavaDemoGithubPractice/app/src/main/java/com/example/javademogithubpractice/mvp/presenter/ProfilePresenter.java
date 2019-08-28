@@ -28,10 +28,7 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View> imple
 
     private boolean isTransitionComplete = false;
     private boolean isWaitForTransition = false;
-    @AutoAccess boolean isTraceSaved = false;
 
-    private boolean isBookmarkQueried = false;
-    private boolean bookmarked = false;
 
     private static CompositeDisposable compositeDisposable = new CompositeDisposable();
 
@@ -60,7 +57,6 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View> imple
             if(isWaitForTransition) mView.showProfileInfo(user);
             isWaitForTransition = false;
             getProfileInfo();
-            //checkFollowingStatus();
         }, 500);
     }
 

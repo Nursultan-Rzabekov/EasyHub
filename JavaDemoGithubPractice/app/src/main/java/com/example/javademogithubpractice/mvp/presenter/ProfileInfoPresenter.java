@@ -6,11 +6,8 @@ import com.example.javademogithubpractice.mvp.contract.IProfileInfoContract;
 import com.example.javademogithubpractice.mvp.model.User;
 import com.example.javademogithubpractice.room.DaoSessionImpl;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
-
 import java.util.ArrayList;
-
 import javax.inject.Inject;
-
 import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
@@ -37,6 +34,8 @@ public class ProfileInfoPresenter extends BasePagerPresenter<IProfileInfoContrac
     @Override
     public void detachView() {
         mView = null;
+        compositeDisposable.clear();
+        compositeDisposable.dispose();
     }
 
     @Override
@@ -63,15 +62,15 @@ public class ProfileInfoPresenter extends BasePagerPresenter<IProfileInfoContrac
         addDisposable(getUserService().getUserOrgs(true, user.getLogin())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
-                .subscribe(this::successInfoUser,this::errorInfoUser));
-
+                .subscribe(this::successInfoUserOrg,this::errorInfoUserOrg));
     }
 
-    private void errorInfoUser(Throwable throwable) {
+    private void errorInfoUserOrg(Throwable throwable) {
         mView.showErrorToast(getErrorTip(throwable));
     }
 
-    private void successInfoUser(Response<ArrayList<User>> response) {
+    private void successInfoUserOrg(Response<ArrayList<User>> response) {
+        System.out.println("####()()()(())" + response.body().toString());
         if(response.body().size() != 0){
             orgs = response.body();
             mView.showUserOrgs(orgs);

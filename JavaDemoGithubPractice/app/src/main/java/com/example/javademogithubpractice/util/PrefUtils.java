@@ -14,29 +14,8 @@ import java.util.Set;
 
 public class PrefUtils {
 
-    public final static String LIGHT_INDIGO = "Light indigo";
-    public final static String DARK = "Dark";
     public final static String LIGHT_TEAL = "Light teal";
 
-    public final static int LIGHT_BLUE = 0;
-    public final static int BLUE = 1;
-    public final static int INDIGO = 2;
-    public final static int ORANGE = 3;
-
-    public final static int YELLOW = 4;
-    public final static int AMBER = 5;
-    public final static int GREY = 6;
-    public final static int BROWN = 7;
-
-    public final static int CYAN = 8;
-    public final static int TEAL = 9;
-    public final static int LIME = 10;
-    public final static int GREEN = 11;
-
-    public final static int PINK = 12;
-    public final static int RED = 13;
-    public final static int PURPLE = 14;
-    public final static int DEEP_PURPLE = 15;
 
     public final static String FIRST_USE = "firstUse";
 
@@ -99,9 +78,7 @@ public class PrefUtils {
         edit.apply();
     }
 
-    public static void clearKey(@NonNull String key) {
-        getDefaultSp(AppApplication.get()).edit().remove(key).apply();
-    }
+
 
     public static String getTheme(){
         return getDefaultSp(AppApplication.get()).getString(THEME, LIGHT_TEAL);
@@ -115,61 +92,11 @@ public class PrefUtils {
         return getDefaultSp(AppApplication.get()).getString(START_PAGE, "news");
     }
 
-    public static int getAccentColor(){
-        return getDefaultSp(AppApplication.get()).getInt(ACCENT_COLOR, 11);
-    }
-
-    public static boolean isCacheFirstEnable(){
-        return getDefaultSp(AppApplication.get()).getBoolean(CACHE_FIRST_ENABLE, true);
-    }
-
-    public static boolean isCodeWrap(){
-        return getDefaultSp(AppApplication.get()).getBoolean(CODE_WRAP, false);
-    }
 
     public static boolean isDoubleClickTitleTipAble(){
         return getDefaultSp(AppApplication.get()).getBoolean(DOUBLE_CLICK_TITLE_TIP_ABLE, true);
     }
 
-    public static boolean isActivityLongClickTipAble(){
-        return getDefaultSp(AppApplication.get()).getBoolean(ACTIVITY_LONG_CLICK_TIP_ABLE, true);
-    }
-
-    public static boolean isReleasesLongClickTipAble(){
-        return getDefaultSp(AppApplication.get()).getBoolean(RELEASES_LONG_CLICK_TIP_ABLE, true);
-    }
-
-    public static boolean isLanguagesEditorTipAble(){
-        return getDefaultSp(AppApplication.get()).getBoolean(LANGUAGES_EDITOR_TIP_ABLE, true);
-    }
-
-    public static int getPopTimes(){
-        return getDefaultSp(AppApplication.get()).getInt(POP_TIMES, 0);
-    }
-
-    public static long getPopVersionTime(){
-        return getDefaultSp(AppApplication.get()).getLong(POP_VERSION_TIME, 1);
-    }
-
-    public static long getLastPopTime(){
-        return getDefaultSp(AppApplication.get()).getLong(LAST_POP_TIME, 0);
-    }
-
-    public static int getStarWishesTipTimes(){
-        return getDefaultSp(AppApplication.get()).getInt(STAR_WISHES_TIP_TIMES, 0);
-    }
-
-    public static long getLastStarWishesTipTime(){
-        return getDefaultSp(AppApplication.get()).getLong(LAST_STAR_WISHES_TIP_TIME, 0);
-    }
-
-    public static boolean isSystemDownloader(){
-        return getDefaultSp(AppApplication.get()).getBoolean(SYSTEM_DOWNLOADER, true);
-    }
-
-    public static boolean isCustomTabsEnable(){
-        return getDefaultSp(AppApplication.get()).getBoolean(CUSTOM_TABS_ENABLE, true);
-    }
 
     public static String getSearchRecords(){
         return getDefaultSp(AppApplication.get()).getString(SEARCH_RECORDS, null);
@@ -179,21 +106,6 @@ public class PrefUtils {
         return getDefaultSp(AppApplication.get()).getBoolean(FIRST_USE, true);
     }
 
-    public static boolean isCollectionsTipAble(){
-        return getDefaultSp(AppApplication.get()).getBoolean(COLLECTIONS_TIP_ABLE, true);
-    }
-
-    public static boolean isBookmarksTipAble(){
-        return getDefaultSp(AppApplication.get()).getBoolean(BOOKMARKS_TIP_ABLE, true);
-    }
-
-    public static boolean isCustomTabsTipsEnable(){
-        return getDefaultSp(AppApplication.get()).getBoolean(CUSTOM_TABS_TIPS_ENABLE, true);
-    }
-
-    public static boolean isTopicsTipEnable(){
-        return getDefaultSp(AppApplication.get()).getBoolean(TOPICS_TIP_ABLE, true);
-    }
 
     public static boolean isDisableLoadingImage(){
         return getDefaultSp(AppApplication.get()).getBoolean(DISABLE_LOADING_IMAGE, false);
@@ -203,16 +115,8 @@ public class PrefUtils {
         return NetHelper.INSTANCE.getNetStatus() == NetHelper.TYPE_WIFI || !PrefUtils.isDisableLoadingImage();
     }
 
-    public static boolean isnewYearWishesTipEnable(){
-        return getDefaultSp(AppApplication.get()).getBoolean(NEW_YEAR_WISHES_TIP_ENABLE, true);
-    }
-
     public static SharedPreferences getDefaultSp(Context context){
         return PreferenceManager.getDefaultSharedPreferences(context);
-    }
-
-    public static SharedPreferences getSP(Context context, String spName){
-        return context.getSharedPreferences(spName, Context.MODE_PRIVATE);
     }
 
 }

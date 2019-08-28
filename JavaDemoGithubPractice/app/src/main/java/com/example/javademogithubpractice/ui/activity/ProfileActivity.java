@@ -5,15 +5,22 @@ package com.example.javademogithubpractice.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
+import android.widget.Toolbar;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityOptionsCompat;
+import androidx.core.view.GravityCompat;
+import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
+import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.common.GlideApp;
 import com.example.javademogithubpractice.inject.component.AppComponent;
@@ -22,6 +29,8 @@ import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.mvp.contract.IProfileContract;
 import com.example.javademogithubpractice.mvp.model.User;
 import com.example.javademogithubpractice.mvp.presenter.ProfilePresenter;
+import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
+import com.example.javademogithubpractice.ui.activity.base.BottomNavigationBehavior;
 import com.example.javademogithubpractice.ui.activity.base.PagerActivity;
 import com.example.javademogithubpractice.ui.adapter.baseAdapter.FragmentPagerModel;
 import com.example.javademogithubpractice.ui.fragment.ProfileInfoFragment;
@@ -29,11 +38,20 @@ import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.util.BundleHelper;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
+
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
 
 public class ProfileActivity extends PagerActivity<ProfilePresenter> implements IProfileContract.View {
+
+    @BindView(R.id.navigation) BottomNavigationView bottomNavigationView;
 
     public static void show(@NonNull Activity activity, @NonNull String loginId) {
         show(activity, loginId, null);
@@ -89,10 +107,17 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
         super.onCreate(savedInstanceState);
     }
 
+    @Override
+    protected void initActivity() {
+        super.initActivity();
+        setStartDrawerEnable(true);
+        setEndDrawerEnable(true);
+    }
+
     @Nullable
     @Override
     protected int getContentView() {
-        return R.layout.activity_profile;
+        return R.layout.activity_profile_main;
     }
 
     @Override
@@ -100,8 +125,13 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
         super.initView(savedInstanceState);
         setTransparentStatusBar();
         setToolbarBackEnable();
-        setToolbarTitle("User Profile");
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
         setUserAvatar();
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavigationBehavior());
+        bottomNavigationView.setSelectedItemId(R.id.navigationHome);
     }
 
     @Override
@@ -119,6 +149,26 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
             notifyUserInfoUpdated(user);
         }
     }
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = item -> {
+        switch (item.getItemId()) {
+            case R.id.navigationMyProfile:
+                ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
+                        AppData.INSTANCE.getLoggedUser().getAvatarUrl());
+                break;
+            case R.id.navigationMyCourses:
+                return true;
+            case R.id.navigationHome:
+                return true;
+            case  R.id.navigationSearch:
+                return true;
+            case  R.id.navigationMenu:
+                drawerLayout.openDrawer(GravityCompat.START);
+                return true;
+        }
+        return false;
+    };
 
 
     private void notifyUserInfoUpdated(User user){

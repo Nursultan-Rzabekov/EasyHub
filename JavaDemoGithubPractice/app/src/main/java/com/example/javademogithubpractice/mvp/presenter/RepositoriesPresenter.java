@@ -1,6 +1,7 @@
 package com.example.javademogithubpractice.mvp.presenter;
 import com.example.javademogithubpractice.mvp.contract.IRepositoriesContract;
 import com.example.javademogithubpractice.mvp.model.Repository;
+import com.example.javademogithubpractice.mvp.model.SearchModel;
 import com.example.javademogithubpractice.network.error.HttpPageNoFoundError;
 import com.example.javademogithubpractice.room.DaoSessionImpl;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
@@ -29,6 +30,7 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
     @AutoAccess String user;
     @AutoAccess String repo;
     @AutoAccess RepositoriesFilter filter;
+    @AutoAccess SearchModel searchModel;
 
     @Inject
     public RepositoriesPresenter(DaoSessionImpl daoSession) {
@@ -49,7 +51,38 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
 
     @Override
     protected void loadData() {
+        if (RepositoriesFragment.RepositoriesType.SEARCH.equals(type)) {
+            if (searchModel != null) searchRepos(1);
+            return;
+        }
         loadRepositories(false, 1);
+    }
+
+    private void searchRepos(final int page) {
+        mView.showLoading();
+
+        addDisposable(getSearchService().searchRepos(searchModel.getQuery(),"asc", page)
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(response ->{
+                    mView.hideLoading();
+                    if (repos == null || page == 1) {
+                        repos = response.body().getItems();
+                    } else {
+                        repos.addAll(response.body().getItems());
+                    }
+                    if (response.body().getItems().size() == 0 && repos.size() != 0) {
+                        mView.setCanLoadMore(false);
+                    } else {
+                        mView.showRepositories(repos);
+                    }
+                },this::errorLoadSearch));
+
+    }
+
+    private void errorLoadSearch(Throwable throwable) {
+        mView.hideLoading();
+        handleError(throwable);
     }
 
     @Override
@@ -68,7 +101,6 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
                         for (int i = 0; i < repos.size(); i++) {
                         }
                     } else {
-
                         repos.addAll(response.body());
                     }
                     if (response.body().size() == 0 && repos.size() != 0) {
@@ -113,7 +145,7 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
         if (!StringUtils.isBlankList(repos)) {
             mView.showErrorToast(getErrorTip(error));
         } else if (error instanceof HttpPageNoFoundError) {
-            mView.showRepositories(new ArrayList<Repository>());
+            mView.showRepositories(new ArrayList<>());
         } else {
             mView.showLoadError(getErrorTip(error));
         }

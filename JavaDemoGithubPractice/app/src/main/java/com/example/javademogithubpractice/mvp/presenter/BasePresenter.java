@@ -15,6 +15,7 @@ import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.network.LoginService;
 import com.example.javademogithubpractice.network.RepoService;
+import com.example.javademogithubpractice.network.SearchService;
 import com.example.javademogithubpractice.network.UserService;
 import com.example.javademogithubpractice.network.core.AppRetrofit;
 import com.example.javademogithubpractice.network.error.HttpError;
@@ -101,6 +102,10 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
 
     protected UserService getUserService() {
         return getUserService(AppData.INSTANCE.getAccessToken());
+    }
+
+    protected SearchService getSearchService() {
+        return getServices(SearchService.class);
     }
 
     protected RepoService getRepoService() {

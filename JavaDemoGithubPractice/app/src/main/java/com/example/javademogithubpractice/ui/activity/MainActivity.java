@@ -27,7 +27,6 @@ import com.example.javademogithubpractice.mvp.presenter.MainPresenter;
 import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
 import com.example.javademogithubpractice.ui.activity.base.BaseDrawerActivity;
 import com.example.javademogithubpractice.ui.activity.base.BottomNavigationBehavior;
-import com.example.javademogithubpractice.ui.fragment.RepoInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
@@ -174,6 +173,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                     case R.id.navigationHome:
                         return true;
                     case  R.id.navigationSearch:
+                        SearchActivity.show(getActivity());
                         return true;
                     case  R.id.navigationMenu:
                         drawerLayout.openDrawer(GravityCompat.START);

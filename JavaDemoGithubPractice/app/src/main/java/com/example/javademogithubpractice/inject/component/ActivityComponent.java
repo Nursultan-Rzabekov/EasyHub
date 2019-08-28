@@ -10,6 +10,7 @@ import com.example.javademogithubpractice.ui.activity.MainActivity;
 import com.example.javademogithubpractice.ui.activity.ProfileActivity;
 import com.example.javademogithubpractice.ui.activity.RepositoryActivity;
 import com.example.javademogithubpractice.ui.activity.SplashActivity;
+import com.example.javademogithubpractice.ui.activity.SearchActivity;
 
 import dagger.Component;
 
@@ -22,4 +23,5 @@ public interface ActivityComponent {
     void inject(MainActivity activity);
     void inject(RepositoryActivity activity);
     void inject(ProfileActivity activity);
+    void inject(SearchActivity activity);
 }

@@ -38,6 +38,7 @@ public abstract class PagerActivity<P extends BasePresenter> extends BaseDrawerA
     @Override
     protected void initActivity() {
         super.initActivity();
+
     }
 
     @Override
@@ -121,18 +122,14 @@ public abstract class PagerActivity<P extends BasePresenter> extends BaseDrawerA
     protected void showFirstPager(){
         prePosition = 0;
         postNotifyFragmentStatus(0, true, 100);
-
     }
 
     private void postNotifyFragmentStatus(final int position, final boolean isShow, long delay){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                if(isShow){
-                    pagerAdapter.getPagerList().get(position).getFragment().onFragmentShowed();
-                }else{
-                    pagerAdapter.getPagerList().get(position).getFragment().onFragmentHided();
-                }
+        new Handler().postDelayed(() -> {
+            if(isShow){
+                pagerAdapter.getPagerList().get(position).getFragment().onFragmentShowed();
+            }else{
+                pagerAdapter.getPagerList().get(position).getFragment().onFragmentHided();
             }
         }, delay);
     }
@@ -140,8 +137,6 @@ public abstract class PagerActivity<P extends BasePresenter> extends BaseDrawerA
     @Override
     public void onAttachFragment(Fragment fragment) {
         super.onAttachFragment(fragment);
-        //int fragmentPosition = getFragmentPosition(fragment);
-        //if(fragmentPosition != -1) getFragments().set(fragmentPosition, fragment);
         Logger.d("onAttachFragment" + fragment);
     }
 

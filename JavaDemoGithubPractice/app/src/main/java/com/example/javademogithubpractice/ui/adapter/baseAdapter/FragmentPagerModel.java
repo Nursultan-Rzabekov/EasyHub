@@ -9,6 +9,7 @@ import androidx.fragment.app.Fragment;
 
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.mvp.model.Repository;
+import com.example.javademogithubpractice.mvp.model.SearchModel;
 import com.example.javademogithubpractice.mvp.model.User;
 import com.example.javademogithubpractice.ui.fragment.ProfileInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepoInfoFragment;
@@ -71,6 +72,17 @@ public class FragmentPagerModel {
                     getFragment(fragments, 2, () -> RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED, user.getLogin()))));
         }
         return setPagerFragmentFlag(list);
+    }
+
+
+    public static List<FragmentPagerModel> createSearchPagerList(@NonNull Context context
+            , @NonNull final ArrayList<SearchModel> searchModels, @NonNull ArrayList<Fragment> fragments) {
+        return setPagerFragmentFlag(Arrays.asList(
+                new FragmentPagerModel(context.getString(R.string.repositories),
+                        getFragment(fragments, 0, () -> RepositoriesFragment.createForSearch(searchModels.get(0))))
+//                new FragmentPagerModel(context.getString(R.string.users),
+//                        getFragment(fragments, 1, () -> UserListFragment.createForSearch(searchModels.get(1))))
+        ));
     }
 
     private static BaseFragment getFragment(ArrayList<Fragment> fragments
