@@ -179,9 +179,4 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
     protected String getString(@StringRes int resId) {
         return getContext().getResources().getString(resId);
     }
-
-
-    protected interface CheckStatusCallback {
-        void onChecked(boolean status);
-    }
 }

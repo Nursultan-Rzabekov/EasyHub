@@ -7,6 +7,8 @@ import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.app.AlertDialog;
@@ -110,21 +112,8 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         } else if(selectedPage != 0){
             updateFragmentByNavId(selectedPage);
         } else {
-            String startPageId = PrefUtils.getStartPage();
-            int startPageIndex = Arrays.asList(getResources().getStringArray(R.array.start_pages_id))
-                    .indexOf(startPageId);
-            TypedArray typedArray = getResources().obtainTypedArray(R.array.start_pages_nav_id);
-            int startPageNavId = typedArray.getResourceId(startPageIndex, 0);
-            typedArray.recycle();
-            if(FRAGMENT_NAV_ID_LIST.contains(startPageNavId)){
-                selectedPage = startPageNavId;
-                updateFragmentByNavId(selectedPage);
-            } else {
-                selectedPage = R.id.nav_repository;
-                updateFragmentByNavId(selectedPage);
-                updateFragmentByNavId(startPageNavId);
-            }
         }
+
         navViewStart.setCheckedItem(selectedPage);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
@@ -141,6 +130,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                 .load(loginUser.getAvatarUrl())
                 .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
                 .into(avatar);
+
         name.setText(StringUtils.isBlank(loginUser.getName()) ? loginUser.getLogin() : loginUser.getName());
         String joinTime = getString(R.string.joined_at).concat(" ").concat(StringUtils.getDateStr(loginUser.getCreatedAt()));
         mail.setText(StringUtils.isBlank(loginUser.getBio()) ? joinTime : loginUser.getBio());
@@ -163,23 +153,28 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
+                Fragment selectedFragment = null;
                 switch (item.getItemId()) {
                     case R.id.navigationMyProfile:
                         ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
                                 AppData.INSTANCE.getLoggedUser().getAvatarUrl());
-                        break;
+                        return true;
                     case R.id.navigationMyCourses:
-                        return true;
+                        break;
                     case R.id.navigationHome:
-                        return true;
-                    case  R.id.navigationSearch:
+                        selectedFragment = RepositoriesFragment.create(
+                                RepositoriesFragment.RepositoriesType.OWNED,
+                                AppData.INSTANCE.getLoggedUser().getLogin());
+                        break;
+                    case R.id.navigationSearch:
                         SearchActivity.show(getActivity());
                         return true;
-                    case  R.id.navigationMenu:
+                    case R.id.navigationMenu:
                         drawerLayout.openDrawer(GravityCompat.START);
                         return true;
                 }
-                return false;
+                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_content, selectedFragment).commit();
+                return true;
             };
 
 
@@ -247,8 +242,8 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     }
 
     private void loadFragment(int itemId) {
-        //selectedPage = itemId;
         String fragmentTag = TAG_MAP.get(itemId);
+
         Fragment showFragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
         boolean isExist = true;
         if (showFragment == null) {

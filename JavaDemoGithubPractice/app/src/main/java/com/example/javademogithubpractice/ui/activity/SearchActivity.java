@@ -142,7 +142,6 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         isInputMode = false;
         invalidateOptionsMenu();
         search(query);
-        setSubTitle(viewPager.getCurrentItem());
         mPresenter.addSearchRecord(query);
         return true;
     }
@@ -170,14 +169,9 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         AppEventBus.INSTANCE.getEventBus().post(new Event.SearchEvent(searchModel));
     }
 
-    private void setSubTitle(int page) {
-        setToolbarSubTitle(mPresenter.getSearchModels().get(0).getQuery() + "/" + sortInfos[page]);
-    }
-
     @Override
     public void onPageSelected(int position) {
         super.onPageSelected(position);
-        setSubTitle(position);
     }
 
     @Override
@@ -188,7 +182,6 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
     @Override
     public void showSearches(ArrayList<SearchModel> searchModels) {
         search(searchModels.get(0).getQuery());
-        setSubTitle(0);
     }
 
     @Override

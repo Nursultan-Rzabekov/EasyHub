@@ -61,8 +61,7 @@ public class FragmentPagerModel {
             , @NonNull ArrayList<Fragment> fragments) {
 
         List<FragmentPagerModel> list = new ArrayList<>();
-        list.add(new FragmentPagerModel(context.getString(R.string.info),
-                getFragment(fragments, 0, () -> ProfileInfoFragment.create(user))));
+        list.add(new FragmentPagerModel(context.getString(R.string.info), getFragment(fragments, 0, () -> ProfileInfoFragment.create(user))));
 
 //        list.add(new FragmentPagerModel(context.getString(R.string.activity),
 //                getFragment(fragments, 1, () -> ActivityFragment.create(ActivityFragment.ActivityType.User, user.getLogin(), null))));
@@ -85,8 +84,7 @@ public class FragmentPagerModel {
         ));
     }
 
-    private static BaseFragment getFragment(ArrayList<Fragment> fragments
-            , int position, FragmentCreator fragmentCreator){
+    private static BaseFragment getFragment(ArrayList<Fragment> fragments, int position, FragmentCreator fragmentCreator){
         Fragment fragment  = fragments.get(position);
         if(fragment == null){
             fragment = fragmentCreator.createFragment();

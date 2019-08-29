@@ -156,7 +156,7 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
             case R.id.navigationMyProfile:
                 ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
                         AppData.INSTANCE.getLoggedUser().getAvatarUrl());
-                break;
+                return true;
             case R.id.navigationMyCourses:
                 return true;
             case R.id.navigationHome:
