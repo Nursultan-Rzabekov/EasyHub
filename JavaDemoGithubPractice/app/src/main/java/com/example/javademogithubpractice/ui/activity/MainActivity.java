@@ -65,7 +65,6 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         }
     }
 
-
     private final List<Integer> FRAGMENT_TITLE_LIST = Arrays.asList(
             R.string.my_repos, R.string.starred_repos
     );

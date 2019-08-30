@@ -3,9 +3,12 @@
 package com.example.javademogithubpractice.ui.adapter;
 
 import android.content.Context;
+import android.graphics.Color;
+import android.graphics.drawable.Drawable;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.LinearLayout;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -17,6 +20,11 @@ import com.example.javademogithubpractice.ui.adapter.baseAdapter.BaseViewHolder;
 import com.example.javademogithubpractice.ui.fragment.baseFragment.BaseFragment;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
+
 import javax.inject.Inject;
 import butterknife.BindView;
 
@@ -33,6 +41,13 @@ public class RepositoriesAdapter extends BaseAdapter<RepositoriesAdapter.ViewHol
         return R.layout.layout_item_repo;
     }
 
+    List<Integer> colors = new ArrayList<>(Arrays.asList(
+            R.drawable.home_gradient_maths,
+            R.drawable.home_gradients,
+            R.drawable.home_gradientss,
+            R.drawable.home_gradientsss,
+            R.drawable.home_gradientssss));
+
     @NonNull
     @Override
     protected ViewHolder getViewHolder(@NonNull View itemView, int viewType) {
@@ -41,11 +56,10 @@ public class RepositoriesAdapter extends BaseAdapter<RepositoriesAdapter.ViewHol
     }
 
     public class ViewHolder extends BaseViewHolder {
-
         @BindView(R.id.iv_user_avatar) ImageView ivUserAvatar;
-        //@BindView(R.id.language_color) ImageView languageColor;
         @BindView(R.id.tv_repo_name) TextView tvRepoName;
         @BindView(R.id.tv_language) TextView tvLanguage;
+        @BindView(R.id.relative_item_repo) RelativeLayout relativeLayout;
 
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
@@ -59,17 +73,13 @@ public class RepositoriesAdapter extends BaseAdapter<RepositoriesAdapter.ViewHol
         Repository repository = data.get(position);
         boolean hasOwnerAvatar = !StringUtils.isBlank(repository.getOwner().getAvatarUrl());
         holder.tvRepoName.setText(hasOwnerAvatar ? repository.getName(): repository.getFullName());
+        holder.relativeLayout.setBackgroundResource(colors.get(position % 5));
 
         if(StringUtils.isBlank(repository.getLanguage())){
             holder.tvLanguage.setText("");
-            //holder.languageColor.setVisibility(View.INVISIBLE);
         } else {
-            //holder.languageColor.setVisibility(View.VISIBLE);
             holder.tvLanguage.setText(repository.getLanguage());
-//            int languageColor = LanguageColorsHelper.INSTANCE.getColor(context, repository.getLanguage());
-//            holder.languageColor.setImageTintList(ColorStateList.valueOf(languageColor));
         }
-
 
         if(hasOwnerAvatar){
             holder.ivUserAvatar.setVisibility(View.VISIBLE);

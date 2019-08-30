@@ -81,10 +81,6 @@ public abstract class BaseAdapter<VH extends BaseViewHolder, D extends Object> e
 
     protected abstract VH getViewHolder(View itemView, int viewType);
 
-    protected void showShortToast(String msg){
-        Toast.makeText(context, msg, Toast.LENGTH_SHORT).show();
-    }
-
     @Override
     public void onItemClick(int position, @NonNull View view) {
         mOnItemClickListener.onItemClick(position, view);

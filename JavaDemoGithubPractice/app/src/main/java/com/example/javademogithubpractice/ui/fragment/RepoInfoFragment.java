@@ -21,10 +21,12 @@ import com.example.javademogithubpractice.inject.module.FragmentModule;
 import com.example.javademogithubpractice.mvp.contract.IRepoInfoContract;
 import com.example.javademogithubpractice.mvp.model.Repository;
 import com.example.javademogithubpractice.mvp.presenter.RepoInfoPresenter;
+import com.example.javademogithubpractice.ui.activity.ProfileActivity;
 import com.example.javademogithubpractice.ui.activity.RepositoryActivity;
 import com.example.javademogithubpractice.ui.fragment.baseFragment.BaseFragment;
 import com.example.javademogithubpractice.util.BundleHelper;
 import com.example.javademogithubpractice.util.StringUtils;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import butterknife.BindView;
 
@@ -75,6 +77,7 @@ public class RepoInfoFragment extends BaseFragment<RepoInfoPresenter> implements
 
     @Override
     public void showRepoInfo(Repository repository) {
+
         issueLay.setVisibility(repository.isHasIssues() ? View.VISIBLE :View.GONE);
         issuesNumText.setText(String.valueOf(repository.getOpenIssuesCount()));
         stargazersNumText.setText(String.valueOf(repository.getStargazersCount()));
@@ -98,58 +101,8 @@ public class RepoInfoFragment extends BaseFragment<RepoInfoPresenter> implements
             forkInfoText.setVisibility(View.GONE);
         }
 
-        String fullName = repository.getFullName();
-        SpannableStringBuilder spannable = new SpannableStringBuilder(fullName);
-//        spannable.setSpan(new ForegroundColorSpan(ViewUtils.getAccentColor(getContext())),
-//                0, fullName.indexOf("/"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
-        spannable.setSpan(new ClickableSpan() {
-            @Override
-            public void onClick(View widget) {
-//                ProfileActivity.show(getActivity(), mPresenter.getRepository().getOwner().getLogin(),
-//                        mPresenter.getRepository().getOwner().getAvatarUrl());
-            }
-
-            @Override
-            public void updateDrawState(TextPaint ds) {
-
-            }
-        }, 0, fullName.indexOf("/"), Spannable.SPAN_EXCLUSIVE_EXCLUSIVE);
         repoTitleText.setMovementMethod(LinkMovementMethod.getInstance());
-        repoTitleText.setText(spannable);
     }
-
-//    @OnClick({R.id.issues_lay, R.id.stargazers_lay, R.id.froks_lay, R.id.watchers_lay,
-//            R.id.fork_info_text})
-//    public void onViewClicked(View view) {
-//        switch (view.getId()) {
-//            case R.id.issues_lay:
-//                IssuesActivity.showForRepo(getActivity(), mPresenter.getRepository().getOwner().getLogin(),
-//                        mPresenter.getRepository().getName());
-////                showInfoToast(getString(R.string.developing));
-//                break;
-//            case R.id.stargazers_lay:
-//                if(mPresenter.getRepository().getStargazersCount() == 0) return;
-//                UserListActivity.show(getActivity(), UserListFragment.UserListType.STARGAZERS,
-//                        mPresenter.getRepository().getOwner().getLogin(),
-//                        mPresenter.getRepository().getName());
-//                break;
-//            case R.id.froks_lay:
-//                if(mPresenter.getRepository().getForksCount() == 0) return;
-//                RepoListActivity.showForks(getContext(),
-//                        mPresenter.getRepository().getOwner().getLogin(),
-//                        mPresenter.getRepository().getName());
-//                break;
-//            case R.id.watchers_lay:
-//                if(mPresenter.getRepository().getSubscribersCount() == 0) return;
-//                UserListActivity.show(getActivity(), UserListFragment.UserListType.WATCHERS,
-//                        mPresenter.getRepository().getOwner().getLogin(),
-//                        mPresenter.getRepository().getName());
-//                break;
-//            case R.id.fork_info_text:
-//                RepositoryActivity.show(getActivity(), mPresenter.getRepository().getParent());
-//                break;
-//        }
-//    }
 
     @Override
     public void onFragmentShowed() {

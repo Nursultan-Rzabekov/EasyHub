@@ -20,32 +20,10 @@ public class PrefUtils {
     public final static String FIRST_USE = "firstUse";
 
     public final static String THEME = "appTheme";
-    public final static String ACCENT_COLOR = "accentColor";
-    public final static String START_PAGE = "startPage";
-    public final static String CACHE_FIRST_ENABLE = "cacheFirstEnable";
-    public final static String SYSTEM_DOWNLOADER = "systemDownloader";
     public final static String LANGUAGE = "language";
-    public final static String LOGOUT = "logout";
-    public final static String CODE_WRAP = "codeWrap";
-    public final static String CUSTOM_TABS_ENABLE = "customTabsEnable";
 
-
-    public final static String POP_TIMES = "popTimes";
-    public final static String POP_VERSION_TIME = "popVersionTime";
-    public final static String LAST_POP_TIME = "lastPopTime";
-
-    public final static String NEW_YEAR_WISHES_TIP_ENABLE = "newYearWishesTipEnable";
-    public final static String STAR_WISHES_TIP_TIMES = "starWishesTipFlag";
-    public final static String LAST_STAR_WISHES_TIP_TIME = "lastStarWishesTipTime";
 
     public final static String DOUBLE_CLICK_TITLE_TIP_ABLE = "doubleClickTitleTipAble";
-    public final static String ACTIVITY_LONG_CLICK_TIP_ABLE = "activityLongClickTipAble";
-    public final static String RELEASES_LONG_CLICK_TIP_ABLE = "releasesLongClickTipAble";
-    public final static String LANGUAGES_EDITOR_TIP_ABLE = "languagesEditorTipAble";
-    public final static String COLLECTIONS_TIP_ABLE = "collectionsTipAble";
-    public final static String BOOKMARKS_TIP_ABLE = "bookmarksTipAble";
-    public final static String CUSTOM_TABS_TIPS_ENABLE = "customTabsTipsEnable";
-    public final static String TOPICS_TIP_ABLE = "topicsTipAble";
     public final static String DISABLE_LOADING_IMAGE = "disableLoadingImage";
 
 
@@ -87,11 +65,6 @@ public class PrefUtils {
     public static String getLanguage(){
         return getDefaultSp(AppApplication.get()).getString(LANGUAGE, "en");
     }
-
-    public static String getStartPage(){
-        return getDefaultSp(AppApplication.get()).getString(START_PAGE, "news");
-    }
-
 
     public static boolean isDoubleClickTitleTipAble(){
         return getDefaultSp(AppApplication.get()).getBoolean(DOUBLE_CLICK_TITLE_TIP_ABLE, true);

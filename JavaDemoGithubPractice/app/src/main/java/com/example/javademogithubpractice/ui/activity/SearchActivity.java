@@ -31,6 +31,7 @@ import com.example.javademogithubpractice.mvp.presenter.SearchPresenter;
 import com.example.javademogithubpractice.ui.activity.base.PagerActivity;
 import com.example.javademogithubpractice.ui.adapter.baseAdapter.FragmentPagerModel;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
+import com.example.javademogithubpractice.ui.fragment.UserListFragment;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.example.javademogithubpractice.util.ViewUtils;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
@@ -45,9 +46,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         context.startActivity(intent);
     }
 
-
     @AutoAccess boolean isInputMode = true;
-    @AutoAccess String[] sortInfos;
 
     @Override
     protected void initActivity() {
@@ -126,10 +125,6 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         setToolbarScrollAble(true);
         setToolbarBackEnable();
         setToolbarTitle(getString(R.string.search));
-        if(sortInfos == null)
-        sortInfos = new String[]{
-                getString(R.string.best_match), getString(R.string.best_match)
-        };
     }
 
 
@@ -188,11 +183,9 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
     protected int getFragmentPosition(Fragment fragment) {
         if(fragment instanceof RepositoriesFragment){
             return 0;
-//        }else if(fragment instanceof UserListFragment){
-//            return 1;
+        }else if(fragment instanceof UserListFragment){
+            return 1;
         }else
             return -1;
     }
-
-
 }

@@ -98,8 +98,6 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
                     mView.hideLoading();
                     if (isReLoad || readCacheFirst || repos == null || page == 1) {
                         repos = response.body();
-                        for (int i = 0; i < repos.size(); i++) {
-                        }
                     } else {
                         repos.addAll(response.body());
                     }
@@ -112,15 +110,15 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
 
     }
 
-    private void errorLoadRepo(Throwable error) {
-        mView.hideLoading();
-        handleError(error);
-    }
-
     @Override
     public void loadRepositories(RepositoriesFilter filter) {
         this.filter = filter;
         loadRepositories(false, 1);
+    }
+
+    private void errorLoadRepo(Throwable error) {
+        mView.hideLoading();
+        handleError(error);
     }
 
     private Observable<Response<ArrayList<Repository>>> getObservable(boolean forceNetWork, int page) {

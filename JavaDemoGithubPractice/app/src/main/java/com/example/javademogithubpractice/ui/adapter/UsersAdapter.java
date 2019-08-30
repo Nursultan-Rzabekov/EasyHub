@@ -5,6 +5,7 @@ package com.example.javademogithubpractice.ui.adapter;
 import android.content.Context;
 import android.view.View;
 import android.widget.ImageView;
+import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
@@ -16,6 +17,10 @@ import com.example.javademogithubpractice.ui.adapter.baseAdapter.BaseAdapter;
 import com.example.javademogithubpractice.ui.adapter.baseAdapter.BaseViewHolder;
 import com.example.javademogithubpractice.ui.fragment.baseFragment.BaseFragment;
 import com.example.javademogithubpractice.util.PrefUtils;
+
+import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.List;
 
 import javax.inject.Inject;
 import butterknife.BindView;
@@ -33,6 +38,13 @@ public class UsersAdapter extends BaseAdapter<UsersAdapter.ViewHolder, User> {
     public void setCardEnable(boolean cardEnable) {
         this.cardEnable = cardEnable;
     }
+
+    List<Integer> colors = new ArrayList<>(Arrays.asList(
+            R.drawable.home_gradient_maths,
+            R.drawable.home_gradients,
+            R.drawable.home_gradientss,
+            R.drawable.home_gradientsss,
+            R.drawable.home_gradientssss));
 
     @Override
     protected int getLayoutId(int viewType) {
@@ -52,11 +64,15 @@ public class UsersAdapter extends BaseAdapter<UsersAdapter.ViewHolder, User> {
                 .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
                 .into(holder.avatar);
         holder.name.setText(data.get(position).getLogin());
+        holder.linearLayout.setBackgroundResource(colors.get(position % 5));
+
     }
 
     class ViewHolder extends BaseViewHolder {
         @BindView(R.id.avatar) ImageView avatar;
         @BindView(R.id.name) TextView name;
+        @BindView(R.id.linear_user_layout) LinearLayout linearLayout;
+
         public ViewHolder(@NonNull View itemView) {
             super(itemView);
         }

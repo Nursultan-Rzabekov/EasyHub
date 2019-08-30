@@ -13,29 +13,36 @@
     tools:context=".ui.activity.ProfileActivity"
     tools:showIn="@layout/app_bar_main_profile">
 
-
-    <androidx.coordinatorlayout.widget.CoordinatorLayout
+    <FrameLayout
+        android:id="@+id/profile_frame_layout"
         android:layout_width="match_parent"
-        android:layout_height="wrap_content"
-        app:layout_behavior="@string/appbar_scrolling_view_behavior">
+        android:layout_height="match_parent">
 
-
-        <androidx.viewpager.widget.ViewPager
-            android:id="@+id/view_pager"
-            android:layout_width="match_parent"
-            android:layout_height="match_parent"/>
-
-        <ProgressBar
-            android:id="@+id/loader"
-            style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+        <androidx.coordinatorlayout.widget.CoordinatorLayout
             android:layout_width="match_parent"
             android:layout_height="wrap_content"
-            android:layout_gravity="top"
-            android:paddingEnd="@dimen/spacing_large"
-            android:paddingStart="@dimen/spacing_large"
-            android:indeterminate="true"
-            android:visibility="gone"/>
+            app:layout_behavior="@string/appbar_scrolling_view_behavior">
 
-    </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+            <androidx.viewpager.widget.ViewPager
+                android:id="@+id/view_pager"
+                android:layout_width="match_parent"
+                android:layout_height="match_parent"/>
+
+            <ProgressBar
+                android:id="@+id/loader"
+                style="@style/Widget.AppCompat.ProgressBar.Horizontal"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_gravity="top"
+                android:paddingEnd="@dimen/spacing_large"
+                android:paddingStart="@dimen/spacing_large"
+                android:indeterminate="true"
+                android:visibility="gone"/>
+
+        </androidx.coordinatorlayout.widget.CoordinatorLayout>
+
+    </FrameLayout>
+
 
 </androidx.coordinatorlayout.widget.CoordinatorLayout>

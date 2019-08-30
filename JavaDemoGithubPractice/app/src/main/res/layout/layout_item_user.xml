@@ -8,25 +8,27 @@
     android:layout_marginRight="@dimen/card_view_horizontal_margin"
     android:layout_marginTop="@dimen/card_view_vertical_margin"
     android:layout_marginBottom="@dimen/card_view_vertical_margin"
-    android:background="@color/colorPrimaryDark"
-    app:cardBackgroundColor="@color/gradientLightYellow"
-    app:cardCornerRadius="@dimen/card_view_corner_radius">
+    app:cardPreventCornerOverlap="true"
+    app:cardCornerRadius="15dp">
     <LinearLayout
+        android:id="@+id/linear_user_layout"
         android:orientation="horizontal"
         android:layout_width="match_parent"
         android:layout_height="wrap_content"
         android:gravity="center_vertical"
+        android:background="@drawable/home_gradient_maths"
         android:padding="@dimen/spacing_small">
+
         <de.hdodenhof.circleimageview.CircleImageView
             android:id="@+id/avatar"
-            android:layout_width="36dp"
-            android:layout_height="36dp"/>
+            android:layout_width="60dp"
+            android:layout_height="60dp"/>
         <TextView
             android:id="@+id/name"
             android:layout_width="wrap_content"
             android:layout_height="wrap_content"
-            android:layout_marginStart="@dimen/spacing_large"
-            android:textSize="@dimen/text_normal"
+            android:layout_marginStart="25dp"
+            style="@style/viewParent.headerText.HomeCardTitle"
             android:textColor="@color/white"/>
     </LinearLayout>
 </androidx.cardview.widget.CardView>

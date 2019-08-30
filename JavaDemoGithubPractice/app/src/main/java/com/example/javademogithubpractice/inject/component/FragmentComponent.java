@@ -7,6 +7,7 @@ import com.example.javademogithubpractice.inject.module.FragmentModule;
 import com.example.javademogithubpractice.ui.fragment.ProfileInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepoInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
+import com.example.javademogithubpractice.ui.fragment.UserListFragment;
 
 import dagger.Component;
 
@@ -18,4 +19,5 @@ public interface FragmentComponent {
     void inject(RepositoriesFragment fragment);
     void inject(RepoInfoFragment repoInfoFragment);
     void inject(ProfileInfoFragment profileInfoFragment);
+    void inject(UserListFragment userListFragment);
 }

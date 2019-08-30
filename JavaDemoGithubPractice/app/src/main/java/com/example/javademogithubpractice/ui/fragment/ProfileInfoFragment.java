@@ -10,8 +10,11 @@ import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.cardview.widget.CardView;
+import androidx.fragment.app.Fragment;
 import androidx.recyclerview.widget.LinearLayoutManager;
 import androidx.recyclerview.widget.RecyclerView;
+
+import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.inject.component.DaggerFragmentComponent;
@@ -26,11 +29,13 @@ import com.example.javademogithubpractice.ui.fragment.baseFragment.BaseFragment;
 import com.example.javademogithubpractice.util.BundleHelper;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.example.javademogithubpractice.util.ViewUtils;
+import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import java.util.ArrayList;
 
 import javax.inject.Inject;
 import butterknife.BindView;
+import butterknife.OnClick;
 
 
 public class ProfileInfoFragment extends BaseFragment<ProfileInfoPresenter>
@@ -42,7 +47,6 @@ public class ProfileInfoFragment extends BaseFragment<ProfileInfoPresenter>
     @BindView(R.id.company) TextView company;
     @BindView(R.id.email) TextView email;
     @BindView(R.id.link) TextView link;
-
     @BindView(R.id.members_lay) LinearLayout membersLay;
     @BindView(R.id.followers_lay) LinearLayout followersLay;
     @BindView(R.id.following_lay) LinearLayout followingLay;
@@ -57,6 +61,8 @@ public class ProfileInfoFragment extends BaseFragment<ProfileInfoPresenter>
     RecyclerView orgsRecyclerView;
 
     @Inject UsersAdapter orgsAdapter;
+
+    @AutoAccess String repo;
 
     public static ProfileInfoFragment create(User user) {
         ProfileInfoFragment fragment = new ProfileInfoFragment();
@@ -80,53 +86,40 @@ public class ProfileInfoFragment extends BaseFragment<ProfileInfoPresenter>
 
     @Override
     protected void initFragment(Bundle savedInstanceState) {
-//        ViewUtils.setLongClickCopy(email);
-//        ViewUtils.setLongClickCopy(link);
-        //orgsLay.setVisibility(View.GONE);
+        orgsLay.setVisibility(View.GONE);
     }
 
-//    @OnClick({R.id.followers_lay, R.id.following_lay, R.id.repos_lay, R.id.gists_lay,
-//                R.id.email, R.id.link, R.id.members_lay})
-//
-//    public void onViewClicked(View view) {
-//        switch (view.getId()) {
-//            case R.id.followers_lay:
-//                if(mPresenter.getUser().getFollowers() == 0) return;
-//                UserListActivity.show(getActivity(), UserListFragment.UserListType.FOLLOWERS,
-//                        mPresenter.getUser().getLogin());
-//                break;
-//            case R.id.following_lay:
-//                if(mPresenter.getUser().getFollowing() == 0) return;
-//                UserListActivity.show(getActivity(), UserListFragment.UserListType.FOLLOWING,
-//                        mPresenter.getUser().getLogin());
-//                break;
-//            case R.id.repos_lay:
-//                if(mPresenter.getUser().getPublicRepos() == 0) return;
-//                RepositoriesFragment.RepositoriesType type =
-//                        AppData.INSTANCE.getLoggedUser().getLogin().equals(mPresenter.getUser().getLogin()) ?
-//                        RepositoriesFragment.RepositoriesType.OWNED : RepositoriesFragment.RepositoriesType.PUBLIC;
-//                RepoListActivity.show(getContext(), type, mPresenter.getUser().getLogin());
-//                break;
-//            case R.id.gists_lay:
-////                if(mPresenter.getUser().getPublicGists() == 0) return;
-//                showInfoToast(getString(R.string.developing));
-//                break;
-//            case R.id.email:
-//                AppOpener.launchEmail(getActivity(), mPresenter.getUser().getEmail());
-//                break;
-//            case R.id.link:
-//                AppOpener.openInCustomTabsOrBrowser(getActivity(), mPresenter.getUser().getBlog());
-//                break;
-//            case R.id.members_lay:
-//                UserListActivity.show(getActivity(), UserListFragment.UserListType.ORG_MEMBERS,
-//                        mPresenter.getUser().getLogin());
-//                break;
-//        }
-//    }
+    @OnClick({R.id.followers_lay, R.id.following_lay, R.id.repos_lay, R.id.members_lay})
+
+    public void onViewClicked(View view) {
+        Fragment mFragment = null;
+        switch (view.getId()) {
+            case R.id.followers_lay:
+                if(mPresenter.getUser().getFollowers() == 0) return;
+                mFragment = UserListFragment.create(UserListFragment.UserListType.FOLLOWERS,mPresenter.getUser().getLogin(),repo);
+                break;
+            case R.id.following_lay:
+                if(mPresenter.getUser().getFollowing() == 0) return;
+                mFragment = UserListFragment.create(UserListFragment.UserListType.FOLLOWING,mPresenter.getUser().getLogin(),repo);
+                break;
+            case R.id.repos_lay:
+                if(mPresenter.getUser().getPublicRepos() == 0) return;
+                RepositoriesFragment.RepositoriesType type = AppData.INSTANCE.getLoggedUser().getLogin()
+                        .equals(mPresenter.getUser().getLogin()) ?
+                        RepositoriesFragment.RepositoriesType.OWNED :
+                        RepositoriesFragment.RepositoriesType.PUBLIC;
+                mFragment = RepositoriesFragment.create(type,mPresenter.getUser().getLogin());
+                break;
+            case R.id.members_lay:
+                mFragment = UserListFragment.create(UserListFragment.UserListType.ORG_MEMBERS,
+                        mPresenter.getUser().getLogin(),repo);
+                break;
+        }
+        getFragmentManager().beginTransaction().replace(R.id.frame_layout_profile_info, mFragment).addToBackStack(null).commit();
+    }
 
     @Override
     public void showProfileInfo(User user) {
-
         String nameStr = StringUtils.isBlank(user.getName()) ? user.getLogin() : user.getName();
         nameStr = user.isUser() ? nameStr : nameStr.concat("(ORG)");
         name.setText(nameStr);
@@ -182,5 +175,4 @@ public class ProfileInfoFragment extends BaseFragment<ProfileInfoPresenter>
         mPresenter.setUser(user);
         showProfileInfo(user);
     }
-
 }

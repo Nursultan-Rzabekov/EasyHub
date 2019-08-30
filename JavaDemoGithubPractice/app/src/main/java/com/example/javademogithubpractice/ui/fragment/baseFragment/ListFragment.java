@@ -81,8 +81,8 @@ public abstract class ListFragment <P extends IBaseContract.Presenter, A extends
                     itemCount -= getHeaderSize();
                     if(loadMoreEnable && autoJudgeCanLoadMoreEnable){
                         canLoadMore = itemCount % getPagerSize() == 0 ;
-//                        curPage = itemCount % getPagerSize() == 0 ?
-//                                itemCount / getPagerSize() : (itemCount / getPagerSize()) + 1;
+                        curPage = itemCount % getPagerSize() == 0 ?
+                                itemCount / getPagerSize() : (itemCount / getPagerSize()) + 1;
                     }
                 }
             }
@@ -100,7 +100,6 @@ public abstract class ListFragment <P extends IBaseContract.Presenter, A extends
             if (!loadMoreEnable || !canLoadMore || isLoading ||
                     !NetHelper.INSTANCE.getNetEnabled()) return;
             RecyclerView.LayoutManager layoutManager = recyclerView.getLayoutManager();
-            //only LinearLayoutManager can find last visible
             if (layoutManager instanceof LinearLayoutManager) {
                 LinearLayoutManager linearManager = (LinearLayoutManager) layoutManager;
                 int lastPosition = linearManager.findLastVisibleItemPosition();

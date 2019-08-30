@@ -14,6 +14,7 @@ import com.example.javademogithubpractice.mvp.model.User;
 import com.example.javademogithubpractice.ui.fragment.ProfileInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepoInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
+import com.example.javademogithubpractice.ui.fragment.UserListFragment;
 import com.example.javademogithubpractice.ui.fragment.baseFragment.BaseFragment;
 
 import java.util.ArrayList;
@@ -78,9 +79,9 @@ public class FragmentPagerModel {
             , @NonNull final ArrayList<SearchModel> searchModels, @NonNull ArrayList<Fragment> fragments) {
         return setPagerFragmentFlag(Arrays.asList(
                 new FragmentPagerModel(context.getString(R.string.repositories),
-                        getFragment(fragments, 0, () -> RepositoriesFragment.createForSearch(searchModels.get(0))))
-//                new FragmentPagerModel(context.getString(R.string.users),
-//                        getFragment(fragments, 1, () -> UserListFragment.createForSearch(searchModels.get(1))))
+                        getFragment(fragments, 0, () -> RepositoriesFragment.createForSearch(searchModels.get(0)))),
+                new FragmentPagerModel(context.getString(R.string.users),
+                        getFragment(fragments, 1, () -> UserListFragment.createForSearch(searchModels.get(1))))
         ));
     }
 
