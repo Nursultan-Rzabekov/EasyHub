@@ -7,20 +7,17 @@ package com.example.javademogithubpractice.network;
 
 import androidx.annotation.NonNull;
 
-import com.example.javademogithubpractice.common.Event;
+import com.example.javademogithubpractice.mvp.model.Event;
 import com.example.javademogithubpractice.mvp.model.User;
-
 import java.util.ArrayList;
-
 import io.reactivex.Observable;
 import okhttp3.ResponseBody;
 import retrofit2.Response;
-import retrofit2.http.DELETE;
 import retrofit2.http.GET;
 import retrofit2.http.Header;
-import retrofit2.http.PUT;
 import retrofit2.http.Path;
 import retrofit2.http.Query;
+
 
 public interface UserService {
     @NonNull
@@ -44,21 +41,6 @@ public interface UserService {
     /**
      * Check if one user follows another
      */
-    @NonNull @GET("users/{user}/following/{targetUser}")
-    Observable<Response<ResponseBody>> checkFollowing(
-            @Path("user") String user,
-            @Path("targetUser") String targetUser
-    );
-
-    @NonNull @PUT("user/following/{user}")
-    Observable<Response<ResponseBody>> followUser(
-            @Path("user") String user
-    );
-
-    @NonNull @DELETE("user/following/{user}")
-    Observable<Response<ResponseBody>> unfollowUser(
-            @Path("user") String user
-    );
 
     @NonNull @GET("users/{user}/followers")
     Observable<Response<ArrayList<User>>> getFollowers(

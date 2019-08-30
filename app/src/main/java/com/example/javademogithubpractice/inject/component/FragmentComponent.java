@@ -4,6 +4,7 @@ package com.example.javademogithubpractice.inject.component;
 
 import com.example.javademogithubpractice.inject.FragmentScope;
 import com.example.javademogithubpractice.inject.module.FragmentModule;
+import com.example.javademogithubpractice.ui.fragment.ActivityFragment;
 import com.example.javademogithubpractice.ui.fragment.ProfileInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepoInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
@@ -20,4 +21,5 @@ public interface FragmentComponent {
     void inject(RepoInfoFragment repoInfoFragment);
     void inject(ProfileInfoFragment profileInfoFragment);
     void inject(UserListFragment userListFragment);
+    void inject(ActivityFragment activityFragment);
 }

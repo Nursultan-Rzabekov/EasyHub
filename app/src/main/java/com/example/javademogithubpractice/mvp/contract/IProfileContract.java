@@ -13,7 +13,5 @@ public interface IProfileContract {
     }
 
     interface Presenter extends IBaseContract.Presenter<IProfileContract.View>{
-        void followUser(boolean follow);
     }
-
 }

@@ -3,8 +3,12 @@
 package com.example.javademogithubpractice.util;
 
 
+import android.content.Context;
+
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+
+import com.example.javademogithubpractice.R;
 
 import java.text.SimpleDateFormat;
 import java.util.Calendar;
@@ -84,6 +88,27 @@ public class StringUtils {
         String regex = DATE_REGEX_MAP.containsKey(locale) ? DATE_REGEX_MAP.get(locale) : "yyyy-MM-dd";
         SimpleDateFormat format = new SimpleDateFormat(regex, locale);
         return format.format(date);
+    }
+
+    public static String getNewsTimeStr(@NonNull Context context, @NonNull Date date){
+        long subTime = System.currentTimeMillis() - date.getTime();
+        final double MILLIS_LIMIT = 1000.0f;
+        final double SECONDS_LIMIT = 60 * MILLIS_LIMIT;
+        final double MINUTES_LIMIT = 60 * SECONDS_LIMIT;
+        final double HOURS_LIMIT = 24 * MINUTES_LIMIT;
+        final double DAYS_LIMIT = 30 * HOURS_LIMIT;
+        if(subTime < MILLIS_LIMIT){
+            return context.getString(R.string.just_now);
+        } else if(subTime < SECONDS_LIMIT){
+            return Math.round(subTime / MILLIS_LIMIT) + " " + context.getString(R.string.seconds_ago);
+        } else if(subTime < MINUTES_LIMIT){
+            return Math.round(subTime / SECONDS_LIMIT) + " " + context.getString(R.string.minutes_ago);
+        } else if(subTime < HOURS_LIMIT){
+            return Math.round(subTime / MINUTES_LIMIT) + " " + context.getString(R.string.hours_ago);
+        } else if(subTime < DAYS_LIMIT){
+            return Math.round(subTime / HOURS_LIMIT) + " " + context.getString(R.string.days_ago);
+        } else
+            return getDateStr(date);
     }
 
 }

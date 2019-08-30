@@ -24,7 +24,6 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View> imple
     @AutoAccess String loginId;
     @AutoAccess String userAvatar;
     private User user;
-    private boolean following = false;
 
     private boolean isTransitionComplete = false;
     private boolean isWaitForTransition = false;
@@ -82,12 +81,7 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View> imple
         } else {
             isWaitForTransition = true;
         }
-        //saveTrace();
 
-    }
-
-    public String getLoginId() {
-        return loginId;
     }
 
     public String getUserAvatar() {
@@ -98,9 +92,6 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View> imple
         return user;
     }
 
-    public boolean isFollowing() {
-        return following;
-    }
 
     public boolean isUser(){
         return user != null && user.isUser();
@@ -109,33 +100,4 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View> imple
     public boolean isMe(){
         return user != null && user.getLogin().equals(AppData.INSTANCE.getLoggedUser().getLogin());
     }
-
-    @Override
-    public void followUser(boolean follow) {
-        following = follow;
-
-        if(follow){
-            addDisposable((getUserService().followUser(loginId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::successFollow,this::errorFollow)));
-        }
-        else {
-            addDisposable((getUserService().unfollowUser(loginId)
-                    .subscribeOn(Schedulers.io())
-                    .observeOn(AndroidSchedulers.mainThread())
-                    .subscribe(this::successFollow,this::errorFollow)));
-        }
-
-    }
-
-    private void errorFollow(Throwable throwable) {
-        mView.showErrorToast(getErrorTip(throwable));
-    }
-
-    private void successFollow(Response<ResponseBody> responseBodyResponse) {
-
-    }
-
-
 }

@@ -132,8 +132,6 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
             case STARRED:
                 return getRepoService().getStarredRepos(forceNetWork, user, page,
                         filter.getSort(), filter.getSortDirection());
-            case FORKS:
-                return getRepoService().getForks(forceNetWork, user, repo, page);
             default:
                 return null;
         }

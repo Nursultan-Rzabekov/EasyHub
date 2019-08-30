@@ -97,11 +97,7 @@ public class UserListPresenter extends BasePagerPresenter<IUserListContract.View
     }
 
     private Observable<Response<ArrayList<User>>> createObservable(boolean forceNetWork,int page) {
-        if (type.equals(UserListFragment.UserListType.STARGAZERS)) {
-            return getRepoService().getStargazers(forceNetWork, user, repo, page);
-        } else if (type.equals(UserListFragment.UserListType.WATCHERS)) {
-            return getRepoService().getWatchers(forceNetWork, user, repo, page);
-        } else if (type.equals(UserListFragment.UserListType.FOLLOWERS)) {
+        if (type.equals(UserListFragment.UserListType.FOLLOWERS)) {
             return getUserService().getFollowers(forceNetWork, user, page);
         } else if (type.equals(UserListFragment.UserListType.FOLLOWING)) {
             return getUserService().getFollowing(forceNetWork, user, page);

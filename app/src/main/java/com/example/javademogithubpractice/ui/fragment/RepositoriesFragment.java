@@ -33,7 +33,7 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
         implements IRepositoriesContract.View, OnDrawerSelectedListener {
 
     public enum RepositoriesType{
-        OWNED, PUBLIC, STARRED, TRENDING, FORKS, TRACE, BOOKMARK, COLLECTION,SEARCH
+        OWNED, PUBLIC, STARRED, TRENDING, TRACE, BOOKMARK, COLLECTION,SEARCH
     }
 
     public static RepositoriesFragment create(@NonNull RepositoriesType type,
@@ -119,13 +119,6 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-//        if(mPresenter.getType().equals(RepositoriesType.OWNED)){
-//            inflater.inflate(R.menu.menu_owned_repo, menu);
-//            if(!mPresenter.getUser().equals(AppData.INSTANCE.getLoggedUser().getLogin())){
-//                menu.findItem(R.id.action_filter_public).setVisible(false);
-//                menu.findItem(R.id.action_filter_private).setVisible(false);
-//            }
-//        }
     }
 
     @Override

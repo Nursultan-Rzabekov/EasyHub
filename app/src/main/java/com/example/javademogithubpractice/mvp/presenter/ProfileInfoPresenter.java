@@ -18,6 +18,7 @@ public class ProfileInfoPresenter extends BasePagerPresenter<IProfileInfoContrac
         implements IProfileInfoContract.Presenter{
 
     @AutoAccess User user;
+
     private ArrayList<User> orgs;
 
     @Inject

@@ -1,0 +1,74 @@
+<?xml version="1.0" encoding="utf-8"?>
+
+<androidx.cardview.widget.CardView
+    xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    android:layout_width="match_parent"
+    android:layout_height="wrap_content"
+    android:layout_marginLeft="@dimen/card_view_horizontal_margin"
+    android:layout_marginRight="@dimen/card_view_horizontal_margin"
+    android:layout_marginBottom="@dimen/card_view_vertical_margin"
+    android:layout_marginTop="@dimen/card_view_vertical_margin"
+    app:cardPreventCornerOverlap="true">
+
+    <LinearLayout
+        android:id="@+id/linear_news_layout"
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:orientation="vertical"
+        android:background="@drawable/home_gradient_maths"
+        android:padding="@dimen/spacing_normal">
+        <LinearLayout
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:orientation="horizontal"
+            android:gravity="center_vertical">
+            <de.hdodenhof.circleimageview.CircleImageView
+                android:id="@+id/user_avatar"
+                android:layout_width="60dp"
+                android:layout_height="60dp"
+                />
+            <TextView
+                android:id="@+id/user_name"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:text="EasyHub"
+                android:textSize="@dimen/text_small"
+                android:textColor="@color/white"
+                style="@style/viewParent.headerText.HomeCardTitle"
+                android:layout_marginStart="@dimen/spacing_normal"/>
+            <TextView
+                android:id="@+id/time"
+                android:layout_width="0dp"
+                android:layout_height="wrap_content"
+                android:layout_weight="1"
+                android:gravity="right"
+                android:layout_gravity="top"
+                android:textSize="@dimen/text_mini"
+                android:textColor="@color/white"
+                style="@style/viewParent.headerText.homeCardContent"/>
+        </LinearLayout>
+
+        <TextView
+            android:id="@+id/action"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_normal"
+            android:textColor="@color/white"
+            android:layout_marginTop="@dimen/spacing_small"
+            style="@style/viewParent.headerText.homeCardContent"
+            android:layout_marginBottom="@dimen/spacing_mini"/>
+
+        <TextView
+            android:id="@+id/desc"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:textSize="@dimen/text_small"
+            android:textColor="@color/white"
+            android:layout_marginBottom="@dimen/spacing_mini"
+            android:maxLines="4"
+            style="@style/viewParent.headerText.homeCardContent"
+            android:ellipsize="end"/>
+
+    </LinearLayout>
+</androidx.cardview.widget.CardView>
