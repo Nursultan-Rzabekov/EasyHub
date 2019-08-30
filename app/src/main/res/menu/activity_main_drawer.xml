@@ -1,0 +1,48 @@
+<?xml version="1.0" encoding="utf-8"?>
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
+
+    <group android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_global_news"
+            android:icon="@drawable/ic_global_news_black_24dp"
+            android:title="Global News" />
+        <item
+            android:id="@+id/nav_popular_repo"
+            android:icon="@drawable/ic_popular_repo_black_24dp"
+            android:title="Popular repositories" />
+        <item
+            android:id="@+id/nav_repository"
+            android:icon="@drawable/ic_repo_black_24dp"
+            android:title="My Repository" />
+        <item
+            android:id="@+id/nav_stars"
+            android:icon="@drawable/ic_stars_black_24dp"
+            android:title="My Stars" />
+    </group>
+
+
+    <item android:title="System Preferences">
+        <menu>
+            <item
+                android:id="@+id/nav_share"
+                android:icon="@drawable/ic_menu_share"
+                android:title="Share" />
+            <item
+                android:id="@+id/nav_about"
+                android:icon="@drawable/ic_info_black_24dp"
+                android:title="About" />
+        </menu>
+    </item>
+
+    <group
+        android:id="@+id/my_account"
+        android:checkableBehavior="single">
+        <item
+            android:id="@+id/nav_logout"
+            android:checkable="false"
+            android:icon="@drawable/ic_exit_to_app_black_24dp"
+            android:title="@string/logout"/>
+    </group>
+
+</menu>
+
