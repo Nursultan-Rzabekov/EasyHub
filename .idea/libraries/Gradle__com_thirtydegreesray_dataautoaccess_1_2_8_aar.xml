@@ -1,0 +1,12 @@
+<component name="libraryTable">
+  <library name="Gradle: com.thirtydegreesray:dataautoaccess:1.2.8@aar">
+    <CLASSES>
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dd9bf1f4ebd6dcc5800e62cfa87df900/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/dd9bf1f4ebd6dcc5800e62cfa87df900/jars/classes.jar!/" />
+    </CLASSES>
+    <JAVADOC />
+    <SOURCES>
+      <root url="jar://$USER_HOME$/.gradle/caches/modules-2/files-2.1/com.thirtydegreesray/dataautoaccess/1.2.8/fb1403259722934db2b7f08c6605d6401f8650a7/dataautoaccess-1.2.8-sources.jar!/" />
+    </SOURCES>
+  </library>
+</component>
