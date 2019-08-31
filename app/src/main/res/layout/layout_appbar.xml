@@ -14,7 +14,7 @@
         android:layout_height="?attr/actionBarSize"
         android:background="@color/colorPrimaryDark"
         app:titleTextColor="@color/white"
-        app:popupTheme="?popup_theme">
+        >
     </androidx.appcompat.widget.Toolbar>
 
     <com.google.android.material.tabs.TabLayout

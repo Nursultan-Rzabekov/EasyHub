@@ -57,18 +57,9 @@ public interface UserService {
     );
 
     /**
-     * List events performed by a user
-     */
-    @NonNull @GET("users/{user}/events")
-    Observable<Response<ArrayList<Event>>> getUserEvents(
-            @Header("forceNetWork") boolean forceNetWork,
-            @Path("user") String user,
-            @Query("page") int page
-    );
-
-    /**
      * List github public events
      */
+
     @NonNull @GET("events")
     Observable<Response<ArrayList<Event>>> getPublicEvent(
             @Header("forceNetWork") boolean forceNetWork,

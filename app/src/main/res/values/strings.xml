@@ -41,6 +41,7 @@
     <string name="owned">Owned</string>
     <string name="starred">Starred</string>
     <string name="trending">Trending</string>
+    <string name="trending_repos">Trending Repositories</string>
     <string name="explore">Explore</string>
 
     <string name="info_and_repositories">Info &#038; Preferences</string>
@@ -328,7 +329,7 @@
     <string name="my_repos">My repositories</string>
     <string name="starred_repos">Starred repositories</string>
     <string name="user_profile">User Profile</string>
-    <string name="trending_repos">Trending repositories</string>
+    <string name="my_news">News</string>
 
     <string name="bookmarks">Bookmarks</string>
     <string name="bookmark">Bookmark</string>

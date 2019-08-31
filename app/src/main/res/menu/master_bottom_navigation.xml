@@ -7,14 +7,9 @@
         android:title="Menu" />
 
     <item
-        android:id="@+id/navigationMyCourses"
-        android:icon="@drawable/ic_effort"
-        android:title="News" />
-
-    <item
         android:id="@+id/navigationHome"
         android:icon="@drawable/ic_home"
-        android:title="Repositories" />
+        android:title="Notifications" />
 
     <item
         android:id="@+id/navigationSearch"

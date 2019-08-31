@@ -7,6 +7,7 @@ import com.example.javademogithubpractice.room.DaoSessionImpl;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
+
 import java.util.ArrayList;
 import javax.inject.Inject;
 import io.reactivex.Observable;
@@ -85,9 +86,14 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
         handleError(throwable);
     }
 
+
     @Override
     public void loadRepositories(final boolean isReLoad, final int page) {
         filter = getFilter();
+        if (type.equals(RepositoriesFragment.RepositoriesType.SEARCH)) {
+            searchRepos(page);
+            return;
+        }
         mView.showLoading();
         final boolean readCacheFirst = !isReLoad && page == 1;
 

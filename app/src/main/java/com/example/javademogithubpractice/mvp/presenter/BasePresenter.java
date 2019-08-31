@@ -14,6 +14,7 @@ import com.example.javademogithubpractice.AppConfig;
 import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.network.LoginService;
+import com.example.javademogithubpractice.network.NotificationsService;
 import com.example.javademogithubpractice.network.RepoService;
 import com.example.javademogithubpractice.network.SearchService;
 import com.example.javademogithubpractice.network.UserService;
@@ -111,6 +112,11 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
     protected RepoService getRepoService() {
         return getServices(RepoService.class);
     }
+
+    protected NotificationsService getNotificationsService() {
+        return getServices(NotificationsService.class);
+    }
+
 
 
     private <T> T getServices(Class<T> serviceClass) {

@@ -68,17 +68,4 @@ public interface RepoService {
             @Path("owner") String owner,
             @Path("repo") String repo
     );
-
-    /**
-     * List public events for a network of repositories
-     */
-
-    @NonNull @GET("networks/{owner}/{repo}/events")
-    Observable<Response<ArrayList<Event>>> getRepoEvent(
-            @Header("forceNetWork") boolean forceNetWork,
-            @Path("owner") String owner,
-            @Path("repo") String repo,
-            @Query("page") int page
-    );
-
 }

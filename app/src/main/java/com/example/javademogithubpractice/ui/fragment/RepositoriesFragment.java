@@ -17,6 +17,7 @@ import com.example.javademogithubpractice.inject.module.FragmentModule;
 import com.example.javademogithubpractice.mvp.contract.IRepositoriesContract;
 import com.example.javademogithubpractice.mvp.model.Repository;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
+import com.example.javademogithubpractice.mvp.model.TrendingSince;
 import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
 import com.example.javademogithubpractice.mvp.presenter.RepositoriesPresenter;
 import com.example.javademogithubpractice.ui.activity.RepositoryActivity;
@@ -53,6 +54,18 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
         );
         return fragment;
     }
+
+    public static RepositoriesFragment createForTrending(@NonNull TrendingSince since){
+        RepositoriesFragment fragment = new RepositoriesFragment();
+        fragment.setArguments(
+                BundleHelper.builder()
+                        .put("type", RepositoriesType.TRENDING)
+                        .put("since", since)
+                        .build()
+        );
+        return fragment;
+    }
+
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
         super.onCreate(savedInstanceState);

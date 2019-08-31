@@ -52,13 +52,14 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     int selectedPage;
 
     private final List<Integer> FRAGMENT_NAV_ID_LIST = Arrays.asList(
-            R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news
+            R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news,R.id.nav_news
     );
 
     private final List<String> FRAGMENT_TAG_LIST = Arrays.asList(
             RepositoriesFragment.RepositoriesType.OWNED.name(),
             RepositoriesFragment.RepositoriesType.STARRED.name(),
-            ActivityFragment.ActivityType.PublicNews.name()
+            ActivityFragment.ActivityType.PublicNews.name(),
+            ActivityFragment.ActivityType.News.name()
 
     );
 
@@ -69,7 +70,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     }
 
     private final List<Integer> FRAGMENT_TITLE_LIST = Arrays.asList(
-            R.string.my_repos, R.string.starred_repos,R.string.public_news
+            R.string.my_repos, R.string.starred_repos,R.string.public_news,R.string.my_news
     );
 
 
@@ -108,15 +109,6 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
 
         setToolbarScrollAble(true);
         updateStartDrawerContent(R.menu.activity_main_drawer);
-        if (mPresenter.isFirstUseAndNoNewsUser()) {
-            selectedPage = R.id.nav_repository;
-            updateFragmentByNavId(selectedPage);
-        } else if(selectedPage != 0){
-            updateFragmentByNavId(selectedPage);
-        } else {
-        }
-
-        navViewStart.setCheckedItem(selectedPage);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
@@ -155,30 +147,22 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
-                Fragment selectedFragment = null;
                 switch (item.getItemId()) {
                     case R.id.navigationMyProfile:
                         ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
                                 AppData.INSTANCE.getLoggedUser().getAvatarUrl());
-                        return true;
-                    case R.id.navigationMyCourses:
-                        selectedFragment = ActivityFragment.create(ActivityFragment.ActivityType.News,
-                                AppData.INSTANCE.getLoggedUser().getLogin());
                         break;
                     case R.id.navigationHome:
-                        selectedFragment = RepositoriesFragment.create(
-                                RepositoriesFragment.RepositoriesType.OWNED,
-                                AppData.INSTANCE.getLoggedUser().getLogin());
+                        NotificationsActivity.show(getActivity());
                         break;
                     case R.id.navigationSearch:
                         SearchActivity.show(getActivity());
-                        return true;
+                        break;
                     case R.id.navigationMenu:
                         drawerLayout.openDrawer(GravityCompat.START);
-                        return true;
+                        break;
                 }
-                getSupportFragmentManager().beginTransaction().replace(R.id.frame_layout_content, selectedFragment).commit();
-                return true;
+                return false;
             };
 
 
@@ -277,6 +261,9 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                         AppData.INSTANCE.getLoggedUser().getLogin());
             case R.id.nav_global_news:
                 return ActivityFragment.create(ActivityFragment.ActivityType.PublicNews,
+                        AppData.INSTANCE.getLoggedUser().getLogin());
+            case R.id.nav_news:
+                return ActivityFragment.create(ActivityFragment.ActivityType.News,
                         AppData.INSTANCE.getLoggedUser().getLogin());
 
         }

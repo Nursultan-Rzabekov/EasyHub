@@ -10,7 +10,9 @@ import androidx.fragment.app.Fragment;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.mvp.model.Repository;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
+import com.example.javademogithubpractice.mvp.model.TrendingSince;
 import com.example.javademogithubpractice.mvp.model.User;
+import com.example.javademogithubpractice.ui.fragment.NotificationsFragment;
 import com.example.javademogithubpractice.ui.fragment.ProfileInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepoInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
@@ -84,6 +86,17 @@ public class FragmentPagerModel {
                         getFragment(fragments, 1, () -> UserListFragment.createForSearch(searchModels.get(1))))
         ));
     }
+
+    public static List<FragmentPagerModel> createNotificationsPagerList(
+            @NonNull Context context, @NonNull ArrayList<Fragment> fragments) {
+        return setPagerFragmentFlag(Arrays.asList(
+                new FragmentPagerModel(context.getString(R.string.unread),
+                        getFragment(fragments, 0, () -> NotificationsFragment.create(NotificationsFragment.NotificationsType.Unread))),
+                new FragmentPagerModel(context.getString(R.string.all),
+                        getFragment(fragments, 1, () -> NotificationsFragment.create(NotificationsFragment.NotificationsType.All)))
+        ));
+    }
+
 
     private static BaseFragment getFragment(ArrayList<Fragment> fragments, int position, FragmentCreator fragmentCreator){
         Fragment fragment  = fragments.get(position);

@@ -55,6 +55,11 @@ public class ViewUtils {
     }
 
     @ColorInt
+    public static int getAccentColor(@NonNull Context context) {
+        return getColorAttr(context, R.attr.colorAccent);
+    }
+
+    @ColorInt
     public static int getWindowBackground(@NonNull Context context) {
         return getColorAttr(context, android.R.attr.windowBackground);
     }

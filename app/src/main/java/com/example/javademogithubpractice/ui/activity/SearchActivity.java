@@ -16,9 +16,12 @@ import android.widget.AutoCompleteTextView;
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
 import androidx.appcompat.widget.SearchView;
+import androidx.coordinatorlayout.widget.CoordinatorLayout;
+import androidx.core.view.GravityCompat;
 import androidx.core.view.MenuItemCompat;
 import androidx.fragment.app.Fragment;
 
+import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.common.AppEventBus;
 import com.example.javademogithubpractice.common.Event;
@@ -28,14 +31,18 @@ import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.mvp.contract.ISearchContract;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
 import com.example.javademogithubpractice.mvp.presenter.SearchPresenter;
+import com.example.javademogithubpractice.ui.activity.base.BottomNavigationBehavior;
 import com.example.javademogithubpractice.ui.activity.base.PagerActivity;
 import com.example.javademogithubpractice.ui.adapter.baseAdapter.FragmentPagerModel;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.ui.fragment.UserListFragment;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.example.javademogithubpractice.util.ViewUtils;
+import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 import java.util.ArrayList;
+
+import butterknife.BindView;
 
 public class SearchActivity extends PagerActivity<SearchPresenter> implements ISearchContract.View,
         MenuItemCompat.OnActionExpandListener,
@@ -53,6 +60,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         super.initActivity();
     }
 
+
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
@@ -60,7 +68,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
         searchView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        searchView.setBackgroundColor(getResources().getColor(R.color.material_red_200));
+        searchView.setBackgroundColor(getResources().getColor(R.color.white));
         searchView.setQuery(mPresenter.getSearchModels().get(0).getQuery(), false);
         if (isInputMode) {
             MenuItemCompat.expandActionView(searchItem);
@@ -79,6 +87,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
 
         return super.onCreateOptionsMenu(menu);
     }
+
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -119,13 +128,39 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         return R.layout.activity_view_pager;
     }
 
+    @BindView(R.id.navigation) BottomNavigationView bottomNavigationView;
+
     @Override
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         setToolbarScrollAble(true);
         setToolbarBackEnable();
         setToolbarTitle(getString(R.string.search));
+
+        bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
+        CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
+        layoutParams.setBehavior(new BottomNavigationBehavior());
     }
+
+
+    private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
+            = item -> {
+        switch (item.getItemId()) {
+            case R.id.navigationMyProfile:
+                ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
+                        AppData.INSTANCE.getLoggedUser().getAvatarUrl());
+                break;
+            case R.id.navigationHome:
+                NotificationsActivity.show(getActivity());
+                break;
+            case R.id.navigationSearch:
+                break;
+            case R.id.navigationMenu:
+                //drawerLayout.openDrawer(GravityCompat.START);
+                break;
+        }
+        return false;
+    };
 
 
     @Override

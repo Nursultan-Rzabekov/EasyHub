@@ -33,6 +33,7 @@ import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
 import com.example.javademogithubpractice.ui.activity.base.BottomNavigationBehavior;
 import com.example.javademogithubpractice.ui.activity.base.PagerActivity;
 import com.example.javademogithubpractice.ui.adapter.baseAdapter.FragmentPagerModel;
+import com.example.javademogithubpractice.ui.fragment.ActivityFragment;
 import com.example.javademogithubpractice.ui.fragment.ProfileInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.util.BundleHelper;
@@ -110,8 +111,7 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     @Override
     protected void initActivity() {
         super.initActivity();
-        setStartDrawerEnable(true);
-        setEndDrawerEnable(true);
+        w
     }
 
     @Nullable
@@ -131,7 +131,6 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
-        bottomNavigationView.setSelectedItemId(R.id.navigationHome);
     }
 
     @Override
@@ -154,18 +153,16 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
             = item -> {
         switch (item.getItemId()) {
             case R.id.navigationMyProfile:
-                ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
-                        AppData.INSTANCE.getLoggedUser().getAvatarUrl());
-                return true;
-            case R.id.navigationMyCourses:
-                return true;
+                break;
             case R.id.navigationHome:
-                return true;
+                NotificationsActivity.show(getActivity());
+                break;
             case  R.id.navigationSearch:
-                return true;
+                SearchActivity.show(getActivity());
+                break;
             case  R.id.navigationMenu:
                 drawerLayout.openDrawer(GravityCompat.START);
-                return true;
+                break;
         }
         return false;
     };
@@ -219,8 +216,6 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     protected int getFragmentPosition(Fragment fragment) {
         if (fragment instanceof ProfileInfoFragment) {
             return 0;
-//        } else if (fragment instanceof ActivityFragment) {
-//            return 1;
         } else if (fragment instanceof RepositoriesFragment) {
             return 1;
         } else
