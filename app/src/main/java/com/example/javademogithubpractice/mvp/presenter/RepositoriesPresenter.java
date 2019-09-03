@@ -3,7 +3,7 @@ import com.example.javademogithubpractice.mvp.contract.IRepositoriesContract;
 import com.example.javademogithubpractice.mvp.model.Repository;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
 import com.example.javademogithubpractice.network.error.HttpPageNoFoundError;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
@@ -34,7 +34,7 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
     @AutoAccess SearchModel searchModel;
 
     @Inject
-    public RepositoriesPresenter(DaoSessionImpl daoSession) {
+    public RepositoriesPresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 
@@ -62,7 +62,7 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
     private void searchRepos(final int page) {
         mView.showLoading();
 
-        addDisposable(getSearchService().searchRepos(searchModel.getQuery(),"asc", page)
+        addDisposable(getSearchRepositoryImpl().searchRepos(searchModel.getQuery(),"asc", page)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response ->{
@@ -130,13 +130,13 @@ public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContr
     private Observable<Response<ArrayList<Repository>>> getObservable(boolean forceNetWork, int page) {
         switch (type) {
             case OWNED:
-                return getRepoService().getUserRepos(forceNetWork, page, filter.getType(),
+                return getRepoRepositoryImpl().getUserRepos(forceNetWork, page, filter.getType(),
                         filter.getSort(), filter.getSortDirection());
             case PUBLIC:
-                return getRepoService().getUserPublicRepos(forceNetWork, user, page,
+                return getRepoRepositoryImpl().getUserPublicRepos(forceNetWork, user, page,
                         filter.getType(), filter.getSort(), filter.getSortDirection());
             case STARRED:
-                return getRepoService().getStarredRepos(forceNetWork, user, page,
+                return getRepoRepositoryImpl().getStarredRepos(forceNetWork, user, page,
                         filter.getSort(), filter.getSortDirection());
             default:
                 return null;

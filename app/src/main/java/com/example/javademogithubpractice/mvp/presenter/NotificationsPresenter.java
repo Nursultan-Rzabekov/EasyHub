@@ -7,7 +7,7 @@ package com.example.javademogithubpractice.mvp.presenter;
 import android.widget.Toast;
 import com.example.javademogithubpractice.mvp.contract.INotificationsContract;
 import com.example.javademogithubpractice.mvp.model.Notification;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.ui.fragment.NotificationsFragment;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
@@ -28,7 +28,7 @@ public class NotificationsPresenter extends BasePagerPresenter<INotificationsCon
     private ArrayList<Notification> notifications;
 
     @Inject
-    public NotificationsPresenter(DaoSessionImpl daoSession) {
+    public NotificationsPresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 
@@ -79,9 +79,9 @@ public class NotificationsPresenter extends BasePagerPresenter<INotificationsCon
 
     public Observable<Response<ArrayList<Notification>>> createObservable(boolean forceNetWork) {
         if (NotificationsFragment.NotificationsType.Unread.equals(type)) {
-            return getNotificationsService().getMyNotifications(forceNetWork, false, false);
+            return getNotificationRepositoryImpl().getMyNotifications(forceNetWork, false, false);
         } else if (NotificationsFragment.NotificationsType.All.equals(type)) {
-            return getNotificationsService().getMyNotifications(forceNetWork, true, false);
+            return getNotificationRepositoryImpl().getMyNotifications(forceNetWork, true, false);
         } else {
             return null;
         }

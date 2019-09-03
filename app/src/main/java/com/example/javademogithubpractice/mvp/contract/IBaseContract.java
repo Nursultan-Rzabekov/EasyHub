@@ -24,8 +24,8 @@ public interface IBaseContract {
         void showSuccessToast(String message);
         void showErrorToast(String message);
         void showWarningToast(String message);
-        void showLoading();
-        void hideLoading();
+        default void showLoading() {}
+        default void hideLoading() {}
         void showLoginPage();
     }
 

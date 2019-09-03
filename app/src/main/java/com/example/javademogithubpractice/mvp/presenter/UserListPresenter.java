@@ -7,7 +7,7 @@ import com.example.javademogithubpractice.mvp.contract.IUserListContract;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
 import com.example.javademogithubpractice.mvp.model.User;
 import com.example.javademogithubpractice.network.error.HttpPageNoFoundError;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.ui.fragment.UserListFragment;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
@@ -33,7 +33,7 @@ public class UserListPresenter extends BasePagerPresenter<IUserListContract.View
     private ArrayList<User> users;
 
     @Inject
-    public UserListPresenter(DaoSessionImpl daoSession) {
+    public UserListPresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 
@@ -98,11 +98,11 @@ public class UserListPresenter extends BasePagerPresenter<IUserListContract.View
 
     private Observable<Response<ArrayList<User>>> createObservable(boolean forceNetWork,int page) {
         if (type.equals(UserListFragment.UserListType.FOLLOWERS)) {
-            return getUserService().getFollowers(forceNetWork, user, page);
+            return getUserRepositoryImpl().getFollowers(forceNetWork, user, page);
         } else if (type.equals(UserListFragment.UserListType.FOLLOWING)) {
-            return getUserService().getFollowing(forceNetWork, user, page);
+            return getUserRepositoryImpl().getFollowing(forceNetWork, user, page);
         } else if (type.equals(UserListFragment.UserListType.ORG_MEMBERS)) {
-            return getUserService().getOrgMembers(forceNetWork, user, page);
+            return getUserRepositoryImpl().getOrgMembers(forceNetWork, user, page);
         } else {
             throw new IllegalArgumentException(type.name());
         }
@@ -110,7 +110,7 @@ public class UserListPresenter extends BasePagerPresenter<IUserListContract.View
 
     private void searchUsers(final int page) {
         mView.showLoading();
-        addDisposable(getSearchService()
+        addDisposable(getSearchRepositoryImpl()
                 .searchUsers(
                 searchModel.getQuery(),
                 "asc", page)

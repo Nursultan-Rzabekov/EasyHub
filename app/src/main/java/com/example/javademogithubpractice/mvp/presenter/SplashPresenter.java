@@ -7,7 +7,7 @@ import android.widget.Toast;
 import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.mvp.contract.ISplashContract;
 import com.example.javademogithubpractice.mvp.model.User;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.room.model.AuthUser;
 
 import java.util.Date;
@@ -35,7 +35,7 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
     }
 
     @Inject
-    SplashPresenter(DaoSessionImpl daoSession) {
+    SplashPresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 
@@ -89,7 +89,7 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
 
 
     private void getUserInfo(final String accessToken) {
-        Observable<Response<User>> observable = getUserService(accessToken).getPersonInfo(true);
+        Observable<Response<User>> observable = getUserRepositoryImpl(accessToken).getPersonInfo(true);
         addDisposable(observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::onSuccessUser,this::onErrorUser));

@@ -5,7 +5,7 @@ package com.example.javademogithubpractice.mvp.presenter;
 import com.example.javademogithubpractice.mvp.contract.IActivityContract;
 import com.example.javademogithubpractice.mvp.model.Event;
 import com.example.javademogithubpractice.network.error.HttpPageNoFoundError;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.ui.fragment.ActivityFragment;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
@@ -35,7 +35,7 @@ public class ActivityPresenter extends BasePagerPresenter<IActivityContract.View
     }
 
     @Inject
-    public ActivityPresenter(DaoSessionImpl daoSession) {
+    public ActivityPresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 
@@ -97,9 +97,9 @@ public class ActivityPresenter extends BasePagerPresenter<IActivityContract.View
 
     private Observable<Response<ArrayList<Event>>> getObservable(boolean forceNetWork, int page){
         if(type.equals(ActivityFragment.ActivityType.News)){
-            return getUserService().getNewsEvent(forceNetWork, user, page);
+            return getUserRepositoryImpl().getNewsEvent(forceNetWork, user, page);
         } else if(type.equals(ActivityFragment.ActivityType.PublicNews)){
-            return getUserService().getPublicEvent(forceNetWork, page);
+            return getUserRepositoryImpl().getPublicEvent(forceNetWork, page);
         } else {
             return null;
         }

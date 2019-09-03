@@ -55,9 +55,16 @@
 
 
         <activity android:name=".ui.activity.RepositoryActivity" android:label="@string/repository"/>
-        <activity android:name=".ui.activity.ProfileActivity" android:label="@string/profile"/>
-        <activity android:name=".ui.activity.SearchActivity" android:label="@string/search"/>
-        <activity android:name=".ui.activity.NotificationsActivity"/>
+        <activity
+            android:name=".ui.activity.ProfileActivity"
+            android:label="@string/profile"
+            android:launchMode="singleInstance"/>
+        <activity android:name=".ui.activity.SearchActivity"
+            android:label="@string/search"
+            android:launchMode="singleInstance"/>
+        <activity
+            android:name=".ui.activity.NotificationsActivity"
+            android:launchMode="singleInstance"/>
 
     </application>
 

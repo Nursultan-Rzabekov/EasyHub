@@ -111,7 +111,8 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     @Override
     protected void initActivity() {
         super.initActivity();
-        w
+        setStartDrawerEnable(true);
+        setEndDrawerEnable(true);
     }
 
     @Nullable
@@ -127,6 +128,7 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
         setToolbarBackEnable();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setUserAvatar();
+
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();

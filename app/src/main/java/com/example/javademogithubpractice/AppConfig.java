@@ -23,13 +23,10 @@ public class AppConfig {
 
     public final static String DEMOGITHUB_CLIENT_SECRET = "cf16b36f512c250a3c9f48ecdc8e814e7732380c";
 
-    public final static String OAUTH2_SCOPE = "user,repo,gist,notifications";
+    public final static String OAUTH2_SCOPE = "user,repo,gist,notifications,admin:org,admin:org_hook";
 
 
     public final static String OAUTH2_URL = GITHUB_BASE_URL + "login/oauth/authorize";
 
     public final static String REDIRECT_URL = "easyhub://redirecturi";
-
-
-
 }

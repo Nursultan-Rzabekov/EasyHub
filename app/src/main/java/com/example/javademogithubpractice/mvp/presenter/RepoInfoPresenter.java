@@ -1,7 +1,7 @@
 package com.example.javademogithubpractice.mvp.presenter;
 import com.example.javademogithubpractice.mvp.contract.IRepoInfoContract;
 import com.example.javademogithubpractice.mvp.model.Repository;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 import javax.inject.Inject;
 
@@ -12,7 +12,7 @@ public class RepoInfoPresenter extends BasePagerPresenter<IRepoInfoContract.View
     @AutoAccess Repository repository;
 
     @Inject
-    public RepoInfoPresenter(DaoSessionImpl daoSession) {
+    public RepoInfoPresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 

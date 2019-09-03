@@ -7,7 +7,7 @@ import android.os.Handler;
 import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.mvp.contract.IProfileContract;
 import com.example.javademogithubpractice.mvp.model.User;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 
 import javax.inject.Inject;
@@ -16,7 +16,6 @@ import io.reactivex.android.schedulers.AndroidSchedulers;
 import io.reactivex.disposables.CompositeDisposable;
 import io.reactivex.disposables.Disposable;
 import io.reactivex.schedulers.Schedulers;
-import okhttp3.ResponseBody;
 import retrofit2.Response;
 
 public class ProfilePresenter extends BasePresenter<IProfileContract.View> implements IProfileContract.Presenter{
@@ -36,7 +35,7 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View> imple
     }
 
     @Inject
-    public ProfilePresenter(DaoSessionImpl daoSession) {
+    public ProfilePresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 
@@ -62,7 +61,7 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View> imple
     private void getProfileInfo(){
         mView.showLoading();
 
-        addDisposable(getUserService().getUser(true, loginId)
+        addDisposable(getUserRepositoryImpl().getUser(true, loginId)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::successProfile,this::errorProfile));

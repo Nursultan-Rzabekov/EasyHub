@@ -4,7 +4,7 @@ package com.example.javademogithubpractice.mvp.presenter;
 
 import com.example.javademogithubpractice.mvp.contract.IRepositoryContract;
 import com.example.javademogithubpractice.mvp.model.Repository;
-import com.example.javademogithubpractice.room.DaoSessionLocalRepoImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 import javax.inject.Inject;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -31,8 +31,8 @@ public class RepositoryPresenter extends BasePresenter<IRepositoryContract.View>
 
 
     @Inject
-    public RepositoryPresenter(DaoSessionLocalRepoImpl daoSessionLocalRepo) {
-        super(daoSessionLocalRepo);
+    public RepositoryPresenter(AuthSessionRepository authSessionRepository) {
+        super(authSessionRepository);
     }
 
     @Override
@@ -59,7 +59,7 @@ public class RepositoryPresenter extends BasePresenter<IRepositoryContract.View>
     private void getRepoInfo(final boolean isShowLoading) {
         if (isShowLoading) mView.showLoading();
 
-        addDisposable(getRepoService().getRepoInfo(true, owner, repoName)
+        addDisposable(getRepoRepositoryImpl().getRepoInfo(true, owner, repoName)
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(response ->{

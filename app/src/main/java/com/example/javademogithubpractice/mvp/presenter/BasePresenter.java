@@ -22,8 +22,12 @@ import com.example.javademogithubpractice.network.core.AppRetrofit;
 import com.example.javademogithubpractice.network.error.HttpError;
 import com.example.javademogithubpractice.network.error.UnauthorizedError;
 import com.example.javademogithubpractice.mvp.contract.IBaseContract;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
-import com.example.javademogithubpractice.room.DaoSessionLocalRepoImpl;
+import com.example.javademogithubpractice.repository.LoginRepositoryImpl;
+import com.example.javademogithubpractice.repository.NotificationsRepositoryImpl;
+import com.example.javademogithubpractice.repository.RepoRepositoryImpl;
+import com.example.javademogithubpractice.repository.SearchRepositpryImpl;
+import com.example.javademogithubpractice.repository.UserRepositoryImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.thirtydegreesray.dataautoaccess.DataAutoAccess;
 import org.apache.http.conn.ConnectTimeoutException;
@@ -37,21 +41,17 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
     private final String TAG = "BasePresenter";
 
     protected V mView;
-    protected DaoSessionImpl daoSession;
-    protected DaoSessionLocalRepoImpl daoSessionLocalRepo;
+    protected AuthSessionRepository daoSession;
 
     private boolean isViewInitialized = false;
 
     private boolean isAttached = false;
 
 
-    public BasePresenter(DaoSessionImpl daoSession) {
+    public BasePresenter(AuthSessionRepository daoSession) {
         this.daoSession = daoSession;
     }
 
-    public BasePresenter(DaoSessionLocalRepoImpl daoSessionLocalRepo){
-        this.daoSessionLocalRepo = daoSessionLocalRepo;
-    }
 
 
     @Override
@@ -115,6 +115,36 @@ public abstract class BasePresenter<V extends IBaseContract.View> implements IBa
 
     protected NotificationsService getNotificationsService() {
         return getServices(NotificationsService.class);
+    }
+
+
+    protected SearchRepositpryImpl getSearchRepositoryImpl(){
+        return new SearchRepositpryImpl(getSearchService());
+    }
+
+    protected NotificationsRepositoryImpl getNotificationRepositoryImpl(){
+        return new NotificationsRepositoryImpl(getNotificationsService());
+    }
+
+    protected RepoRepositoryImpl getRepoRepositoryImpl(){
+        return new RepoRepositoryImpl(getRepoService());
+    }
+
+    protected UserRepositoryImpl getUserRepositoryImpl(){
+        return new UserRepositoryImpl(getUserService());
+    }
+
+    protected UserRepositoryImpl getUserRepositoryImpl(String token){
+        return new UserRepositoryImpl(getUserService(token));
+    }
+
+
+    protected LoginRepositoryImpl getLoginRepositoryImpl(){
+        return new LoginRepositoryImpl(getLoginService());
+    }
+
+    protected LoginRepositoryImpl getLoginRepositoryImplBasic(String token){
+        return new LoginRepositoryImpl(getLoginService(token));
     }
 
 

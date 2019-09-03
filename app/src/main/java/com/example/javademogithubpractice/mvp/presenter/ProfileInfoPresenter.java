@@ -4,7 +4,7 @@ package com.example.javademogithubpractice.mvp.presenter;
 
 import com.example.javademogithubpractice.mvp.contract.IProfileInfoContract;
 import com.example.javademogithubpractice.mvp.model.User;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 import java.util.ArrayList;
 import javax.inject.Inject;
@@ -18,11 +18,10 @@ public class ProfileInfoPresenter extends BasePagerPresenter<IProfileInfoContrac
         implements IProfileInfoContract.Presenter{
 
     @AutoAccess User user;
-
     private ArrayList<User> orgs;
 
     @Inject
-    public ProfileInfoPresenter(DaoSessionImpl daoSession) {
+    public ProfileInfoPresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 
@@ -60,7 +59,7 @@ public class ProfileInfoPresenter extends BasePagerPresenter<IProfileInfoContrac
             return;
         }
 
-        addDisposable(getUserService().getUserOrgs(true, user.getLogin())
+        addDisposable(getUserRepositoryImpl().getUserOrgs(true, user.getLogin())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::successInfoUserOrg,this::errorInfoUserOrg));
@@ -77,7 +76,6 @@ public class ProfileInfoPresenter extends BasePagerPresenter<IProfileInfoContrac
             mView.showUserOrgs(orgs);
         }
     }
-
     public void setUser(User user) {
         this.user = user;
     }

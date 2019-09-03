@@ -4,6 +4,7 @@ package com.example.javademogithubpractice.ui.activity;
 
 import android.content.Context;
 import android.content.Intent;
+import android.graphics.Color;
 import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
 import android.text.InputType;
@@ -12,9 +13,12 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ArrayAdapter;
 import android.widget.AutoCompleteTextView;
+import android.widget.ImageView;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.appcompat.app.AlertDialog;
 import androidx.appcompat.widget.SearchView;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.view.GravityCompat;
@@ -25,22 +29,31 @@ import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.common.AppEventBus;
 import com.example.javademogithubpractice.common.Event;
+import com.example.javademogithubpractice.common.GlideApp;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.inject.component.DaggerActivityComponent;
 import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.mvp.contract.ISearchContract;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
+import com.example.javademogithubpractice.mvp.model.User;
+import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
 import com.example.javademogithubpractice.mvp.presenter.SearchPresenter;
 import com.example.javademogithubpractice.ui.activity.base.BottomNavigationBehavior;
 import com.example.javademogithubpractice.ui.activity.base.PagerActivity;
 import com.example.javademogithubpractice.ui.adapter.baseAdapter.FragmentPagerModel;
+import com.example.javademogithubpractice.ui.fragment.ActivityFragment;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.ui.fragment.UserListFragment;
+import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.example.javademogithubpractice.util.ViewUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 import java.util.ArrayList;
+import java.util.Arrays;
+import java.util.HashMap;
+import java.util.List;
+import java.util.Map;
 
 import butterknife.BindView;
 
@@ -54,22 +67,29 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
     }
 
     @AutoAccess boolean isInputMode = true;
+    MenuItem searchItem;
 
     @Override
     protected void initActivity() {
         super.initActivity();
+        setStartDrawerEnable(true);
+        setEndDrawerEnable(true);
     }
 
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
         getMenuInflater().inflate(R.menu.menu_search, menu);
-        MenuItem searchItem = menu.findItem(R.id.action_search);
+        searchItem = menu.findItem(R.id.action_search);
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
         searchView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        searchView.setBackgroundColor(getResources().getColor(R.color.white));
+        //searchView.setBackgroundColor(getResources().getColor(R.color.white));
         searchView.setQuery(mPresenter.getSearchModels().get(0).getQuery(), false);
+
+        TextView textView = searchView.findViewById(R.id.search_src_text);
+        textView.setTextColor(Color.WHITE);
+
         if (isInputMode) {
             MenuItemCompat.expandActionView(searchItem);
         } else {
@@ -77,13 +97,13 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         }
         MenuItemCompat.setOnActionExpandListener(searchItem, this);
 
-        AutoCompleteTextView autoCompleteTextView = searchView.findViewById(R.id.search_src_text);
-        autoCompleteTextView.setThreshold(0);
-        autoCompleteTextView.setAdapter(new ArrayAdapter<>(this, R.layout.layout_item_simple_list, mPresenter.getSearchRecordList()));
-        autoCompleteTextView.setDropDownBackgroundDrawable(new ColorDrawable(ViewUtils.getWindowBackground(getActivity())));
-        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
-            onQueryTextSubmit(parent.getAdapter().getItem(position).toString());
-        });
+//        AutoCompleteTextView autoCompleteTextView = searchView.findViewById(R.id.search_src_text);
+//        autoCompleteTextView.setThreshold(0);
+//        autoCompleteTextView.setAdapter(new ArrayAdapter<>(this, R.layout.layout_item_simple_list, mPresenter.getSearchRecordList()));
+//        autoCompleteTextView.setDropDownBackgroundDrawable(new ColorDrawable(ViewUtils.getWindowBackground(getActivity())));
+//        autoCompleteTextView.setOnItemClickListener((parent, view, position, id) -> {
+//            onQueryTextSubmit(parent.getAdapter().getItem(position).toString());
+//        });
 
         return super.onCreateOptionsMenu(menu);
     }
@@ -125,7 +145,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
     @Nullable
     @Override
     protected int getContentView() {
-        return R.layout.activity_view_pager;
+        return R.layout.helper_activity;
     }
 
     @BindView(R.id.navigation) BottomNavigationView bottomNavigationView;
@@ -134,12 +154,28 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         setToolbarScrollAble(true);
-        setToolbarBackEnable();
         setToolbarTitle(getString(R.string.search));
+
+        updateStartDrawerContent(R.menu.activity_main_drawer);
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
+
+
+        ImageView avatar = navViewStart.getHeaderView(0).findViewById(R.id.avatar);
+        TextView name = navViewStart.getHeaderView(0).findViewById(R.id.name);
+        TextView mail = navViewStart.getHeaderView(0).findViewById(R.id.mail);
+
+        User loginUser = AppData.INSTANCE.getLoggedUser();
+        GlideApp.with(getActivity())
+                .load(loginUser.getAvatarUrl())
+                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                .into(avatar);
+
+        name.setText(StringUtils.isBlank(loginUser.getName()) ? loginUser.getLogin() : loginUser.getName());
+        String joinTime = getString(R.string.joined_at).concat(" ").concat(StringUtils.getDateStr(loginUser.getCreatedAt()));
+        mail.setText(StringUtils.isBlank(loginUser.getBio()) ? joinTime : loginUser.getBio());
     }
 
 
@@ -149,14 +185,20 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
             case R.id.navigationMyProfile:
                 ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
                         AppData.INSTANCE.getLoggedUser().getAvatarUrl());
+                tabLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.navigationHome:
                 NotificationsActivity.show(getActivity());
+                tabLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.navigationSearch:
+                SearchActivity.show(getActivity());
+                tabLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.navigationMenu:
-                //drawerLayout.openDrawer(GravityCompat.START);
+                drawerLayout.openDrawer(GravityCompat.START);
+                searchItem.setVisible(false);
+                tabLayout.setVisibility(View.GONE);
                 break;
         }
         return false;
@@ -222,5 +264,184 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
             return 1;
         }else
             return -1;
+    }
+
+
+    //Method from MainActivity
+    private final Map<Integer, String> TAG_MAP = new HashMap<>();
+    @AutoAccess
+    int selectedPage;
+
+    private final List<Integer> FRAGMENT_NAV_ID_LIST = Arrays.asList(
+            R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news,R.id.nav_news
+    );
+
+    private final List<String> FRAGMENT_TAG_LIST = Arrays.asList(
+            RepositoriesFragment.RepositoriesType.OWNED.name(),
+            RepositoriesFragment.RepositoriesType.STARRED.name(),
+            ActivityFragment.ActivityType.PublicNews.name(),
+            ActivityFragment.ActivityType.News.name()
+
+    );
+
+    {
+        for(int i = 0; i < FRAGMENT_NAV_ID_LIST.size(); i++){
+            TAG_MAP.put(FRAGMENT_NAV_ID_LIST.get(i), FRAGMENT_TAG_LIST.get(i));
+        }
+    }
+
+    private final List<Integer> FRAGMENT_TITLE_LIST = Arrays.asList(
+            R.string.my_repos, R.string.starred_repos,R.string.public_news,R.string.my_news
+    );
+
+    protected void onNavItemSelected(@NonNull MenuItem item, boolean isStartDrawer) {
+        super.onNavItemSelected(item, isStartDrawer);
+        if (!isStartDrawer) {
+            handlerEndDrawerClick(item);
+            return;
+        }
+        int id = item.getItemId();
+        updateFragmentByNavId(id);
+    }
+
+    @Override
+    protected boolean isEndDrawerMultiSelect() {
+        return true;
+    }
+
+    @Override
+    protected int getEndDrawerToggleMenuItemId() {
+        return R.id.nav_sort;
+    }
+
+    private void updateFragmentByNavId(int id){
+        if(FRAGMENT_NAV_ID_LIST.contains(id)){
+            updateTitle(id);
+            loadFragment(id);
+            updateFilter(id);
+            return;
+        }
+        switch (id) {
+            case R.id.nav_logout:
+                logout();
+                break;
+            default:
+                break;
+        }
+    }
+
+    private void updateTitle(int itemId) {
+        int titleId = FRAGMENT_TITLE_LIST.get(FRAGMENT_NAV_ID_LIST.indexOf(itemId));
+        setToolbarTitle(getString(titleId));
+    }
+
+
+    private void handlerEndDrawerClick(MenuItem item) {
+        Fragment fragment = getVisibleFragment();
+        if (fragment != null && fragment instanceof RepositoriesFragment
+                && (selectedPage == R.id.nav_repository || selectedPage == R.id.nav_stars)) {
+            ((RepositoriesFragment) fragment).onDrawerSelected(navViewEnd, item);
+        }
+    }
+
+    private void updateFilter(int itemId) {
+        if (itemId == R.id.nav_repository) {
+            updateEndDrawerContent(R.menu.menu_repositories_filter);
+            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.OWNED);
+        } else if (itemId == R.id.nav_stars) {
+            updateEndDrawerContent(R.menu.menu_repositories_filter);
+            RepositoriesFilter.initDrawer(navViewEnd, RepositoriesFragment.RepositoriesType.STARRED);
+        } else {
+            removeEndDrawer();
+        }
+        invalidateOptionsMenu();
+    }
+
+    private void loadFragment(int itemId) {
+        String fragmentTag = TAG_MAP.get(itemId);
+
+        Fragment showFragment = getSupportFragmentManager().findFragmentByTag(fragmentTag);
+        boolean isExist = true;
+        if (showFragment == null) {
+            isExist = false;
+            showFragment = getFragment(itemId);
+        }
+        if (showFragment.isVisible()) {
+            return;
+        }
+
+        Fragment visibleFragment = getVisibleFragment();
+        if (isExist) {
+            showAndHideFragment(showFragment, visibleFragment);
+        } else {
+            addAndHideFragment(showFragment, visibleFragment, fragmentTag);
+        }
+    }
+
+    @NonNull
+    private Fragment getFragment(int itemId) {
+        switch (itemId) {
+            case R.id.nav_repository:
+                return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.OWNED,
+                        AppData.INSTANCE.getLoggedUser().getLogin());
+            case R.id.nav_stars:
+                return RepositoriesFragment.create(RepositoriesFragment.RepositoriesType.STARRED,
+                        AppData.INSTANCE.getLoggedUser().getLogin());
+            case R.id.nav_global_news:
+                return ActivityFragment.create(ActivityFragment.ActivityType.PublicNews,
+                        AppData.INSTANCE.getLoggedUser().getLogin());
+            case R.id.nav_news:
+                return ActivityFragment.create(ActivityFragment.ActivityType.News,
+                        AppData.INSTANCE.getLoggedUser().getLogin());
+
+        }
+        return null;
+    }
+
+
+    private void showAndHideFragment(@NonNull Fragment showFragment, @Nullable Fragment hideFragment) {
+        if (hideFragment == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .show(showFragment)
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .show(showFragment)
+                    .hide(hideFragment)
+                    .commit();
+        }
+
+    }
+
+
+    private void addAndHideFragment(@NonNull Fragment showFragment,
+                                    @Nullable Fragment hideFragment, @NonNull String addTag) {
+        if (hideFragment == null) {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.frame_layout, showFragment, addTag)
+                    .commit();
+        } else {
+            getSupportFragmentManager()
+                    .beginTransaction()
+                    .add(R.id.frame_layout, showFragment, addTag)
+                    .hide(hideFragment)
+                    .commit();
+        }
+    }
+
+
+    private void logout() {
+        new AlertDialog.Builder(getActivity())
+                .setCancelable(true)
+                .setTitle(R.string.warning_dialog_tile)
+                .setMessage(R.string.logout_warning)
+                .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
+                .setPositiveButton(R.string.logout, (dialog, which) -> {
+                    //mPresenter.logout();
+                })
+                .show();
     }
 }

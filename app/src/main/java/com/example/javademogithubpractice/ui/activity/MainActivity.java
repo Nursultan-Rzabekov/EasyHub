@@ -44,6 +44,7 @@ import java.util.Map;
 import butterknife.BindView;
 
 public class MainActivity extends BaseDrawerActivity<MainPresenter> implements IMainContract.View{
+
     @BindView(R.id.toolbar) Toolbar toolbar;
     @BindView(R.id.navigation) BottomNavigationView bottomNavigationView;
 
@@ -110,10 +111,14 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         setToolbarScrollAble(true);
         updateStartDrawerContent(R.menu.activity_main_drawer);
 
+        selectedPage = R.id.nav_repository;
+        updateFragmentByNavId(selectedPage);
+        navViewStart.setCheckedItem(selectedPage);
+
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
-        bottomNavigationView.setSelectedItemId(R.id.navigationHome);
+        //bottomNavigationView.setSelectedItemId(R.id.navigationHome);
 
         ImageView avatar = navViewStart.getHeaderView(0).findViewById(R.id.avatar);
         TextView name = navViewStart.getHeaderView(0).findViewById(R.id.name);
@@ -154,7 +159,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                         break;
                     case R.id.navigationHome:
                         NotificationsActivity.show(getActivity());
-                        break;
+                    break;
                     case R.id.navigationSearch:
                         SearchActivity.show(getActivity());
                         break;

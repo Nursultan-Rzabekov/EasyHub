@@ -31,7 +31,7 @@ import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.mvp.contract.IBaseContract;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.ui.activity.LoginActivity;
 import com.example.javademogithubpractice.ui.activity.SplashActivity;
 import com.example.javademogithubpractice.util.PrefUtils;
@@ -230,16 +230,6 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     }
 
     @Override
-    public void showLoading() {
-
-    }
-
-    @Override
-    public void hideLoading() {
-
-    }
-
-    @Override
     public void showProgressDialog(String content) {
         getProgressDialog(content);
         mProgressDialog.show();
@@ -341,7 +331,7 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         return getAppApplication().getAppComponent();
     }
 
-    protected DaoSessionImpl getDaoSession(){
+    protected AuthSessionRepository getDaoSession(){
         return getAppComponent().getDaoSession();
     }
 

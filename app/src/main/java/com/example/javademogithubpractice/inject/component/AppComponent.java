@@ -6,8 +6,7 @@ package com.example.javademogithubpractice.inject.component;
 
 import com.example.javademogithubpractice.AppApplication;
 import com.example.javademogithubpractice.inject.module.AppModule;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
-import com.example.javademogithubpractice.room.DaoSessionLocalRepoImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 
 import javax.inject.Singleton;
 
@@ -18,6 +17,5 @@ import dagger.Component;
 @Component(modules = {AppModule.class})
 public interface AppComponent {
     AppApplication getApplication();
-    DaoSessionImpl getDaoSession();
-    DaoSessionLocalRepoImpl getDaoSessionLocalRepoImpl();
+    AuthSessionRepository getDaoSession();
 }

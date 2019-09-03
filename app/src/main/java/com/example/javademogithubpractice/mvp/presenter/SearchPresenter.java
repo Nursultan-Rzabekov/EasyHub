@@ -6,7 +6,7 @@ import androidx.annotation.NonNull;
 
 import com.example.javademogithubpractice.mvp.contract.ISearchContract;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
@@ -20,7 +20,7 @@ public class SearchPresenter extends BasePresenter<ISearchContract.View> impleme
     @AutoAccess ArrayList<SearchModel> searchModels;
 
     @Inject
-    public SearchPresenter(DaoSessionImpl daoSession) {
+    public SearchPresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 

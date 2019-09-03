@@ -13,11 +13,11 @@ import com.example.javademogithubpractice.mvp.contract.ILoginContract;
 import com.example.javademogithubpractice.mvp.model.BasicToken;
 import com.example.javademogithubpractice.mvp.model.OauthToken;
 import com.example.javademogithubpractice.mvp.model.User;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.room.model.AuthUser;
 import com.example.javademogithubpractice.util.StringUtils;
 import java.util.Date;
-import java.util.UUID;
+
 import javax.inject.Inject;
 import io.reactivex.Observable;
 import io.reactivex.android.schedulers.AndroidSchedulers;
@@ -30,7 +30,7 @@ import retrofit2.Response;
 public class LoginPresenter extends BasePresenter<ILoginContract.View> implements ILoginContract.Presenter{
 
     @Inject
-    LoginPresenter(DaoSessionImpl daoSession) {
+    LoginPresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 
@@ -42,7 +42,7 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
 
     @Override
     public void getToken(String code) {
-        Observable<Response<OauthToken>> observable = getLoginService().getAccessToken(
+        Observable<Response<OauthToken>> observable = getLoginRepositoryImpl().getAccessToken(
                 AppConfig.DEMOGITHUB_CLIENT_ID,
                 AppConfig.DEMOGITHUB_CLIENT_SECRET, code);
 
@@ -72,8 +72,8 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
         return AppConfig.OAUTH2_URL +
                 "?client_id=" + AppConfig.DEMOGITHUB_CLIENT_ID +
                 "&redirect_uri=" + AppConfig.REDIRECT_URL +
-                "&scope=" + AppConfig.OAUTH2_SCOPE +
-                "&allow_signup=false";
+                "&scope=" + AppConfig.OAUTH2_SCOPE;
+                //"&allow_signup=false";
     }
 
 
@@ -82,7 +82,7 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
         AuthRequestModel authRequestModel = AuthRequestModel.generate();
         String token = Credentials.basic(userName, password);
 
-        Observable<Response<BasicToken>> observable = getLoginService(token).authorizations(authRequestModel);
+        Observable<Response<BasicToken>> observable = getLoginRepositoryImplBasic(token).authorizations(authRequestModel);
 
         addDisposable(observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(this::successAuth, this::handleErrorAuth));
@@ -113,7 +113,7 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
 
     @Override
     public void getUserInfo(final BasicToken basicToken) {
-        Observable<Response<User>> observable = getUserService(basicToken.getToken()).getPersonInfo(true);
+        Observable<Response<User>> observable = getUserRepositoryImpl(basicToken.getToken()).getPersonInfo(true);
 
         addDisposable(observable.subscribeOn(Schedulers.io()).observeOn(AndroidSchedulers.mainThread())
         .subscribe(response -> {

@@ -9,7 +9,7 @@ import android.widget.Toast;
 import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.mvp.contract.IMainContract;
 import com.example.javademogithubpractice.mvp.model.User;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.util.PrefUtils;
 
 
@@ -23,7 +23,7 @@ import io.reactivex.schedulers.Schedulers;
 public class MainPresenter extends BasePresenter<IMainContract.View> implements IMainContract.Presenter{
 
     @Inject
-    public MainPresenter(DaoSessionImpl daoSession) {
+    public MainPresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 
@@ -43,20 +43,6 @@ public class MainPresenter extends BasePresenter<IMainContract.View> implements 
         }
         return false;
     }
-
-//    @Override
-//    public List<AuthUser> getLoggedUserList() {
-//        List<AuthUser> users = daoSession.loadAllAuthUser();
-//        if(users != null){
-//            for(AuthUser user : users){
-//                if(AppData.INSTANCE.getLoggedUser().getLogin().equals(user.getLoginId())){
-//                    users.remove(user);
-//                    break;
-//                }
-//            }
-//        }
-//        return users;
-//    }
 
     @Override
     public void logout() {

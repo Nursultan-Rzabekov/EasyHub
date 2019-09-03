@@ -2,14 +2,14 @@ package com.example.javademogithubpractice.mvp.presenter;
 
 
 import com.example.javademogithubpractice.mvp.contract.IBasePagerContract;
-import com.example.javademogithubpractice.room.DaoSessionImpl;
+import com.example.javademogithubpractice.room.AuthSessionRepository;
 
 public abstract class BasePagerPresenter<V extends IBasePagerContract.View> extends BasePresenter<V>
         implements IBasePagerContract.Presenter<V>{
 
     private boolean isLoaded = false;
 
-    public BasePagerPresenter(DaoSessionImpl daoSession) {
+    public BasePagerPresenter(AuthSessionRepository daoSession) {
         super(daoSession);
     }
 

@@ -27,10 +27,6 @@ public interface LocalUserDao {
     @Query("SELECT * FROM authUser_database")
     Observable<List<AuthUser>> loadAll();
 
-
-//    @Query("DELETE FROM authUser_database WHERE language_id = :authUser")
-//    void deleteAuthUser(AuthUser authUser);
-
     @Query("DELETE FROM authUser_database")
     Completable deleteAllAuthUser();
 
