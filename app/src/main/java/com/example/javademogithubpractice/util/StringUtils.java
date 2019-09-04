@@ -90,6 +90,11 @@ public class StringUtils {
         return format.format(date);
     }
 
+    public static String upCaseFirstChar(String str){
+        if(isBlank(str)) return null;
+        return str.substring(0, 1).toUpperCase().concat(str.substring(1));
+    }
+
     public static String getNewsTimeStr(@NonNull Context context, @NonNull Date date){
         long subTime = System.currentTimeMillis() - date.getTime();
         final double MILLIS_LIMIT = 1000.0f;

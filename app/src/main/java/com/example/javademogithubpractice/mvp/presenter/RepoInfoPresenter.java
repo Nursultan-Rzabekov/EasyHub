@@ -10,6 +10,7 @@ import javax.inject.Inject;
 public class RepoInfoPresenter extends BasePagerPresenter<IRepoInfoContract.View> implements IRepoInfoContract.Presenter{
 
     @AutoAccess Repository repository;
+    @AutoAccess String repoName;
 
     @Inject
     public RepoInfoPresenter(AuthSessionRepository daoSession) {
@@ -35,5 +36,8 @@ public class RepoInfoPresenter extends BasePagerPresenter<IRepoInfoContract.View
 
     public void setRepository(Repository repository) {
         this.repository = repository;
+    }
+    public String getRepoName() {
+        return repository == null ? repoName : repository.getName();
     }
 }

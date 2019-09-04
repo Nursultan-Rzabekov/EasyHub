@@ -9,9 +9,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-/**
- * Created by ThirtyDegreesRay on 2017/8/23 21:11:20
- */
 
 public class Event implements Parcelable {
 
@@ -111,6 +108,7 @@ public class Event implements Parcelable {
     private User actor;
     private Repository repo;
     private User org;
+    private EventPayload payload;
     @SerializedName("public") private boolean isPublic;
     @SerializedName("created_at") private Date createdAt;
 
@@ -154,6 +152,14 @@ public class Event implements Parcelable {
         this.org = org;
     }
 
+    public EventPayload getPayload() {
+        return payload;
+    }
+
+    public void setPayload(EventPayload payload) {
+        this.payload = payload;
+    }
+
     public boolean isPublic() {
         return isPublic;
     }
@@ -182,6 +188,7 @@ public class Event implements Parcelable {
         dest.writeParcelable(this.actor, flags);
         dest.writeParcelable(this.repo, flags);
         dest.writeParcelable(this.org, flags);
+        dest.writeParcelable(this.payload, flags);
         dest.writeByte(this.isPublic ? (byte) 1 : (byte) 0);
         dest.writeLong(this.createdAt != null ? this.createdAt.getTime() : -1);
     }
@@ -196,6 +203,7 @@ public class Event implements Parcelable {
         this.actor = in.readParcelable(User.class.getClassLoader());
         this.repo = in.readParcelable(Repository.class.getClassLoader());
         this.org = in.readParcelable(User.class.getClassLoader());
+        this.payload = in.readParcelable(EventPayload.class.getClassLoader());
         this.isPublic = in.readByte() != 0;
         long tmpCreatedAt = in.readLong();
         this.createdAt = tmpCreatedAt == -1 ? null : new Date(tmpCreatedAt);

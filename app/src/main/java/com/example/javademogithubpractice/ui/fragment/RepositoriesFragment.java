@@ -10,6 +10,8 @@ import android.view.View;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
+import androidx.core.content.ContextCompat;
+
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.inject.component.DaggerFragmentComponent;
@@ -18,7 +20,7 @@ import com.example.javademogithubpractice.mvp.contract.IRepositoriesContract;
 import com.example.javademogithubpractice.mvp.model.Repository;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
 import com.example.javademogithubpractice.mvp.model.TrendingSince;
-import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
+import com.example.javademogithubpractice.mvp.model.RepositoriesFilter;
 import com.example.javademogithubpractice.mvp.presenter.RepositoriesPresenter;
 import com.example.javademogithubpractice.ui.activity.RepositoryActivity;
 import com.example.javademogithubpractice.ui.adapter.RepositoriesAdapter;
@@ -34,7 +36,7 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
         implements IRepositoriesContract.View, OnDrawerSelectedListener {
 
     public enum RepositoriesType{
-        OWNED, PUBLIC, STARRED, TRENDING, TRACE, BOOKMARK, COLLECTION,SEARCH
+        OWNED,PUBLIC,STARRED,SEARCH
     }
 
     public static RepositoriesFragment create(@NonNull RepositoriesType type,
@@ -55,16 +57,6 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
         return fragment;
     }
 
-    public static RepositoriesFragment createForTrending(@NonNull TrendingSince since){
-        RepositoriesFragment fragment = new RepositoriesFragment();
-        fragment.setArguments(
-                BundleHelper.builder()
-                        .put("type", RepositoriesType.TRENDING)
-                        .put("since", since)
-                        .build()
-        );
-        return fragment;
-    }
 
     @Override
     public void onCreate(@Nullable Bundle savedInstanceState) {
@@ -96,7 +88,7 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
     @Override
     protected void initFragment(Bundle savedInstanceState){
         super.initFragment(savedInstanceState);
-        setLoadMoreEnable(!RepositoriesType.COLLECTION.equals(mPresenter.getType()));
+        setLoadMoreEnable(true);
     }
 
     @Override
@@ -112,15 +104,9 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
     @Override
     public void onItemClick(int position, @NonNull View view) {
         super.onItemClick(position, view);
-        if(RepositoriesType.TRENDING.equals(mPresenter.getType())
-                || RepositoriesType.TRACE.equals(mPresenter.getType())
-                || RepositoriesType.BOOKMARK.equals(mPresenter.getType())
-                || RepositoriesType.COLLECTION.equals(mPresenter.getType())){
-            RepositoryActivity.show(getActivity(), adapter.getData().get(position).getOwner().getLogin(),
-                    adapter.getData().get(position).getName());
-        } else {
-            RepositoryActivity.show(getActivity(), adapter.getData().get(position));
-        }
+//            RepositoryActivity.show(getActivity(), adapter.getData().get(position).getOwner().getLogin(),
+//                    adapter.getData().get(position).getName());
+        RepositoryActivity.show(getActivity(), adapter.getData().get(position));
     }
 
     @Override
@@ -132,6 +118,7 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
+        menu.getItem(0).setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.ic_menu_black_24dp));
     }
 
     @Override

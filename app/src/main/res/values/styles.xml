@@ -1,4 +1,4 @@
-<resources>
+<resources xmlns:tools="http://schemas.android.com/tools">
 
     <style name="DividerLine">
         <item name="android:background">#000fff</item>
@@ -16,9 +16,9 @@
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">
         <item name="android:statusBarColor">@color/transparent</item>
-        <!--<item name="android:windowLightStatusBar" tools:targetApi="m">true</item>-->
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
         <!--<item name="android:windowBackground">@drawable/splash_screen_drawable</item>-->
-        <!--<item name="icon_color">@color/white</item> &lt;!&ndash; to display the icons properly since this theme is the default &ndash;&gt;-->
+        <item name="icon_color">@color/white</item> <!-- to display the icons properly since this theme is the default -->
     </style>
 
     <style name="Toolbar.TitleText" parent="TextAppearance.Widget.AppCompat.Toolbar.Title">

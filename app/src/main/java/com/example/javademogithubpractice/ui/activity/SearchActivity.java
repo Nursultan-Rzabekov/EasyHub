@@ -5,14 +5,12 @@ package com.example.javademogithubpractice.ui.activity;
 import android.content.Context;
 import android.content.Intent;
 import android.graphics.Color;
-import android.graphics.drawable.ColorDrawable;
 import android.os.Bundle;
+import android.text.Html;
 import android.text.InputType;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
-import android.widget.ArrayAdapter;
-import android.widget.AutoCompleteTextView;
 import android.widget.ImageView;
 import android.widget.TextView;
 
@@ -36,7 +34,7 @@ import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.mvp.contract.ISearchContract;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
 import com.example.javademogithubpractice.mvp.model.User;
-import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
+import com.example.javademogithubpractice.mvp.model.RepositoriesFilter;
 import com.example.javademogithubpractice.mvp.presenter.SearchPresenter;
 import com.example.javademogithubpractice.ui.activity.base.BottomNavigationBehavior;
 import com.example.javademogithubpractice.ui.activity.base.PagerActivity;
@@ -46,7 +44,6 @@ import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.ui.fragment.UserListFragment;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
-import com.example.javademogithubpractice.util.ViewUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
 import java.util.ArrayList;
@@ -84,12 +81,16 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         SearchView searchView = (SearchView) MenuItemCompat.getActionView(searchItem);
         searchView.setOnQueryTextListener(this);
         searchView.setInputType(InputType.TYPE_TEXT_FLAG_CAP_WORDS);
-        //searchView.setBackgroundColor(getResources().getColor(R.color.white));
         searchView.setQuery(mPresenter.getSearchModels().get(0).getQuery(), false);
+        searchView.setQueryHint(Html.fromHtml("<font color = #808080>" + getResources().getString(R.string.hintSearchMess) + "</font>"));
+        searchView.setIconifiedByDefault(false);
 
         TextView textView = searchView.findViewById(R.id.search_src_text);
         textView.setTextColor(Color.WHITE);
 
+        ImageView searchClose = searchView.findViewById(R.id.search_close_btn);
+        searchClose.setImageResource(R.drawable.ic_close_black_24dp);
+        
         if (isInputMode) {
             MenuItemCompat.expandActionView(searchItem);
         } else {
@@ -161,6 +162,11 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
+        //bottomNavigationView.setSelectedItemId(R.id.navigationSearch);
+
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(2);
+        menuItem.setChecked(true);
 
 
         ImageView avatar = navViewStart.getHeaderView(0).findViewById(R.id.avatar);
@@ -199,6 +205,9 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
                 drawerLayout.openDrawer(GravityCompat.START);
                 searchItem.setVisible(false);
                 tabLayout.setVisibility(View.GONE);
+                Menu menu = bottomNavigationView.getMenu();
+                MenuItem menuItem = menu.getItem(0);
+                menuItem.setChecked(true);
                 break;
         }
         return false;

@@ -5,19 +5,18 @@ package com.example.javademogithubpractice.ui.activity;
 import android.app.Activity;
 import android.content.Intent;
 import android.os.Bundle;
+import android.view.Menu;
 import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
-import android.widget.Toolbar;
+import android.widget.TextView;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
-import androidx.appcompat.app.AlertDialog;
 import androidx.coordinatorlayout.widget.CoordinatorLayout;
 import androidx.core.app.ActivityOptionsCompat;
 import androidx.core.view.GravityCompat;
-import androidx.drawerlayout.widget.DrawerLayout;
 import androidx.fragment.app.Fragment;
 
 import com.example.javademogithubpractice.AppData;
@@ -29,23 +28,15 @@ import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.mvp.contract.IProfileContract;
 import com.example.javademogithubpractice.mvp.model.User;
 import com.example.javademogithubpractice.mvp.presenter.ProfilePresenter;
-import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
 import com.example.javademogithubpractice.ui.activity.base.BottomNavigationBehavior;
 import com.example.javademogithubpractice.ui.activity.base.PagerActivity;
 import com.example.javademogithubpractice.ui.adapter.baseAdapter.FragmentPagerModel;
-import com.example.javademogithubpractice.ui.fragment.ActivityFragment;
 import com.example.javademogithubpractice.ui.fragment.ProfileInfoFragment;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
 import com.example.javademogithubpractice.util.BundleHelper;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
-import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
-
-import java.util.Arrays;
-import java.util.HashMap;
-import java.util.List;
-import java.util.Map;
 
 import butterknife.BindView;
 
@@ -125,7 +116,8 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     protected void initView(Bundle savedInstanceState) {
         super.initView(savedInstanceState);
         setTransparentStatusBar();
-        setToolbarBackEnable();
+        getSupportActionBar().setDisplayHomeAsUpEnabled(false);
+        //setToolbarBackEnable();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setUserAvatar();
 
@@ -133,6 +125,26 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
+        //bottomNavigationView.setSelectedItemId(R.id.navigationMyProfile);
+
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(3);
+        menuItem.setChecked(true);
+
+
+        ImageView avatar = navViewStart.getHeaderView(0).findViewById(R.id.avatar);
+        TextView name = navViewStart.getHeaderView(0).findViewById(R.id.name);
+        TextView mail = navViewStart.getHeaderView(0).findViewById(R.id.mail);
+
+        User loginUser = AppData.INSTANCE.getLoggedUser();
+        GlideApp.with(getActivity())
+                .load(loginUser.getAvatarUrl())
+                .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
+                .into(avatar);
+
+        name.setText(StringUtils.isBlank(loginUser.getName()) ? loginUser.getLogin() : loginUser.getName());
+        String joinTime = getString(R.string.joined_at).concat(" ").concat(StringUtils.getDateStr(loginUser.getCreatedAt()));
+        mail.setText(StringUtils.isBlank(loginUser.getBio()) ? joinTime : loginUser.getBio());
     }
 
     @Override
@@ -155,6 +167,8 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
             = item -> {
         switch (item.getItemId()) {
             case R.id.navigationMyProfile:
+                ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
+                        AppData.INSTANCE.getLoggedUser().getAvatarUrl());
                 break;
             case R.id.navigationHome:
                 NotificationsActivity.show(getActivity());
@@ -164,6 +178,9 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
                 break;
             case  R.id.navigationMenu:
                 drawerLayout.openDrawer(GravityCompat.START);
+                Menu menu = bottomNavigationView.getMenu();
+                MenuItem menuItem = menu.getItem(0);
+                menuItem.setChecked(true);
                 break;
         }
         return false;

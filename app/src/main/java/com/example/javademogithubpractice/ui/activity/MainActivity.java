@@ -1,13 +1,11 @@
 package com.example.javademogithubpractice.ui.activity;
 
 import android.content.Intent;
-import android.content.res.TypedArray;
 import android.os.Bundle;
 import android.view.Menu;
 import android.view.MenuItem;
 import android.widget.ImageView;
 import android.widget.TextView;
-import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -26,7 +24,7 @@ import com.example.javademogithubpractice.inject.module.ActivityModule;
 import com.example.javademogithubpractice.mvp.contract.IMainContract;
 import com.example.javademogithubpractice.mvp.model.User;
 import com.example.javademogithubpractice.mvp.presenter.MainPresenter;
-import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
+import com.example.javademogithubpractice.mvp.model.RepositoriesFilter;
 import com.example.javademogithubpractice.ui.activity.base.BaseDrawerActivity;
 import com.example.javademogithubpractice.ui.activity.base.BottomNavigationBehavior;
 import com.example.javademogithubpractice.ui.fragment.ActivityFragment;
@@ -110,6 +108,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
 
         setToolbarScrollAble(true);
         updateStartDrawerContent(R.menu.activity_main_drawer);
+        removeEndDrawer();
 
         selectedPage = R.id.nav_repository;
         updateFragmentByNavId(selectedPage);
@@ -118,6 +117,12 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
+        //BottomNavigationViewHelper.disableShiftMode(bottomNavigationView);
+
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(0);
+        menuItem.setChecked(true);
+
         //bottomNavigationView.setSelectedItemId(R.id.navigationHome);
 
         ImageView avatar = navViewStart.getHeaderView(0).findViewById(R.id.avatar);

@@ -1,5 +1,6 @@
 package com.example.javademogithubpractice.mvp.presenter;
 import com.example.javademogithubpractice.mvp.contract.IRepositoriesContract;
+import com.example.javademogithubpractice.mvp.model.RepositoriesFilter;
 import com.example.javademogithubpractice.mvp.model.Repository;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
 import com.example.javademogithubpractice.network.error.HttpPageNoFoundError;
@@ -21,7 +22,6 @@ import retrofit2.Response;
 public class RepositoriesPresenter extends BasePagerPresenter<IRepositoriesContract.View> implements IRepositoriesContract.Presenter {
 
     private ArrayList<Repository> repos;
-
     private static CompositeDisposable compositeDisposable = new CompositeDisposable();
     private void addDisposable(Disposable disposable) {
         compositeDisposable.add(disposable);

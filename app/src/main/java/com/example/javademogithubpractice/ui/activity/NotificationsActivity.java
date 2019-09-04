@@ -23,7 +23,7 @@ import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.common.GlideApp;
 import com.example.javademogithubpractice.inject.component.AppComponent;
 import com.example.javademogithubpractice.mvp.model.User;
-import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
+import com.example.javademogithubpractice.mvp.model.RepositoriesFilter;
 import com.example.javademogithubpractice.ui.activity.base.BottomNavigationBehavior;
 import com.example.javademogithubpractice.ui.activity.base.PagerActivity;
 import com.example.javademogithubpractice.ui.adapter.baseAdapter.FragmentPagerModel;
@@ -52,7 +52,6 @@ public class NotificationsActivity extends PagerActivity {
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
-
     }
 
     @Override
@@ -72,18 +71,22 @@ public class NotificationsActivity extends PagerActivity {
         setToolbarScrollAble(true);
         setToolbarTitle(getString(R.string.notifications));
 
-        updateStartDrawerContent(R.menu.activity_main_drawer);
-
         pagerAdapter.setPagerList(FragmentPagerModel.createNotificationsPagerList(getActivity(), getFragments()));
         tabLayout.setVisibility(View.VISIBLE);
         tabLayout.setupWithViewPager(viewPager);
         viewPager.setAdapter(pagerAdapter);
         showFirstPager();
 
+
+        updateStartDrawerContent(R.menu.activity_main_drawer);
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
+        //bottomNavigationView.setSelectedItemId(R.id.navigationHome);
 
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem = menu.getItem(1);
+        menuItem.setChecked(true);
 
 
         ImageView avatar = navViewStart.getHeaderView(0).findViewById(R.id.avatar);
@@ -110,12 +113,19 @@ public class NotificationsActivity extends PagerActivity {
                         AppData.INSTANCE.getLoggedUser().getAvatarUrl());
                 tabLayout.setVisibility(View.VISIBLE);
                 break;
+            case R.id.navigationHome:
+                NotificationsActivity.show(getActivity());
+                tabLayout.setVisibility(View.VISIBLE);
+                break;
             case R.id.navigationSearch:
                 SearchActivity.show(getActivity());
                 tabLayout.setVisibility(View.VISIBLE);
                 break;
             case R.id.navigationMenu:
                 drawerLayout.openDrawer(GravityCompat.START);
+                Menu menu = bottomNavigationView.getMenu();
+                MenuItem menuItem = menu.getItem(0);
+                menuItem.setChecked(true);
                 tabLayout.setVisibility(View.GONE);
                 break;
         }

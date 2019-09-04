@@ -73,6 +73,7 @@ public class NotificationsAdapter extends BaseAdapter<BaseViewHolder, Notificati
         NotificationViewHolder holder = (NotificationViewHolder) viewHolder;
         Notification model = data.get(position);
 
+        holder.title.setText(model.getSubject().getTitle());
         holder.status.setBackgroundResource(images.get(position % 5));
 
 //        if(model.isUnread()){

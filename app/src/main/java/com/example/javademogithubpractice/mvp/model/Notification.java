@@ -9,7 +9,6 @@ import com.google.gson.annotations.SerializedName;
 
 import java.util.Date;
 
-
 public class Notification implements Parcelable {
 
     public enum Type{
@@ -30,6 +29,7 @@ public class Notification implements Parcelable {
     @SerializedName("updated_at") private Date updateAt;
     @SerializedName("last_read_at") private Date lastReadAt;
     private Repository repository;
+    private NotificationSubject subject;
 
     public String getId() {
         return id;
@@ -79,6 +79,14 @@ public class Notification implements Parcelable {
         this.repository = repository;
     }
 
+    public NotificationSubject getSubject() {
+        return subject;
+    }
+
+    public void setSubject(NotificationSubject subject) {
+        this.subject = subject;
+    }
+
     @Override
     public int describeContents() {
         return 0;
@@ -92,6 +100,7 @@ public class Notification implements Parcelable {
         dest.writeLong(this.updateAt != null ? this.updateAt.getTime() : -1);
         dest.writeLong(this.lastReadAt != null ? this.lastReadAt.getTime() : -1);
         dest.writeParcelable(this.repository, flags);
+        dest.writeParcelable(this.subject, flags);
     }
 
     public Notification() {
@@ -107,6 +116,7 @@ public class Notification implements Parcelable {
         long tmpLastReadAt = in.readLong();
         this.lastReadAt = tmpLastReadAt == -1 ? null : new Date(tmpLastReadAt);
         this.repository = in.readParcelable(Repository.class.getClassLoader());
+        this.subject = in.readParcelable(NotificationSubject.class.getClassLoader());
     }
 
     public static final Creator<Notification> CREATOR = new Creator<Notification>() {

@@ -51,20 +51,25 @@
         <activity android:name=".ui.activity.MainActivity"
             android:label="@string/app_github_name"
             android:theme="@style/AppTheme.NoActionBar"
-            android:launchMode="singleTask"/>
+            android:launchMode="singleTask"
+            />
 
 
-        <activity android:name=".ui.activity.RepositoryActivity" android:label="@string/repository"/>
+        <activity android:name=".ui.activity.RepositoryActivity"
+            android:label="@string/repository" />
         <activity
             android:name=".ui.activity.ProfileActivity"
+            android:launchMode="singleInstance"
             android:label="@string/profile"
-            android:launchMode="singleInstance"/>
+            />
         <activity android:name=".ui.activity.SearchActivity"
+            android:launchMode="singleInstance"
             android:label="@string/search"
-            android:launchMode="singleInstance"/>
+            />
         <activity
             android:name=".ui.activity.NotificationsActivity"
-            android:launchMode="singleInstance"/>
+            android:launchMode="singleInstance"
+            />
 
     </application>
 

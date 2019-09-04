@@ -22,6 +22,8 @@
     <string name="purple" translatable="false">Purple</string>
     <string name="deep_purple" translatable="false">Deep Purple</string>
 
+    <string name="hintSearchMess">Write something</string>
+
     <!-- onLoginClick -->
     <string name="user_name">Username</string>
     <string name="password">Password</string>

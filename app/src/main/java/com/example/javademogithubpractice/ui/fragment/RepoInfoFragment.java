@@ -100,7 +100,7 @@ public class RepoInfoFragment extends BaseFragment<RepoInfoPresenter> implements
         } else {
             forkInfoText.setVisibility(View.GONE);
         }
-
+        repoTitleText.setText(mPresenter.getRepoName());
         repoTitleText.setMovementMethod(LinkMovementMethod.getInstance());
     }
 

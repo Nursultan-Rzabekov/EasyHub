@@ -4,7 +4,7 @@ package com.example.javademogithubpractice.mvp.contract;
 
 
 import com.example.javademogithubpractice.mvp.model.Repository;
-import com.example.javademogithubpractice.mvp.presenter.RepositoriesFilter;
+import com.example.javademogithubpractice.mvp.model.RepositoriesFilter;
 
 import java.util.ArrayList;
 

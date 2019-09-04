@@ -76,7 +76,7 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter> imple
         super.initView(savedInstanceState);
         setTransparentStatusBar();
         setToolbarBackEnable();
-        setToolbarTitle(mPresenter.getRepoName());
+        getSupportActionBar().setDisplayShowTitleEnabled(false);
     }
 
 
