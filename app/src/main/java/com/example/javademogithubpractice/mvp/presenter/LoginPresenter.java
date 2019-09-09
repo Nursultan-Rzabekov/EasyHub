@@ -73,7 +73,6 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
                 "?client_id=" + AppConfig.DEMOGITHUB_CLIENT_ID +
                 "&redirect_uri=" + AppConfig.REDIRECT_URL +
                 "&scope=" + AppConfig.OAUTH2_SCOPE;
-                //"&allow_signup=false";
     }
 
 

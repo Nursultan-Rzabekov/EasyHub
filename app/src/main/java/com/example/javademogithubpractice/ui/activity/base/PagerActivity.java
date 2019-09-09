@@ -38,7 +38,6 @@ public abstract class PagerActivity<P extends BasePresenter> extends BaseDrawerA
     @Override
     protected void initActivity() {
         super.initActivity();
-
     }
 
     @Override

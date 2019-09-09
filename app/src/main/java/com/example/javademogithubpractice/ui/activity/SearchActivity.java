@@ -13,6 +13,7 @@ import android.view.MenuItem;
 import android.view.View;
 import android.widget.ImageView;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -46,6 +47,8 @@ import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
+
+import java.sql.SQLOutput;
 import java.util.ArrayList;
 import java.util.Arrays;
 import java.util.HashMap;
@@ -90,7 +93,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
 
         ImageView searchClose = searchView.findViewById(R.id.search_close_btn);
         searchClose.setImageResource(R.drawable.ic_close_black_24dp);
-        
+
         if (isInputMode) {
             MenuItemCompat.expandActionView(searchItem);
         } else {
@@ -162,7 +165,6 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
-        //bottomNavigationView.setSelectedItemId(R.id.navigationSearch);
 
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(2);
@@ -187,28 +189,33 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
 
     private BottomNavigationView.OnNavigationItemSelectedListener mOnNavigationItemSelectedListener
             = item -> {
+        Menu menu = bottomNavigationView.getMenu();
+        MenuItem menuItem;
         switch (item.getItemId()) {
             case R.id.navigationMyProfile:
                 ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
                         AppData.INSTANCE.getLoggedUser().getAvatarUrl());
                 tabLayout.setVisibility(View.VISIBLE);
-                break;
+                menuItem = menu.getItem(3);
+                menuItem.setChecked(true);
+                return true;
             case R.id.navigationHome:
                 NotificationsActivity.show(getActivity());
                 tabLayout.setVisibility(View.VISIBLE);
-                break;
+                return true;
             case R.id.navigationSearch:
                 SearchActivity.show(getActivity());
                 tabLayout.setVisibility(View.VISIBLE);
-                break;
+                menuItem = menu.getItem(2);
+                menuItem.setChecked(true);
+                return true;
             case R.id.navigationMenu:
                 drawerLayout.openDrawer(GravityCompat.START);
                 searchItem.setVisible(false);
                 tabLayout.setVisibility(View.GONE);
-                Menu menu = bottomNavigationView.getMenu();
-                MenuItem menuItem = menu.getItem(0);
+                menuItem = menu.getItem(0);
                 menuItem.setChecked(true);
-                break;
+                return true;
         }
         return false;
     };
@@ -240,6 +247,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
             viewPager.setAdapter(pagerAdapter);
             showFirstPager();
         } else {
+            Toast.makeText(getActivity(),"Search Model",Toast.LENGTH_SHORT).show();
             for (SearchModel searchModel : mPresenter.getQueryModels(query)) {
                 postSearchEvent(searchModel);
             }
@@ -304,6 +312,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
     );
 
     protected void onNavItemSelected(@NonNull MenuItem item, boolean isStartDrawer) {
+        searchItem.setVisible(false);
         super.onNavItemSelected(item, isStartDrawer);
         if (!isStartDrawer) {
             handlerEndDrawerClick(item);
@@ -324,6 +333,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
     }
 
     private void updateFragmentByNavId(int id){
+        searchItem.setVisible(false);
         if(FRAGMENT_NAV_ID_LIST.contains(id)){
             updateTitle(id);
             loadFragment(id);

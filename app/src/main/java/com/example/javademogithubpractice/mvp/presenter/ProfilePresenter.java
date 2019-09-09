@@ -49,13 +49,16 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View> imple
     @Override
     public void onViewInitialized() {
         super.onViewInitialized();
-        new Handler().postDelayed(() -> {
-            if(mView == null) return;
-            isTransitionComplete = true;
-            if(isWaitForTransition) mView.showProfileInfo(user);
-            isWaitForTransition = false;
-            getProfileInfo();
-        }, 500);
+        getProfileInfo();
+
+//        new Handler().postDelayed(() -> {
+//            if(mView == null) return;
+//            isTransitionComplete = true;
+//            if(isWaitForTransition)
+//                mView.showProfileInfo(user);
+//            isWaitForTransition = false;
+//            getProfileInfo();
+//        }, 500);
     }
 
     private void getProfileInfo(){
@@ -75,11 +78,14 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View> imple
     private void successProfile(Response<User> response) {
         user = response.body();
         mView.hideLoading();
-        if(isTransitionComplete){
-            mView.showProfileInfo(user);
-        } else {
-            isWaitForTransition = true;
-        }
+
+        mView.showProfileInfo(user);
+
+//        if(isTransitionComplete){
+//            mView.showProfileInfo(user);
+//        } else {
+//            isWaitForTransition = true;
+//        }
 
     }
 

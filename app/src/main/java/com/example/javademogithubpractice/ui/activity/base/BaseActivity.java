@@ -71,6 +71,7 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         }
 
         super.onCreate(savedInstanceState);
+
         isAlive = true;
         setupActivityComponent(getAppComponent());
         DataAutoAccess.getData(this, savedInstanceState);
@@ -92,6 +93,8 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         initActivity();
         initView(savedInstanceState);
         if(mPresenter != null) mPresenter.onViewInitialized();
+
+
     }
 
     @Override
@@ -124,13 +127,38 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
     protected void initView(Bundle savedInstanceState){
         if(toolbar != null){
             setSupportActionBar(toolbar);
-//            DoubleClickHandler.setDoubleClickListener(toolbar, new DoubleClickHandler.DoubleClickListener() {
-//                @Override
-//                public void onDoubleClick(View view) {
-//                    onToolbarDoubleClick();
-//                }
-//            });
         }
+    }
+
+    @Override
+    protected void onNewIntent(Intent intent) {
+        super.onNewIntent(intent);
+        setIntent(intent);
+
+        setupActivityComponent(getAppComponent());
+        DataAutoAccess.getData(this, getIntent().getExtras());
+        if(mPresenter != null) {
+            mPresenter.onRestoreInstanceState(getIntent().getExtras() == null ? intent.getExtras() : getIntent().getExtras());
+            mPresenter.attachView(this);
+            intent.setAction(null);
+        }
+
+        if(getIntent().getExtras() != null && AppData.INSTANCE.getAuthUser() == null){
+            DataAutoAccess.getData(AppData.INSTANCE, intent.getExtras());
+        }
+
+        getScreenSize();
+
+        if(getContentView() != 0){
+            setContentView(getContentView());
+            ButterKnife.bind(getActivity());
+        }
+
+        initActivity();
+        initView(intent.getExtras());
+        if(mPresenter != null) mPresenter.onViewInitialized();
+
+
     }
 
     protected void onToolbarDoubleClick(){
@@ -303,14 +331,6 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
                 .show();
     }
 
-    protected void postDelayFinish(int time){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-            }
-        }, time);
-    }
 
     public static BaseActivity getCurActivity() {
         return curActivity;
@@ -345,28 +365,12 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
         }
     }
 
-    public String getAppVersionName() {
-        String versionName = "";
-        try {
-            versionName = getPackageManager().getPackageInfo(getPackageName(), 0).versionName;
-        } catch (PackageManager.NameNotFoundException e) {
-            e.printStackTrace();
-        }
-        return versionName;
-    }
-
-
     protected void delayFinish(){
         delayFinish(1000);
     }
 
     protected void delayFinish(int mills){
-        new Handler().postDelayed(new Runnable() {
-            @Override
-            public void run() {
-                finish();
-            }
-        }, mills);
+        new Handler().postDelayed(() -> finish(), mills);
     }
 
     protected void setTransparentStatusBar(){

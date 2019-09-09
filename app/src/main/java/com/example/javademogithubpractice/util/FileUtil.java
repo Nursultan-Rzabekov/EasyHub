@@ -31,19 +31,4 @@ public class FileUtil {
     public static File getHttpImageCacheDir(@NonNull Context context) {
         return getCacheDir(context, HTTP_CACHE_DIR_NAME);
     }
-
-    public static boolean isExternalStorageEnable() {
-        return Environment.getExternalStorageState().equals(
-                Environment.MEDIA_MOUNTED);
-    }
-
-    public static String encodeBase64File(@NonNull String path) throws Exception {
-        File file = new File(path);
-        FileInputStream inputFile = new FileInputStream(file);
-        byte[] buffer = new byte[(int)file.length()];
-        inputFile.read(buffer);
-        inputFile.close();
-        return Base64.encodeToString(buffer, Base64.DEFAULT);
-    }
-
 }

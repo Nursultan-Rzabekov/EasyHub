@@ -46,10 +46,12 @@ public class MainPresenter extends BasePresenter<IMainContract.View> implements 
 
     @Override
     public void logout() {
+
         addDisposable(daoSession.deleteAuthUser(AppData.INSTANCE.getAuthUser())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
                 .subscribe(this::successDeleteUser,this::errorDeleteUser));
+
         AppData.INSTANCE.setAuthUser(null);
         AppData.INSTANCE.setLoggedUser(null);
         mView.restartApp();

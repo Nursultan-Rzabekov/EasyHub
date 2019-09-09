@@ -45,19 +45,37 @@ public class RepositoriesFilter implements Parcelable {
     private Sort sort = Sort.Full_name;
     private SortDirection sortDirection = SortDirection.Asc;
 
-    public static RepositoriesFilter generateFromDrawer(@NonNull NavigationView navView){
+    public static RepositoriesFilter generateFromDrawer(@NonNull NavigationView navView,@NonNull MenuItem item){
         RepositoriesFilter filter = new RepositoriesFilter();
-        MenuItem typeItem = ViewUtils.getSelectedMenu(navView.getMenu().findItem(R.id.nav_type_chooser));
-        if (typeItem != null){
-            filter.type = TYPE_RELATION.get(typeItem.getItemId());
-        }
 
-        MenuItem sortItem = ViewUtils.getSelectedMenu(navView.getMenu().findItem(R.id.nav_sort));
+        MenuItem typeItem = ViewUtils.getSelectedMenu(navView.getMenu().findItem(R.id.nav_type_chooser),item);
+        Type type = Type.All;
+        if (typeItem != null){
+            switch (typeItem.getItemId()){
+                case R.id.nav_all:
+                    type = Type.All;
+                    break;
+                case R.id.nav_owner:
+                    type = Type.Owner;
+                    break;
+                case R.id.nav_public:
+                    type = Type.Public;
+                    break;
+                case R.id.nav_private:
+                    type = Type.Private;
+                    break;
+                case R.id.nav_member:
+                    type = Type.Member;
+                    break;
+            }
+        }
+        filter.type = type;
+
+        MenuItem sortItem = ViewUtils.getSelectedMenu(navView.getMenu().findItem(R.id.nav_sort),item);
         Sort sort = Sort.Full_name;
         SortDirection sortDirection = SortDirection.Asc;
         if(sortItem != null){
             switch (sortItem.getItemId()){
-
                 case R.id.nav_full_name_asc:
                     sort = Sort.Full_name;
                     sortDirection = SortDirection.Asc;
@@ -93,9 +111,9 @@ public class RepositoriesFilter implements Parcelable {
                     break;
             }
         }
+
         filter.sort = sort;
         filter.sortDirection = sortDirection;
-
         return filter;
     }
 
@@ -123,11 +141,9 @@ public class RepositoriesFilter implements Parcelable {
     public String getType() {
         return type.name().toLowerCase();
     }
-
     public String getSort() {
         return sort.name().toLowerCase();
     }
-
     public String getSortDirection() {
         return sortDirection.name().toLowerCase();
     }

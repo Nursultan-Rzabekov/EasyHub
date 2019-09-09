@@ -14,7 +14,6 @@ import com.bumptech.glide.request.RequestOptions;
 import com.example.javademogithubpractice.AppConfig;
 import com.example.javademogithubpractice.R;
 
-
 @GlideModule
 public class MyAppGlideModel extends AppGlideModule {
 
@@ -27,7 +26,7 @@ public class MyAppGlideModel extends AppGlideModule {
     public void applyOptions(Context context, GlideBuilder builder) {
         super.applyOptions(context, builder);
         builder.setDiskCache(new InternalCacheDiskCacheFactory(context, AppConfig.IMAGE_MAX_CACHE_SIZE));
-        RequestOptions requestOptions = RequestOptions.placeholderOf(R.mipmap.logo);
+        RequestOptions requestOptions = RequestOptions.placeholderOf(R.drawable.logoeasyhub);
         builder.setDefaultRequestOptions(requestOptions);
     }
 

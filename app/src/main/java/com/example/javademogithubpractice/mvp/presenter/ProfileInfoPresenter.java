@@ -70,6 +70,7 @@ public class ProfileInfoPresenter extends BasePagerPresenter<IProfileInfoContrac
     }
 
     private void successInfoUserOrg(Response<ArrayList<User>> response) {
+
         if(response.body().size() != 0){
             orgs = response.body();
             mView.showUserOrgs(orgs);

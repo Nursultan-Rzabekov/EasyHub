@@ -1,6 +1,5 @@
 <?xml version="1.0" encoding="utf-8"?>
-<menu xmlns:android="http://schemas.android.com/apk/res/android"
-    >
+<menu xmlns:android="http://schemas.android.com/apk/res/android">
     <item
         android:id="@+id/nav_type_chooser"
         android:title="@string/type">
@@ -8,8 +7,7 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/nav_all"
-                    android:title="@string/all"
-                    android:checked="true"/>
+                    android:title="@string/all" />
                 <item
                     android:id="@+id/nav_owner"
                     android:title="@string/owner_repo"/>
@@ -26,7 +24,6 @@
         </menu>
     </item>
 
-    <!--created, updated, pushed, full_name.-->
     <item
         android:id="@+id/nav_sort"
         android:title="@string/sort_order">
@@ -34,8 +31,7 @@
             <group android:checkableBehavior="single">
                 <item
                     android:id="@+id/nav_full_name_asc"
-                    android:title="@string/full_name_asc"
-                    android:checked="true"/>
+                    android:title="@string/full_name_asc" />
                 <item
                     android:id="@+id/nav_full_name_desc"
                     android:title="@string/full_name_desc"/>

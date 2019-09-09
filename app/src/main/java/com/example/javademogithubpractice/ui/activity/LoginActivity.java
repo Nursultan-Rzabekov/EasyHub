@@ -94,9 +94,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
         super.initView(savedInstanceState);
 
         loginBn.setOnResultEndListener(() -> {
-
         });
-
 
         passwordEt.setOnEditorActionListener((v, actionId, event) -> {
             if(actionId == EditorInfo.IME_ACTION_SEND || (event != null && event.getKeyCode() == KeyEvent.KEYCODE_ENTER &&

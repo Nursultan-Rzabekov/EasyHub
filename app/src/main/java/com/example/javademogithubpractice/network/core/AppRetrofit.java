@@ -31,6 +31,7 @@ import okhttp3.Interceptor;
 import okhttp3.OkHttpClient;
 import okhttp3.Request;
 import okhttp3.Response;
+import okhttp3.logging.HttpLoggingInterceptor;
 import retrofit2.Retrofit;
 import retrofit2.adapter.rxjava2.RxJava2CallAdapterFactory;
 import retrofit2.converter.gson.GsonConverterFactory;
@@ -46,11 +47,16 @@ public enum  AppRetrofit {
 
     private void createRetrofit(@NonNull String baseUrl, boolean isJson) {
         int timeOut = AppConfig.HTTP_TIME_OUT;
+
         Cache cache = new Cache(FileUtil.getHttpImageCacheDir(AppApplication.get()), AppConfig.HTTP_MAX_CACHE_SIZE);
+
+        HttpLoggingInterceptor loggingInterceptor = new HttpLoggingInterceptor();
+        loggingInterceptor.setLevel(HttpLoggingInterceptor.Level.BODY);
 
         OkHttpClient okHttpClient = new OkHttpClient.Builder()
                 .connectTimeout(timeOut, TimeUnit.MILLISECONDS)
                 .addInterceptor(new BaseInterceptor())
+                .addInterceptor(loggingInterceptor)
                 .addNetworkInterceptor(new NetworkBaseInterceptor())
                 .cache(cache)
                 .build();
@@ -100,13 +106,11 @@ public enum  AppRetrofit {
             }
 
             //add access token
-
             if(!StringUtils.isBlank(token)){
                 String auth = token.startsWith("Basic") ? token : "token " + token;
-                request = request.newBuilder()
-                        .addHeader("Authorization", auth)
-                        .build();
+                request = request.newBuilder().addHeader("Authorization", auth).build();
             }
+
             Log.d(TAG, request.url().toString());
 
             String forceNetWork = request.header("forceNetWork");
@@ -131,7 +135,6 @@ public enum  AppRetrofit {
             Request request = chain.request();
             Response originalResponse = chain.proceed(request);
 
-//            String serverCacheControl = originalResponse.header("Cache-Control");
             String requestCacheControl = request.cacheControl().toString();
             String forceNetWork = request.header("forceNetWork");
             if(!StringUtils.isBlank(forceNetWork)){
@@ -144,7 +147,7 @@ public enum  AppRetrofit {
             else {
                 Response res = originalResponse.newBuilder()
                         .header("Cache-Control", requestCacheControl)
-//                        .header("Date", getGMTTime())
+                        .header("Date", getGMTTime())
                         .removeHeader("Pragma")
                         .build();
                 return res;

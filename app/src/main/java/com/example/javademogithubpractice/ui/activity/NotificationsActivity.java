@@ -112,22 +112,25 @@ public class NotificationsActivity extends PagerActivity {
                 ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
                         AppData.INSTANCE.getLoggedUser().getAvatarUrl());
                 tabLayout.setVisibility(View.VISIBLE);
-                break;
+                return true;
             case R.id.navigationHome:
                 NotificationsActivity.show(getActivity());
                 tabLayout.setVisibility(View.VISIBLE);
-                break;
+                Menu menu1 = bottomNavigationView.getMenu();
+                MenuItem menuItem1 = menu1.getItem(1);
+                menuItem1.setChecked(true);
+                return true;
             case R.id.navigationSearch:
                 SearchActivity.show(getActivity());
                 tabLayout.setVisibility(View.VISIBLE);
-                break;
+                return true;
             case R.id.navigationMenu:
                 drawerLayout.openDrawer(GravityCompat.START);
                 Menu menu = bottomNavigationView.getMenu();
                 MenuItem menuItem = menu.getItem(0);
                 menuItem.setChecked(true);
                 tabLayout.setVisibility(View.GONE);
-                break;
+                return true;
         }
         return false;
     };
@@ -155,9 +158,6 @@ public class NotificationsActivity extends PagerActivity {
         } else
             return -1;
     }
-
-
-
 
 
     //Method from MainActivity
@@ -351,5 +351,4 @@ public class NotificationsActivity extends PagerActivity {
                 })
                 .show();
     }
-
 }

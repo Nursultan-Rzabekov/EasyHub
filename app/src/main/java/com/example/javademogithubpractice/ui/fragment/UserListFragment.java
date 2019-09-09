@@ -98,8 +98,8 @@ public class UserListFragment extends ListFragment<UserListPresenter, UsersAdapt
     public void onItemClick(int position, @NonNull View view) {
         super.onItemClick(position, view);
         View userAvatar = view.findViewById(R.id.avatar);
-//        ProfileActivity.show(getActivity(), userAvatar, adapter.getData().get(position).getLogin(),
-//                adapter.getData().get(position).getAvatarUrl());
+        ProfileActivity.show(getActivity(), userAvatar, adapter.getData().get(position).getLogin(),
+                adapter.getData().get(position).getAvatarUrl());
     }
 
     @Override

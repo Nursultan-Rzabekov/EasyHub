@@ -7,6 +7,7 @@ package com.example.javademogithubpractice.mvp.presenter;
 import android.widget.Toast;
 import com.example.javademogithubpractice.mvp.contract.INotificationsContract;
 import com.example.javademogithubpractice.mvp.model.Notification;
+import com.example.javademogithubpractice.mvp.model.Repository;
 import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.ui.fragment.NotificationsFragment;
 import com.example.javademogithubpractice.util.StringUtils;

@@ -9,6 +9,7 @@ import android.widget.LinearLayout;
 import android.widget.TextView;
 
 import androidx.annotation.NonNull;
+import androidx.annotation.Nullable;
 
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.common.GlideApp;
@@ -39,7 +40,7 @@ public class UsersAdapter extends BaseAdapter<UsersAdapter.ViewHolder, User> {
         this.cardEnable = cardEnable;
     }
 
-    List<Integer> colors = new ArrayList<>(Arrays.asList(
+    private List<Integer> colors = new ArrayList<>(Arrays.asList(
             R.drawable.home_gradient_maths,
             R.drawable.home_gradients,
             R.drawable.home_gradientss,
@@ -59,21 +60,27 @@ public class UsersAdapter extends BaseAdapter<UsersAdapter.ViewHolder, User> {
     @Override
     public void onBindViewHolder(@NonNull ViewHolder holder, int position) {
         super.onBindViewHolder(holder, position);
+
         GlideApp.with(fragment)
                 .load(data.get(position).getAvatarUrl())
                 .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
                 .into(holder.avatar);
         holder.name.setText(data.get(position).getLogin());
-        holder.linearLayout.setBackgroundResource(colors.get(position % 5));
+        if(holder.linearLayout != null){
+            holder.linearLayout.setBackgroundResource(colors.get(position % 5));
+        }
+
 
     }
 
     class ViewHolder extends BaseViewHolder {
         @BindView(R.id.avatar) ImageView avatar;
         @BindView(R.id.name) TextView name;
+
+        @Nullable
         @BindView(R.id.linear_user_layout) LinearLayout linearLayout;
 
-        public ViewHolder(@NonNull View itemView) {
+        private ViewHolder(@NonNull View itemView) {
             super(itemView);
         }
     }

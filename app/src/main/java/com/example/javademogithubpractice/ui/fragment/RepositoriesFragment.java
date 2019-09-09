@@ -19,7 +19,6 @@ import com.example.javademogithubpractice.inject.module.FragmentModule;
 import com.example.javademogithubpractice.mvp.contract.IRepositoriesContract;
 import com.example.javademogithubpractice.mvp.model.Repository;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
-import com.example.javademogithubpractice.mvp.model.TrendingSince;
 import com.example.javademogithubpractice.mvp.model.RepositoriesFilter;
 import com.example.javademogithubpractice.mvp.presenter.RepositoriesPresenter;
 import com.example.javademogithubpractice.ui.activity.RepositoryActivity;
@@ -118,7 +117,10 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
     @Override
     public void onCreateOptionsMenu(Menu menu, MenuInflater inflater) {
         super.onCreateOptionsMenu(menu, inflater);
-        menu.getItem(0).setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.ic_menu_black_24dp));
+        if(menu.size()!=0){
+            menu.getItem(0).setIcon(ContextCompat.getDrawable(getActivity(), R.drawable.ic_menu_black_24dp));
+        }
+
     }
 
     @Override
@@ -134,7 +136,7 @@ public class RepositoriesFragment extends ListFragment<RepositoriesPresenter, Re
 
     @Override
     public void onDrawerSelected(@NonNull NavigationView navView, @NonNull MenuItem item) {
-        RepositoriesFilter filter = RepositoriesFilter.generateFromDrawer(navView);
+        RepositoriesFilter filter = RepositoriesFilter.generateFromDrawer(navView,item);
         mPresenter.loadRepositories(filter);
     }
 

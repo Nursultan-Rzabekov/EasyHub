@@ -11,6 +11,7 @@ import android.view.View;
 import android.widget.ImageView;
 import android.widget.ProgressBar;
 import android.widget.TextView;
+import android.widget.Toast;
 
 import androidx.annotation.NonNull;
 import androidx.annotation.Nullable;
@@ -57,18 +58,7 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     public static void show(@NonNull Activity activity, @Nullable View userAvatarView,
                             @NonNull String loginId, @Nullable String userAvatar) {
         Intent intent = createIntent(activity, loginId, userAvatar);
-        if (userAvatarView != null) {
-            ActivityOptionsCompat optionsCompat = ActivityOptionsCompat
-                    .makeSceneTransitionAnimation(activity, userAvatarView, "userAvatar");
-            activity.startActivity(intent, optionsCompat.toBundle());
-        } else {
-            activity.startActivity(intent);
-        }
-
-    }
-
-    public static Intent createIntent(@NonNull Activity activity, @NonNull String loginId) {
-        return createIntent(activity, loginId, null);
+        activity.startActivity(intent);
     }
 
     public static Intent createIntent(@NonNull Activity activity, @NonNull String loginId,
@@ -79,8 +69,6 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
                         .put("userAvatar", userAvatar)
                         .build());
     }
-
-    private boolean isAvatarSetted = false;
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
@@ -95,18 +83,13 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     @BindView(R.id.loader) ProgressBar loader;
 
     @Override
-    protected void onCreate(@Nullable Bundle savedInstanceState) {
-        super.onCreate(savedInstanceState);
-    }
-
-    @Override
     protected void initActivity() {
         super.initActivity();
         setStartDrawerEnable(true);
         setEndDrawerEnable(true);
     }
 
-    @Nullable
+
     @Override
     protected int getContentView() {
         return R.layout.activity_profile_main;
@@ -117,7 +100,6 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
         super.initView(savedInstanceState);
         setTransparentStatusBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
-        //setToolbarBackEnable();
         getSupportActionBar().setDisplayShowTitleEnabled(false);
         setUserAvatar();
 
@@ -125,12 +107,10 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
-        //bottomNavigationView.setSelectedItemId(R.id.navigationMyProfile);
 
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(3);
         menuItem.setChecked(true);
-
 
         ImageView avatar = navViewStart.getHeaderView(0).findViewById(R.id.avatar);
         TextView name = navViewStart.getHeaderView(0).findViewById(R.id.name);
@@ -151,7 +131,6 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     public void showProfileInfo(User user) {
         invalidateOptionsMenu();
         setUserAvatar();
-
         if (pagerAdapter.getCount() == 0) {
             pagerAdapter.setPagerList(FragmentPagerModel.createProfilePagerList(getActivity(), user, getFragments()));
             tabLayout.setVisibility(View.VISIBLE);
@@ -169,19 +148,19 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
             case R.id.navigationMyProfile:
                 ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
                         AppData.INSTANCE.getLoggedUser().getAvatarUrl());
-                break;
+                return true;
             case R.id.navigationHome:
                 NotificationsActivity.show(getActivity());
-                break;
+                return true;
             case  R.id.navigationSearch:
                 SearchActivity.show(getActivity());
-                break;
+                return true;
             case  R.id.navigationMenu:
                 drawerLayout.openDrawer(GravityCompat.START);
                 Menu menu = bottomNavigationView.getMenu();
                 MenuItem menuItem = menu.getItem(0);
                 menuItem.setChecked(true);
-                break;
+                return true;
         }
         return false;
     };
@@ -190,6 +169,7 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     private void notifyUserInfoUpdated(User user){
         for(Fragment fragment : getFragments()){
             if(fragment != null && fragment instanceof ProfileInfoFragment){
+                //Toast.makeText(getActivity(),"Yes",Toast.LENGTH_SHORT).show();
                 ((ProfileInfoFragment)fragment).updateProfileInfo(user);
             }
         }
@@ -213,8 +193,6 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     }
 
     private void setUserAvatar() {
-        if (isAvatarSetted || StringUtils.isBlank(mPresenter.getUserAvatar())) return;
-        isAvatarSetted = true;
         GlideApp.with(getActivity())
                 .load(mPresenter.getUserAvatar())
                 .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())

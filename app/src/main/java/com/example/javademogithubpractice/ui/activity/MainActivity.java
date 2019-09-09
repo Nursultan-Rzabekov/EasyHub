@@ -81,7 +81,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     @Override
     public void restartApp() {
         getActivity().finishAffinity();
-        Intent intent = new Intent(getActivity(), SplashActivity.class);
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
         startActivity(intent);
     }
 
@@ -161,16 +161,16 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
                     case R.id.navigationMyProfile:
                         ProfileActivity.show(getActivity(), AppData.INSTANCE.getLoggedUser().getLogin(),
                                 AppData.INSTANCE.getLoggedUser().getAvatarUrl());
-                        break;
+                        return true;
                     case R.id.navigationHome:
                         NotificationsActivity.show(getActivity());
-                    break;
+                        return true;
                     case R.id.navigationSearch:
                         SearchActivity.show(getActivity());
-                        break;
+                        return true;
                     case R.id.navigationMenu:
                         drawerLayout.openDrawer(GravityCompat.START);
-                        break;
+                        return true;
                 }
                 return false;
             };

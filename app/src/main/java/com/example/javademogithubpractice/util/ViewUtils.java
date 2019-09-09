@@ -54,16 +54,6 @@ public class ViewUtils {
         return getColorAttr(context, R.attr.colorPrimary);
     }
 
-    @ColorInt
-    public static int getAccentColor(@NonNull Context context) {
-        return getColorAttr(context, R.attr.colorAccent);
-    }
-
-    @ColorInt
-    public static int getWindowBackground(@NonNull Context context) {
-        return getColorAttr(context, android.R.attr.windowBackground);
-    }
-
     public static void setTextView(@NonNull TextView textView, String text) {
         if (!StringUtils.isBlank(text)) {
             textView.setText(text);
@@ -104,16 +94,20 @@ public class ViewUtils {
     }
 
 
-    public static MenuItem getSelectedMenu(@NonNull MenuItem menuItem) {
+    public static MenuItem getSelectedMenu(@NonNull MenuItem menuItem,@NonNull MenuItem item) {
         if (menuItem.getSubMenu() == null || menuItem.getSubMenu().size() == 0) {
             return null;
         }
+        item.setChecked(true);
         MenuItem selected = null;
         for (int i = 0; i < menuItem.getSubMenu().size(); i++) {
-            MenuItem item = menuItem.getSubMenu().getItem(i);
-            if (item.isChecked()) {
-                selected = item;
+            MenuItem item1= menuItem.getSubMenu().getItem(i);
+            if (item.equals(item1)) {
+                selected = item1;
                 break;
+            }
+            else {
+                item1.setChecked(false);
             }
         }
         return selected;

@@ -10,7 +10,6 @@ import androidx.fragment.app.Fragment;
 import com.example.javademogithubpractice.R;
 import com.example.javademogithubpractice.mvp.model.Repository;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
-import com.example.javademogithubpractice.mvp.model.TrendingSince;
 import com.example.javademogithubpractice.mvp.model.User;
 import com.example.javademogithubpractice.ui.fragment.NotificationsFragment;
 import com.example.javademogithubpractice.ui.fragment.ProfileInfoFragment;

@@ -76,7 +76,7 @@ public class ActivityFragment extends ListFragment<ActivityPresenter, Activities
         super.onItemClick(position, view);
         Event event = adapter.getData().get(position);
         if (event.getRepo() == null) {
-//            ProfileActivity.show(getActivity(), null, event.getActor().getLogin(), event.getActor().getAvatarUrl());
+            ProfileActivity.show(getActivity(), null, event.getActor().getLogin(), event.getActor().getAvatarUrl());
             return;
         }
     }

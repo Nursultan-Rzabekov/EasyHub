@@ -25,7 +25,7 @@ public class NotificationsFragment extends ListFragment<NotificationsPresenter, 
         implements INotificationsContract.View, NotificationsAdapter.NotificationAdapterListener {
 
     public enum NotificationsType{
-        Unread, Participating, All
+        Unread, All
     }
 
     public static Fragment create(NotificationsType type){
@@ -38,7 +38,7 @@ public class NotificationsFragment extends ListFragment<NotificationsPresenter, 
     protected void initFragment(Bundle savedInstanceState) {
         super.initFragment(savedInstanceState);
         setLoadMoreEnable(true);
-        setHasOptionsMenu(NotificationsType.Unread.equals(mPresenter.getType()));
+        //setHasOptionsMenu(NotificationsType.Unread.equals(mPresenter.getType()));
         adapter.setListener(this);
     }
 

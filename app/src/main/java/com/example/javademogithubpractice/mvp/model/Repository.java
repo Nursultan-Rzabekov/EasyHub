@@ -51,7 +51,6 @@ public class Repository implements Parcelable {
     @SerializedName("has_pages") private boolean hasPages;
 
     private int sinceStargazersCount ;
-    private TrendingSince since;
 
     public Repository() {
     }
@@ -336,13 +335,6 @@ public class Repository implements Parcelable {
         this.sinceStargazersCount = sinceStargazersCount;
     }
 
-    public TrendingSince getSince() {
-        return since;
-    }
-
-    public void setSince(TrendingSince since) {
-        this.since = since;
-    }
 
     @Override
     public int describeContents() {
@@ -382,7 +374,6 @@ public class Repository implements Parcelable {
         dest.writeByte(this.hasWiki ? (byte) 1 : (byte) 0);
         dest.writeByte(this.hasPages ? (byte) 1 : (byte) 0);
         dest.writeInt(this.sinceStargazersCount);
-        dest.writeInt(this.since == null ? -1 : this.since.ordinal());
 
     }
 
@@ -421,8 +412,6 @@ public class Repository implements Parcelable {
         this.hasWiki = in.readByte() != 0;
         this.hasPages = in.readByte() != 0;
         this.sinceStargazersCount = in.readInt();
-        int tmpTrendingSince = in.readInt();
-        this.since = tmpTrendingSince == -1 ? null : TrendingSince.values()[tmpTrendingSince];
     }
 
     public static final Creator<Repository> CREATOR = new Creator<Repository>() {

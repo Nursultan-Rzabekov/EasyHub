@@ -18,7 +18,6 @@ public class Event {
 
     public static class SearchEvent{
         public SearchModel searchModel;
-
         public SearchEvent(SearchModel searchModel) {
             this.searchModel = searchModel;
         }

@@ -2,7 +2,6 @@
 
 package com.example.javademogithubpractice.mvp.presenter;
 
-import com.example.javademogithubpractice.common.Event;
 import com.example.javademogithubpractice.mvp.contract.IUserListContract;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
 import com.example.javademogithubpractice.mvp.model.User;
@@ -11,7 +10,6 @@ import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.ui.fragment.UserListFragment;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.thirtydegreesray.dataautoaccess.annotation.AutoAccess;
-import org.greenrobot.eventbus.Subscribe;
 import java.util.ArrayList;
 import javax.inject.Inject;
 
@@ -53,9 +51,6 @@ public class UserListPresenter extends BasePagerPresenter<IUserListContract.View
     @Override
     public void onViewInitialized() {
         super.onViewInitialized();
-        if (type.equals(UserListFragment.UserListType.SEARCH)) {
-            //setEventSubscriber(true);
-        }
     }
 
     @Override
@@ -136,20 +131,12 @@ public class UserListPresenter extends BasePagerPresenter<IUserListContract.View
         handleError(error);
     }
 
-    @Subscribe
-    public void onSearchEvent(Event.SearchEvent searchEvent) {
-        if (!searchEvent.searchModel.getType().equals(SearchModel.SearchType.User)) return;
-        setLoaded(false);
-        this.searchModel = searchEvent.searchModel;
-        prepareLoadData();
-    }
-
     private void handleError(Throwable error){
         mView.hideLoading();
         if(!StringUtils.isBlankList(users)){
             mView.showErrorToast(getErrorTip(error));
         } else if(error instanceof HttpPageNoFoundError){
-            mView.showUsers(new ArrayList<User>());
+            mView.showUsers(new ArrayList<>());
         } else {
             mView.showLoadError(getErrorTip(error));
         }

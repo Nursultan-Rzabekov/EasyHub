@@ -35,4 +35,5 @@ public interface NotificationsService {
             @Path("threadId") String threadId
     );
 
+
 }
