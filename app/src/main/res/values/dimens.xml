@@ -1,9 +1,4 @@
-<!--
- ~ Copied from Copyright (C) 2017 Kosh.
- ~ Modified by Copyright (C) 2017 ThirtyDegreesRay.
--->
 <resources>
-    <!-- Default screen margins, per the Android Design guidelines. -->
     <dimen name="activity_margin">16dp</dimen>
 
     <dimen name="nav_header_height">160dp</dimen>

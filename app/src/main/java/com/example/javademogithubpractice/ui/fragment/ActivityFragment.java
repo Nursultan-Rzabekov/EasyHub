@@ -33,7 +33,7 @@ public class ActivityFragment extends ListFragment<ActivityPresenter, Activities
     }
 
     public static ActivityFragment create(@NonNull ActivityType type, @NonNull String user,
-                                          @Nullable String repo) {
+                                           @Nullable String repo) {
         ActivityFragment fragment = new ActivityFragment();
         fragment.setArguments(BundleHelper.builder().put("type", type)
                 .put("user", user).put("repo", repo).build());

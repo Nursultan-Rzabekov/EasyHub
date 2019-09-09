@@ -392,7 +392,5 @@ public abstract class BaseActivity<P extends IBaseContract.Presenter> extends Ap
 
 
     @Override
-    public void onBackPressed() { super.onBackPressed();
-
-    }
+    public void onBackPressed() { super.onBackPressed(); }
 }

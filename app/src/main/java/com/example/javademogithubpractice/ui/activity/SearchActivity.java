@@ -42,7 +42,9 @@ import com.example.javademogithubpractice.ui.activity.base.PagerActivity;
 import com.example.javademogithubpractice.ui.adapter.baseAdapter.FragmentPagerModel;
 import com.example.javademogithubpractice.ui.fragment.ActivityFragment;
 import com.example.javademogithubpractice.ui.fragment.RepositoriesFragment;
+import com.example.javademogithubpractice.ui.fragment.ShareAboutFragment;
 import com.example.javademogithubpractice.ui.fragment.UserListFragment;
+import com.example.javademogithubpractice.util.AppOpener;
 import com.example.javademogithubpractice.util.PrefUtils;
 import com.example.javademogithubpractice.util.StringUtils;
 import com.google.android.material.bottomnavigation.BottomNavigationView;
@@ -297,14 +299,16 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
     int selectedPage;
 
     private final List<Integer> FRAGMENT_NAV_ID_LIST = Arrays.asList(
-            R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news,R.id.nav_news
+            R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news,R.id.nav_news,R.id.nav_share
     );
 
     private final List<String> FRAGMENT_TAG_LIST = Arrays.asList(
             RepositoriesFragment.RepositoriesType.OWNED.name(),
             RepositoriesFragment.RepositoriesType.STARRED.name(),
             ActivityFragment.ActivityType.PublicNews.name(),
-            ActivityFragment.ActivityType.News.name()
+            ActivityFragment.ActivityType.News.name(),
+            ShareAboutFragment.Type.Share.name(),
+            ShareAboutFragment.Type.About.name()
 
     );
 
@@ -315,7 +319,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
     }
 
     private final List<Integer> FRAGMENT_TITLE_LIST = Arrays.asList(
-            R.string.my_repos, R.string.starred_repos,R.string.public_news,R.string.my_news
+            R.string.my_repos, R.string.starred_repos,R.string.public_news,R.string.my_news,R.string.share,R.string.about
     );
 
     protected void onNavItemSelected(@NonNull MenuItem item, boolean isStartDrawer) {
@@ -419,6 +423,10 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
             case R.id.nav_news:
                 return ActivityFragment.create(ActivityFragment.ActivityType.News,
                         AppData.INSTANCE.getLoggedUser().getLogin());
+            case R.id.nav_share:
+                return ShareAboutFragment.create(ShareAboutFragment.Type.Share);
+            case R.id.nav_about:
+                return ShareAboutFragment.create(ShareAboutFragment.Type.About);
 
         }
         return null;

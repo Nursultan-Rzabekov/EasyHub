@@ -2,6 +2,8 @@
 
 package com.example.javademogithubpractice.mvp.presenter;
 
+import android.widget.Toast;
+
 import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.mvp.contract.IProfileContract;
 import com.example.javademogithubpractice.mvp.model.User;
@@ -77,5 +79,26 @@ public class ProfilePresenter extends BasePresenter<IProfileContract.View> imple
 
     public boolean isMe(){
         return user != null && user.getLogin().equals(AppData.INSTANCE.getLoggedUser().getLogin());
+    }
+
+
+    @Override
+    public void logout() {
+        addDisposable(daoSession.deleteAuthUser(AppData.INSTANCE.getAuthUser())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::successDeleteUser,this::errorDeleteUser));
+
+        AppData.INSTANCE.setAuthUser(null);
+        AppData.INSTANCE.setLoggedUser(null);
+        mView.restartApp();
+    }
+
+    private void errorDeleteUser(Throwable throwable) {
+        Toast.makeText(getContext(),"Error delete user" + throwable,Toast.LENGTH_SHORT).show();
+    }
+
+    private void successDeleteUser() {
+        Toast.makeText(getContext(),"Success delete user",Toast.LENGTH_SHORT).show();
     }
 }

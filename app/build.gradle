@@ -60,7 +60,6 @@ dependencies {
 
 
     implementation 'net.colindodd:gradientlayout:1.2'
-
     implementation "com.android.support.constraint:constraint-layout:${CONSTRAINT}"
     implementation "androidx.appcompat:appcompat:$androidx_version"
     implementation "androidx.recyclerview:recyclerview:$androidx_version"
