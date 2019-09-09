@@ -9,9 +9,6 @@ public interface IMainContract {
     }
 
     interface Presenter extends IBaseContract.Presenter<IMainContract.View>{
-        boolean isFirstUseAndNoNewsUser();
-        //List<AuthUser> getLoggedUserList();
         void logout();
     }
-
 }

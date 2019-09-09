@@ -2,8 +2,11 @@
 
 package com.example.javademogithubpractice.mvp.presenter;
 
+import android.widget.Toast;
+
 import androidx.annotation.NonNull;
 
+import com.example.javademogithubpractice.AppData;
 import com.example.javademogithubpractice.mvp.contract.ISearchContract;
 import com.example.javademogithubpractice.mvp.model.SearchModel;
 import com.example.javademogithubpractice.room.AuthSessionRepository;
@@ -14,6 +17,11 @@ import java.util.ArrayList;
 import java.util.Collections;
 
 import javax.inject.Inject;
+
+import io.reactivex.android.schedulers.AndroidSchedulers;
+import io.reactivex.disposables.CompositeDisposable;
+import io.reactivex.disposables.Disposable;
+import io.reactivex.schedulers.Schedulers;
 
 public class SearchPresenter extends BasePresenter<ISearchContract.View> implements ISearchContract.Presenter {
 
@@ -92,6 +100,31 @@ public class SearchPresenter extends BasePresenter<ISearchContract.View> impleme
             }
         }
         PrefUtils.set(PrefUtils.SEARCH_RECORDS, recordStr.toString());
+    }
+
+    private static CompositeDisposable compositeDisposable = new CompositeDisposable();
+    private void addDisposable(Disposable disposable) {
+        compositeDisposable.add(disposable);
+    }
+
+    @Override
+    public void logout() {
+        addDisposable(daoSession.deleteAuthUser(AppData.INSTANCE.getAuthUser())
+                .subscribeOn(Schedulers.io())
+                .observeOn(AndroidSchedulers.mainThread())
+                .subscribe(this::successDeleteUser,this::errorDeleteUser));
+
+        AppData.INSTANCE.setAuthUser(null);
+        AppData.INSTANCE.setLoggedUser(null);
+        mView.restartApp();
+    }
+
+    private void errorDeleteUser(Throwable throwable) {
+        Toast.makeText(getContext(),"Error delete user" + throwable,Toast.LENGTH_SHORT).show();
+    }
+
+    private void successDeleteUser() {
+        Toast.makeText(getContext(),"Success delete user",Toast.LENGTH_SHORT).show();
     }
 
 }

@@ -121,8 +121,6 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter> imple
 
     @Override
     public void showRepo(Repository repo) {
-//        desc.setText(repo.getDescription());
-
         if (pagerAdapter.getCount() == 0) {
             pagerAdapter.setPagerList(FragmentPagerModel.createRepoPagerList(getActivity(), repo, getFragments()));
             tabLayout.setVisibility(View.VISIBLE);
@@ -135,7 +133,7 @@ public class RepositoryActivity extends PagerActivity<RepositoryPresenter> imple
                     .onlyRetrieveFromCache(!PrefUtils.isLoadImageEnable())
                     .into(userImageViewBg);
         } else {
-            //noticeRepositoryUpdated(repo);
+            noticeRepositoryUpdated(repo);
         }
         invalidateOptionsMenu();
 

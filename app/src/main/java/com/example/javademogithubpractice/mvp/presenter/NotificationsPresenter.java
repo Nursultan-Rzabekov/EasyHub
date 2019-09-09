@@ -2,12 +2,8 @@
 
 package com.example.javademogithubpractice.mvp.presenter;
 
-
-
-import android.widget.Toast;
 import com.example.javademogithubpractice.mvp.contract.INotificationsContract;
 import com.example.javademogithubpractice.mvp.model.Notification;
-import com.example.javademogithubpractice.mvp.model.Repository;
 import com.example.javademogithubpractice.room.AuthSessionRepository;
 import com.example.javademogithubpractice.ui.fragment.NotificationsFragment;
 import com.example.javademogithubpractice.util.StringUtils;
@@ -62,7 +58,6 @@ public class NotificationsPresenter extends BasePagerPresenter<INotificationsCon
                     if (response.body().size() == 0 && notifications.size() != 0) {
                         mView.setCanLoadMore(false);
                     } else {
-                        Toast.makeText(getContext(),"Else",Toast.LENGTH_SHORT).show();
                         mView.showNotifications(notifications);
                     }
                 },this::errorLoadNotifications));

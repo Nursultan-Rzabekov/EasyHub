@@ -33,20 +33,7 @@ public class MainPresenter extends BasePresenter<IMainContract.View> implements 
     }
 
     @Override
-    public boolean isFirstUseAndNoNewsUser() {
-        User user = AppData.INSTANCE.getLoggedUser();
-        if(user.getFollowing() == 0
-                && user.getPublicRepos() == 0 && user.getPublicGists() == 0
-                && PrefUtils.isFirstUse()){
-            PrefUtils.set(PrefUtils.FIRST_USE, false);
-            return true;
-        }
-        return false;
-    }
-
-    @Override
     public void logout() {
-
         addDisposable(daoSession.deleteAuthUser(AppData.INSTANCE.getAuthUser())
                 .subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())

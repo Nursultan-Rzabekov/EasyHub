@@ -82,7 +82,6 @@ public class NotificationsActivity extends PagerActivity {
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();
         layoutParams.setBehavior(new BottomNavigationBehavior());
-        //bottomNavigationView.setSelectedItemId(R.id.navigationHome);
 
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(1);
@@ -338,6 +337,7 @@ public class NotificationsActivity extends PagerActivity {
                     .commit();
         }
     }
+
 
 
     private void logout() {

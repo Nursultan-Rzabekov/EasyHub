@@ -30,8 +30,6 @@ import butterknife.BindView;
 
 public class NotificationsAdapter extends BaseAdapter<BaseViewHolder, Notification> {
 
-    private NotificationAdapterListener listener;
-
     @Inject
     public NotificationsAdapter(Context context, BaseFragment fragment) {
         super(context, fragment);
@@ -51,9 +49,6 @@ public class NotificationsAdapter extends BaseAdapter<BaseViewHolder, Notificati
             R.drawable.home_ic_maths,
             R.drawable.home_ic_physics));
 
-    public void setListener(NotificationAdapterListener listener) {
-        this.listener = listener;
-    }
 
     @Override
     protected int getLayoutId(int viewType) {
@@ -100,9 +95,4 @@ public class NotificationsAdapter extends BaseAdapter<BaseViewHolder, Notificati
         }
 
     }
-
-    public interface NotificationAdapterListener{
-        void onRepoMarkAsReadClicked(@NonNull Repository repository);
-    }
-
 }

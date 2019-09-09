@@ -76,6 +76,13 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
         setEndDrawerEnable(true);
     }
 
+    @Override
+    public void restartApp() {
+        getActivity().finishAffinity();
+        Intent intent = new Intent(getActivity(), LoginActivity.class);
+        startActivity(intent);
+    }
+
 
     @Override
     public boolean onCreateOptionsMenu(Menu menu) {
@@ -459,7 +466,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
                 .setMessage(R.string.logout_warning)
                 .setNegativeButton(R.string.cancel, (dialog, which) -> dialog.dismiss())
                 .setPositiveButton(R.string.logout, (dialog, which) -> {
-                    //mPresenter.logout();
+                    mPresenter.logout();
                 })
                 .show();
     }

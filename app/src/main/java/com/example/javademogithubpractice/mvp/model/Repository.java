@@ -55,38 +55,6 @@ public class Repository implements Parcelable {
     public Repository() {
     }
 
-    public LocalRepo toLocalRepo(){
-        LocalRepo localRepo = new LocalRepo();
-        localRepo.setId(id);
-        localRepo.setName(name);
-        localRepo.setDescription(description);
-        localRepo.setLanguage(language);
-        localRepo.setStargazersCount(stargazersCount);
-        localRepo.setWatchersCount(watchersCount);
-        localRepo.setForksCount(forksCount);
-        localRepo.setFork(fork);
-        localRepo.setOwnerLogin(owner.getLogin());
-        localRepo.setOwnerAvatarUrl(owner.getAvatarUrl());
-        return localRepo;
-    }
-
-    public static Repository generateFromLocalRepo(LocalRepo localRepo){
-        Repository repo = new Repository();
-        repo.setId((int) localRepo.getId());
-        repo.setName(localRepo.getName());
-        repo.setDescription(localRepo.getDescription());
-        repo.setLanguage(localRepo.getLanguage());
-        repo.setStargazersCount(localRepo.getStargazersCount());
-        repo.setWatchersCount(localRepo.getWatchersCount());
-        repo.setForksCount(localRepo.getForksCount());
-        repo.setFork(localRepo.getFork());
-        User user = new User();
-        user.setLogin(localRepo.getOwnerLogin());
-        user.setAvatarUrl(localRepo.getOwnerAvatarUrl());
-        repo.setOwner(user);
-        return repo;
-    }
-
     public int getId() {
         return id;
     }

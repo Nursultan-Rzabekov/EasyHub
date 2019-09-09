@@ -101,8 +101,8 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
         setTransparentStatusBar();
         getSupportActionBar().setDisplayHomeAsUpEnabled(false);
         getSupportActionBar().setDisplayShowTitleEnabled(false);
-        setUserAvatar();
 
+        setUserAvatar();
 
         bottomNavigationView.setOnNavigationItemSelectedListener(mOnNavigationItemSelectedListener);
         CoordinatorLayout.LayoutParams layoutParams = (CoordinatorLayout.LayoutParams) bottomNavigationView.getLayoutParams();

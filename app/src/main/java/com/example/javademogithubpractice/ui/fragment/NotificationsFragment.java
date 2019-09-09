@@ -22,7 +22,7 @@ import com.example.javademogithubpractice.util.BundleHelper;
 import java.util.ArrayList;
 
 public class NotificationsFragment extends ListFragment<NotificationsPresenter, NotificationsAdapter>
-        implements INotificationsContract.View, NotificationsAdapter.NotificationAdapterListener {
+        implements INotificationsContract.View{
 
     public enum NotificationsType{
         Unread, All
@@ -38,8 +38,6 @@ public class NotificationsFragment extends ListFragment<NotificationsPresenter, 
     protected void initFragment(Bundle savedInstanceState) {
         super.initFragment(savedInstanceState);
         setLoadMoreEnable(true);
-        //setHasOptionsMenu(NotificationsType.Unread.equals(mPresenter.getType()));
-        adapter.setListener(this);
     }
 
     @Override
@@ -78,10 +76,4 @@ public class NotificationsFragment extends ListFragment<NotificationsPresenter, 
         super.onFragmentShowed();
         if(mPresenter != null) mPresenter.prepareLoadData();
     }
-
-    @Override
-    public void onRepoMarkAsReadClicked(@NonNull Repository repository) {
-        //mPresenter.markRepoNotificationsAsRead(repository);
-    }
-
 }

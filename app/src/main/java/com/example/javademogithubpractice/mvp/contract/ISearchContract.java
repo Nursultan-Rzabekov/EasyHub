@@ -12,12 +12,14 @@ public interface ISearchContract {
 
     interface View extends IBaseContract.View{
         void showSearches(ArrayList<SearchModel> searchModels);
+        void restartApp();
     }
 
     interface Presenter extends IBaseContract.Presenter<ISearchContract.View>{
         ArrayList<SearchModel> getQueryModels(@NonNull String query);
         @NonNull ArrayList<String> getSearchRecordList();
         void addSearchRecord(@NonNull String record);
+        void logout();
     }
 
 }
