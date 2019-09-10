@@ -243,7 +243,7 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     int selectedPage;
 
     private final List<Integer> FRAGMENT_NAV_ID_LIST = Arrays.asList(
-            R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news
+            R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news,R.id.nav_news
     );
 
     private final List<String> FRAGMENT_TAG_LIST = Arrays.asList(

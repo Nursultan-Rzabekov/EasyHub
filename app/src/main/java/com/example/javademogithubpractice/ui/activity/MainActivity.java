@@ -53,7 +53,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
     int selectedPage;
 
     private final List<Integer> FRAGMENT_NAV_ID_LIST = Arrays.asList(
-            R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news
+            R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news,R.id.nav_news
     );
 
     private final List<String> FRAGMENT_TAG_LIST = Arrays.asList(
@@ -124,8 +124,6 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
         Menu menu = bottomNavigationView.getMenu();
         MenuItem menuItem = menu.getItem(0);
         menuItem.setChecked(true);
-
-        //bottomNavigationView.setSelectedItemId(R.id.navigationHome);
 
         ImageView avatar = navViewStart.getHeaderView(0).findViewById(R.id.avatar);
         TextView name = navViewStart.getHeaderView(0).findViewById(R.id.name);
