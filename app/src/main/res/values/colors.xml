@@ -6,6 +6,10 @@
 
     <color name="black_overlay">#66000000</color>
     <color name="black_light">#212121</color>
+    <color name="colorSecondaryDark">#00677e</color>
+    <color name="colorHint">#66000000</color>
+    <color name="colorAdditionalFirstDark">#8c8a8e</color>
+    <color name="colorTrinaryLight">#ffd95b</color>
 
     <color name="material_amber_100">#FFECB3</color>
     <color name="material_amber_200">#FFE082</color>

@@ -1,0 +1,201 @@
+<?xml version="1.0" encoding="utf-8"?>
+<RelativeLayout xmlns:android="http://schemas.android.com/apk/res/android"
+    xmlns:app="http://schemas.android.com/apk/res-auto"
+    xmlns:tools="http://schemas.android.com/tools"
+    android:layout_width="match_parent"
+    android:layout_height="match_parent"
+    android:background="@color/colorPrimary"
+    tools:context=".ui.activity.LoginActivity">
+
+
+    <ImageView
+        android:layout_width="match_parent"
+        android:layout_height="wrap_content"
+        android:adjustViewBounds="true"
+        android:src="@drawable/draw_paints"
+        android:layout_alignParentStart="true"
+        android:layout_alignParentEnd="true"
+        android:layout_alignParentBottom="true"/>
+
+    <RelativeLayout
+        android:layout_width="match_parent"
+        android:layout_height="match_parent"
+        android:gravity="center"
+        android:layout_margin="48dp">
+        <RelativeLayout
+            android:id="@+id/logo_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true">
+            <TextView
+                android:id="@+id/logo_u"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:text="Welcome"
+                android:textSize="60sp"
+                android:textColor="@color/colorSecondaryDark"
+                android:gravity="center"
+                android:typeface="serif"/>
+            <TextView
+                android:id="@+id/logo_d"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/logo_u"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:text="EasyHub"
+                android:textSize="60sp"
+                android:layout_marginBottom="48dp"
+                android:textColor="@color/colorSecondaryDark"
+                android:gravity="center"
+                android:typeface="serif"/>
+        </RelativeLayout>
+
+        <RelativeLayout
+            android:id="@+id/interface_container"
+            android:layout_width="match_parent"
+            android:layout_height="wrap_content"
+            android:layout_alignParentBottom="true"
+            android:layout_alignParentStart="true"
+            android:layout_alignParentEnd="true"
+            android:layout_below="@id/logo_container">
+
+            <RelativeLayout
+                android:id="@+id/nickname_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_alignParentTop="true"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:focusableInTouchMode="true"
+                android:layout_centerHorizontal="true">
+
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/user_name_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/NicknameEditText"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:textColorHint="@color/colorHint"
+                    app:hintAnimationEnabled="true"
+                    app:boxStrokeColor="@color/colorSecondaryDark"
+                    android:hint="@string/nickname"
+                    app:hintEnabled="true">
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/user_name_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:inputType="text"
+                        android:padding="8dp"
+                        android:imeOptions="actionNext"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorSecondaryDark"
+                        android:textColorHighlight="@color/colorHint"
+                        android:textColorLink="@color/colorHint"
+                        android:textSize="28sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+
+                <ImageView
+                    android:id="@+id/edit_nickname"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    android:src="@drawable/ic_edit"
+                    android:layout_alignBottom="@id/user_name_layout"
+                    android:layout_alignTop="@id/user_name_layout"
+                    android:padding="8dp"
+                    android:adjustViewBounds="true"
+                    android:layout_alignEnd="@id/user_name_layout"/>
+
+            </RelativeLayout>
+
+
+            <RelativeLayout
+                android:id="@+id/join_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:layout_below="@id/nickname_container"
+                android:layout_marginStart="10dp"
+                android:layout_marginEnd="10dp"
+                android:focusableInTouchMode="true"
+                android:layout_centerHorizontal="true"
+                >
+                <com.google.android.material.textfield.TextInputLayout
+                    android:id="@+id/password_layout"
+                    android:layout_width="wrap_content"
+                    android:layout_height="wrap_content"
+                    style="@style/NicknameEditText"
+                    android:layout_alignParentStart="true"
+                    android:layout_alignParentEnd="true"
+                    android:gravity="center"
+                    android:textColorHint="@color/colorHint"
+                    android:hint="@string/password"
+                    app:passwordToggleEnabled="true"
+                    app:passwordToggleTint="@color/gradientLightYellow"
+                    >
+
+                    <com.google.android.material.textfield.TextInputEditText
+                        android:id="@+id/password_et"
+                        android:layout_width="match_parent"
+                        android:layout_height="wrap_content"
+                        android:background="@android:color/transparent"
+                        android:inputType="textPassword"
+                        android:padding="8dp"
+                        android:imeOptions="actionSend"
+                        android:textAlignment="center"
+                        android:textColor="@color/colorSecondaryDark"
+                        android:textColorHighlight="@color/colorHint"
+                        android:textColorLink="@color/colorHint"
+                        android:textSize="28sp" />
+                </com.google.android.material.textfield.TextInputLayout>
+            </RelativeLayout>
+
+
+            <com.unstoppable.submitbuttonview.SubmitButton
+                android:id="@+id/login_bn"
+                android:layout_width="wrap_content"
+                android:layout_height="wrap_content"
+                android:layout_centerHorizontal="true"
+                android:layout_centerVertical="true"
+                android:src="@drawable/round_arrow_forward_24"
+                android:layout_marginTop="20dp"
+                android:layout_marginEnd="30dp"
+                android:layout_marginBottom="20dp"
+                app:buttonColor="@color/gradientLightYellow"
+                app:buttonText="@string/login"
+                app:buttonTextSize="18sp"
+                />
+
+            <LinearLayout
+                android:id="@+id/btns_container"
+                android:layout_width="match_parent"
+                android:layout_height="wrap_content"
+                android:weightSum="1"
+                android:layout_below="@id/join_container"
+                android:layout_alignParentBottom="true"
+                android:layout_alignParentStart="true"
+                android:layout_alignParentEnd="true"
+                android:gravity="bottom"
+                android:layout_marginBottom="50dp"
+                android:orientation="horizontal">
+
+                <androidx.appcompat.widget.AppCompatButton
+                    android:id="@+id/oauth_login_bn"
+                    android:layout_width="0dp"
+                    android:layout_height="wrap_content"
+                    style="@style/MenuButton"
+                    android:text="@string/login_in_browser"
+                    android:layout_weight="1"
+                    android:layout_margin="8dp"
+                    android:textSize="20sp" />
+
+            </LinearLayout>
+        </RelativeLayout>
+    </RelativeLayout>
+</RelativeLayout>

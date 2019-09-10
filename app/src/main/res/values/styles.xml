@@ -15,9 +15,28 @@
         <item name="colorAccent">@color/colorAccent</item>
     </style>
 
+    <style name="NicknameHint" parent="@style/TextAppearance.AppCompat.Small">
+        <item name="android:textColor">@color/colorHint</item>
+    </style>
+
+    <style name="MenuButton" parent="Base.TextAppearance.AppCompat.Button">
+        <item name="android:textColor">@color/colorTrinaryLight</item>
+        <item name="android:background">@drawable/menu_button</item>
+        <item name="android:elevation">3dp</item>
+        <item name="android:padding">8dp</item>
+    </style>
+
     <style name="DividerLine.Vertical" parent="DividerLine">
         <item name="android:layout_width">@dimen/divider_width</item>
         <item name="android:layout_height">match_parent</item>
+    </style>
+
+    <style name="NicknameEditText" parent="Widget.MaterialComponents.TextInputLayout.OutlinedBox">
+        <item name="boxStrokeColor">@color/colorSecondaryDark</item>
+        <item name="boxCornerRadiusTopStart">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusTopEnd">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusBottomEnd">@dimen/corner_radius</item>
+        <item name="boxCornerRadiusBottomStart">@dimen/corner_radius</item>
     </style>
 
     <style name="SplashTheme" parent="Theme.AppCompat.Light.NoActionBar">

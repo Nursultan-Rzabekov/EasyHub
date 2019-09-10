@@ -105,6 +105,8 @@
     <string name="wrap_lines">Wrap lines</string>
     <string name="refresh">Refresh</string>
 
+    <string name="nickname">Nickname</string>
+
     <string name="success_copied">Copied</string>
 
     <string name="stargazers">Stargazers</string>

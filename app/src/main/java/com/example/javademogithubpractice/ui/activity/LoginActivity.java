@@ -86,7 +86,7 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
 
     @Override
     protected int getContentView() {
-        return R.layout.login_activity;
+        return R.layout.activity_login;
     }
 
     @Override
