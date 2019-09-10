@@ -243,16 +243,14 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     int selectedPage;
 
     private final List<Integer> FRAGMENT_NAV_ID_LIST = Arrays.asList(
-            R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news,R.id.nav_news,R.id.nav_share
+            R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news
     );
 
     private final List<String> FRAGMENT_TAG_LIST = Arrays.asList(
             RepositoriesFragment.RepositoriesType.OWNED.name(),
             RepositoriesFragment.RepositoriesType.STARRED.name(),
             ActivityFragment.ActivityType.PublicNews.name(),
-            ActivityFragment.ActivityType.News.name(),
-            ShareAboutFragment.Type.Share.name(),
-            ShareAboutFragment.Type.About.name()
+            ActivityFragment.ActivityType.News.name()
 
     );
 
@@ -263,7 +261,7 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
     }
 
     private final List<Integer> FRAGMENT_TITLE_LIST = Arrays.asList(
-            R.string.my_repos, R.string.starred_repos,R.string.public_news,R.string.my_news,R.string.share,R.string.about
+            R.string.my_repos, R.string.starred_repos,R.string.public_news,R.string.my_news
     );
 
     protected void onNavItemSelected(@NonNull MenuItem item, boolean isStartDrawer) {
@@ -297,6 +295,8 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
             case R.id.nav_logout:
                 logout();
                 break;
+            case R.id.nav_about:
+                AboutActivity.show(getActivity());
             default:
                 break;
         }
@@ -365,10 +365,6 @@ public class ProfileActivity extends PagerActivity<ProfilePresenter> implements 
             case R.id.nav_news:
                 return ActivityFragment.create(ActivityFragment.ActivityType.News,
                         AppData.INSTANCE.getLoggedUser().getLogin());
-            case R.id.nav_share:
-                return ShareAboutFragment.create(ShareAboutFragment.Type.Share);
-            case R.id.nav_about:
-                return ShareAboutFragment.create(ShareAboutFragment.Type.About);
 
         }
         return null;

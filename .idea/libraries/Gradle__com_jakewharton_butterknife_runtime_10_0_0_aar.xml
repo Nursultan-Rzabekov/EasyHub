@@ -1,8 +1,8 @@
 <component name="libraryTable">
   <library name="Gradle: com.jakewharton:butterknife-runtime:10.0.0@aar">
     <CLASSES>
-      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fd0e39ca0fdc180642933bf5ec319abe/jars/classes.jar!/" />
-      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/fd0e39ca0fdc180642933bf5ec319abe/res" />
+      <root url="file://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1aadf0f1c932261862eb7e647d95fe72/res" />
+      <root url="jar://$USER_HOME$/.gradle/caches/transforms-2/files-2.1/1aadf0f1c932261862eb7e647d95fe72/jars/classes.jar!/" />
     </CLASSES>
     <JAVADOC />
     <SOURCES>

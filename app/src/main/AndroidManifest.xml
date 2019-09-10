@@ -15,7 +15,7 @@
         android:label="@string/app_github_name"
         android:roundIcon="@mipmap/ic_launcher_round"
         android:supportsRtl="true"
-        android:theme="@style/SplashTheme">
+        android:theme="@style/AppTheme.MaterialAboutActivity">
 
         <receiver android:name=".service.NetBroadcastReceiver"/>
 
@@ -70,6 +70,8 @@
             android:name=".ui.activity.NotificationsActivity"
             android:launchMode="singleInstance"
             />
+
+        <activity android:name=".ui.activity.AboutActivity" android:label="@string/about"/>
 
     </application>
 

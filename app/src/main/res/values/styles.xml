@@ -9,6 +9,12 @@
         <item name="android:layout_width">match_parent</item>
     </style>
 
+    <style name="AppTheme.MaterialAboutActivity" parent="Theme.Mal.Light">
+        <item name="icon_color">@color/white</item>
+        <item name="android:windowLightStatusBar" tools:targetApi="m">true</item>
+        <item name="colorAccent">@color/colorAccent</item>
+    </style>
+
     <style name="DividerLine.Vertical" parent="DividerLine">
         <item name="android:layout_width">@dimen/divider_width</item>
         <item name="android:layout_height">match_parent</item>
