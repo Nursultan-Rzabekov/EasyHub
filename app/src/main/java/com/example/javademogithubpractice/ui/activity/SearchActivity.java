@@ -256,7 +256,7 @@ public class SearchActivity extends PagerActivity<SearchPresenter> implements IS
             viewPager.setAdapter(pagerAdapter);
             showFirstPager();
         } else {
-            Toast.makeText(getActivity(),"Search Model",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getActivity(),"Search Model",Toast.LENGTH_SHORT).show();
             for (SearchModel searchModel : mPresenter.getQueryModels(query)) {
                 postSearchEvent(searchModel);
             }

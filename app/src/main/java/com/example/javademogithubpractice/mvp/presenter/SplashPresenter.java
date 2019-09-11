@@ -41,6 +41,7 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
 
     @Override
     public void getUser() {
+
         Observable<List<AuthUser>> observable = daoSession.loadAllAuthUser();
         addDisposable(observable.subscribeOn(Schedulers.io())
                 .observeOn(AndroidSchedulers.mainThread())
@@ -49,13 +50,14 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
 
 
     private void onSuccessAuthUser(List<AuthUser> users) {
+
         AuthUser selectedUser = users != null && users.size() > 0 ? users.get(0) : null;
         if (selectedUser != null && isExpired(selectedUser)) {
-
             addDisposable(daoSession.deleteAuthUser(selectedUser)
                     .subscribeOn(Schedulers.io())
                     .observeOn(AndroidSchedulers.mainThread())
                     .subscribe(this::successDeleteUser,this::errorDeleteUser));
+
             selectedUser = null;
         }
         if (selectedUser != null) {
@@ -72,7 +74,7 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
     }
 
     private void successDeleteUser() {
-        Toast.makeText(getContext(),"Success delete user",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"Success delete user",Toast.LENGTH_SHORT).show();
     }
 
     @Override
@@ -116,7 +118,7 @@ public class SplashPresenter extends BasePresenter<ISplashContract.View> impleme
     }
 
     private void successStore() {
-        Toast.makeText(getContext(),"Success update",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"Success update",Toast.LENGTH_SHORT).show();
     }
 
     private void onErrorUser(Throwable throwable) {

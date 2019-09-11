@@ -26,5 +26,4 @@ public class NetBroadcastReceiver extends BroadcastReceiver {
             AppEventBus.INSTANCE.getEventBus().post(new Event.NetChangedEvent(preNetStatus, curNetStatus));
         }
     }
-
 }

@@ -12,8 +12,8 @@ import java.util.Locale;
 
 
 public enum AppData {
-
     INSTANCE;
+
     @AutoAccess(dataName = "appData_loggedUser")
     User loggedUser;
     @AutoAccess(dataName = "appData_authUser")

@@ -36,7 +36,7 @@ public class ShareAboutFragment extends Fragment {
             AppOpener.shareText(getContext(), AppData.INSTANCE.getLoggedUser().getHtmlUrl());
         }
         else {
-            Toast.makeText(getContext(),"About",Toast.LENGTH_SHORT).show();
+            //Toast.makeText(getContext(),"About",Toast.LENGTH_SHORT).show();
         }
 
     }

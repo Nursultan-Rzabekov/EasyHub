@@ -40,9 +40,11 @@ public class AppApplication extends Application {
         mAppComponent = DaggerAppComponent.builder()
                 .appModule(new AppModule(this))
                 .build();
+
         initNetwork();
 
         startTime = System.currentTimeMillis();
+
         Logger.t(TAG).i("application ok:" + (System.currentTimeMillis() - startTime));
 
 

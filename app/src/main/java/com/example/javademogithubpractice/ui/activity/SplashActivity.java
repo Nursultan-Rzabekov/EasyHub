@@ -28,7 +28,6 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
         if (dataUri == null) {
             startActivity(new Intent(getActivity(), MainActivity.class));
         } else {
-            //BrowserFilterActivity.handleBrowserUri(getActivity(), dataUri);
         }
     }
 
@@ -67,5 +66,4 @@ public class SplashActivity extends BaseActivity<SplashPresenter> implements ISp
     protected void onActivityResult(int requestCode, int resultCode, @NonNull Intent data) {
         super.onActivityResult(requestCode, resultCode, data);
     }
-
 }

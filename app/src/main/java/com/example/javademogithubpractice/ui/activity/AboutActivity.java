@@ -118,7 +118,7 @@ public class AboutActivity extends MaterialAboutActivity {
                 .build());
         appBuilder.addItem(new MaterialAboutActionItem.Builder()
                 .text(R.string.feedback)
-                .icon(R.drawable.ic_mark_readed)
+                .icon(R.drawable.ic_menu_slideshow)
                 .build());
     }
 

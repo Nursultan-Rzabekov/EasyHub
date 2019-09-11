@@ -56,6 +56,7 @@ public class MainActivity extends BaseDrawerActivity<MainPresenter> implements I
             R.id.nav_repository, R.id.nav_stars,R.id.nav_global_news,R.id.nav_news
     );
 
+
     private final List<String> FRAGMENT_TAG_LIST = Arrays.asList(
             RepositoriesFragment.RepositoriesType.OWNED.name(),
             RepositoriesFragment.RepositoriesType.STARRED.name(),

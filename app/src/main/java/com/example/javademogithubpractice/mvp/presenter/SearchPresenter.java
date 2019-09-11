@@ -120,11 +120,11 @@ public class SearchPresenter extends BasePresenter<ISearchContract.View> impleme
     }
 
     private void errorDeleteUser(Throwable throwable) {
-        Toast.makeText(getContext(),"Error delete user" + throwable,Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"Error delete user" + throwable,Toast.LENGTH_SHORT).show();
     }
 
     private void successDeleteUser() {
-        Toast.makeText(getContext(),"Success delete user",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"Success delete user",Toast.LENGTH_SHORT).show();
     }
 
 }

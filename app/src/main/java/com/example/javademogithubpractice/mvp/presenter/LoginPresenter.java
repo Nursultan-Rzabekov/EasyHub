@@ -156,7 +156,7 @@ public class LoginPresenter extends BasePresenter<ILoginContract.View> implement
     }
 
     private void successStore() {
-        Toast.makeText(getContext(),"Success store",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"Success store",Toast.LENGTH_SHORT).show();
     }
 
     @Override

@@ -49,7 +49,7 @@ public class MainPresenter extends BasePresenter<IMainContract.View> implements 
     }
 
     private void successDeleteUser() {
-        Toast.makeText(getContext(),"Success delete user",Toast.LENGTH_SHORT).show();
+        //Toast.makeText(getContext(),"Success delete user",Toast.LENGTH_SHORT).show();
     }
 
 
