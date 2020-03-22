@@ -269,7 +269,7 @@
     <color name="commit_file_renamed_color">#6a737d</color>
     <color name="commit_file_modified_color">#dbab09</color>
 
-
+    <color name="background_pink">#df546e</color>
 
 
     <color name="colorPrimary">#FCFCFC</color>

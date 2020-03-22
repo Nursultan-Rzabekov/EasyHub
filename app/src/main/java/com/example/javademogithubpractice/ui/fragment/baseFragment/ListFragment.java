@@ -43,7 +43,6 @@ public abstract class ListFragment <P extends IBaseContract.Presenter, A extends
     @BindView(R.id.error_image) AppCompatImageView errorImage;
 
     private int curPage = 1;
-
     private boolean refreshEnable = true;
     private boolean loadMoreEnable = false;
     private boolean canLoadMore = false;

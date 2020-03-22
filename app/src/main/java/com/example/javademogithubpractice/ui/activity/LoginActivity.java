@@ -108,17 +108,6 @@ public class LoginActivity extends BaseActivity<LoginPresenter> implements ILogi
     }
 
 
-    @OnClick(R.id.oauth_login_bn)
-    public void onOauthLoginClick(){
-        Bitmap backIconBitmap = ViewUtils.getBitmapFromResource(getActivity(), R.drawable.ic_arrow_back_title);
-        CustomTabsIntent customTabsIntent = new CustomTabsIntent.Builder()
-                .setToolbarColor(ViewUtils.getPrimaryColor(getActivity()))
-                .setCloseButtonIcon(backIconBitmap)
-                .setShowTitle(true)
-                .build();
-        customTabsIntent.launchUrl(getActivity(), Uri.parse(mPresenter.getOAuth2Url()));
-    }
-
     @Override
     protected void onNewIntent(Intent intent) {
         super.onNewIntent(intent);

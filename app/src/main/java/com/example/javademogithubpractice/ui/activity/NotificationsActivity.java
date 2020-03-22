@@ -54,6 +54,7 @@ public class NotificationsActivity extends PagerActivity {
 
     @Override
     protected void setupActivityComponent(AppComponent appComponent) {
+
     }
 
     @Override
