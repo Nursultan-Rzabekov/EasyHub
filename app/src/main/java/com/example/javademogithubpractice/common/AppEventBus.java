@@ -4,7 +4,7 @@ package com.example.javademogithubpractice.common;
 
 import org.greenrobot.eventbus.EventBus;
 
-
+//pull
 public enum  AppEventBus {
     INSTANCE;
 
